@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/background"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/title_background"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/change_theme_button0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:background="@drawable/btn_grey"
+            android:padding="5dp"
+            android:text="@string/settings_user"
+            android:textSize="16sp" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:shadowColor="@color/grey"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/theme" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <Button
+		            android:id="@+id/change1"
+		            android:layout_width="0dp"
+		            android:layout_weight="1.0"
+		            android:layout_height="wrap_content"
+		            android:background="@drawable/settings_button"
+		            android:layout_gravity="center"
+		            android:padding="8dp"
+		            android:textSize="16sp"
+		            android:gravity="center_vertical"
+		            android:drawableRight="@drawable/cyan"
+		            android:text="@string/cyan" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <Button
+		            android:id="@+id/change2"
+		            android:layout_width="0dp"
+		            android:layout_weight="1.0"
+		            android:layout_height="wrap_content"
+		            android:background="@drawable/settings_button3"
+		            android:layout_gravity="center"
+		            android:padding="8dp"
+		            android:textSize="16sp"
+		            android:gravity="center_vertical"
+		            android:drawableRight="@drawable/white"
+		            android:text="@string/white" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <Button
+		            android:id="@+id/change3"
+		            android:layout_width="0dp"
+		            android:layout_weight="1.0"
+		            android:layout_height="wrap_content"
+		            android:background="@drawable/settings_button3"
+		            android:layout_gravity="center"
+		            android:padding="8dp"
+		            android:textSize="16sp"
+		            android:gravity="center_vertical"
+		            android:drawableRight="@drawable/orange"
+		            android:text="@string/orange" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <Button
+		            android:id="@+id/change4"
+		            android:layout_width="0dp"
+		            android:layout_weight="1.0"
+		            android:layout_height="wrap_content"
+		            android:background="@drawable/settings_button3"
+		            android:layout_gravity="center"
+		            android:padding="8dp"
+		            android:textSize="16sp"
+		            android:gravity="center_vertical"
+		            android:drawableRight="@drawable/green"
+		            android:text="@string/green" />
+            </TableRow>
+            
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <Button
+            		android:id="@+id/change5"
+            		android:layout_width="0dp"
+		            android:layout_weight="1.0"
+            		android:layout_height="wrap_content"
+            		android:background="@drawable/settings_button2"
+            		android:layout_gravity="center"
+            		android:padding="8dp"
+            		android:textSize="16sp"
+            		android:gravity="center_vertical"
+            		android:drawableRight="@drawable/magenta"
+            		android:text="@string/magenta" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+</LinearLayout>

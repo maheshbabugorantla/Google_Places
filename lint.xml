@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="ShowToast" severity="ignore">
+        <ignore path="src/edu/purdue/tada/PreviewActivity.java" />
+    </issue>
+    <issue id="SimpleDateFormat">
+        <ignore path="src/edu/purdue/tada/CameraActivity.java" />
+        <ignore path="src/edu/purdue/tada/PreviewActivity.java" />
+    </issue>
+</lint>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/background" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical"
+        >
+         <FrameLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    android:background="@drawable/title_background" 
+	    android:layout_marginBottom="5dp">
+
+		<Button
+		    android:id="@+id/user_settings_button0"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:layout_margin="5dp"
+		    android:padding="5dp"
+		    android:text="More"
+		    android:background="@drawable/btn_grey"
+		    android:textSize="16sp" />
+
+		<TextView
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:gravity="center"
+		    android:layout_gravity="center"
+		    android:padding="6dp"
+		    android:text="User Settings"
+		    android:textColor="#FFFFFFFF"
+		    android:textSize="25sp" />
+	    
+	</FrameLayout>
+		<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="15dp"
+         >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:background="@drawable/settings_button_normal"
+            >
+            
+            <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:textSize="16sp"
+            android:text="Tips"
+            />
+        	<CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_gravity="right"
+            android:paddingRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        </FrameLayout>
+		<FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:background="@drawable/settings_button2_normal"
+            >
+            
+            <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:textSize="16sp"
+            android:text="Camera Assistant"
+            />
+        	<CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_gravity="right"
+            android:paddingRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        </FrameLayout>
+         </LinearLayout>
+        <Button
+            android:id="@+id/delete_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Delete History in Review"
+            android:layout_margin="15dp"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:background="@drawable/btn_grey" />
+        <Button
+            android:id="@+id/theme_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Theme"
+            android:layout_margin="15dp"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:background="@drawable/btn_grey" />
+    </LinearLayout>
+    
+
+</ScrollView>

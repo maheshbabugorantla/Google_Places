@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tabHost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    <LinearLayout android:orientation="vertical"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<FrameLayout android:id="@android:id/tabcontent"
+	android:layout_width="fill_parent" android:layout_height="0.0dip"
+	android:layout_weight="1.0" />
+	<TabWidget android:id="@android:id/tabs" android:visibility="gone"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:layout_weight="0.0" />
+	</LinearLayout>
+	<RadioGroup android:id="@+id/tab_radiogroup"
+		android:background="#111100" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:gravity="center_vertical"
+		android:layout_gravity="bottom" android:orientation="horizontal">
+		<RadioButton android:id="@+id/rb_record"
+		android:layout_marginTop="2.0dip" android:text="Record"
+		android:drawableTop="@drawable/ic_tab_testicon_selected" style="@style/tab_button_bottom"
+		android:checked="true" />
+		<RadioButton android:id="@+id/rb_review"
+		android:layout_marginTop="2.0dip" 
+		android:text="Review"
+		android:drawableTop="@drawable/ic_tab_review_selected"
+		 style="@style/tab_button_bottom" />
+		<RadioButton android:id="@+id/rb_more"
+		android:layout_marginTop="2.0dip" 
+		android:text="More"
+		android:drawableTop="@drawable/ic_tab_more_selected" 
+		style="@style/tab_button_bottom" />
+</RadioGroup>   
+</TabHost>
