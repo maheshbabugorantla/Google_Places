@@ -143,6 +143,31 @@ public class PreviewActivity extends Activity {
 				        		Intent intent = new Intent();
 				        		intent.setClass(PreviewActivity.this,HttpsSendImage.class);
 				        		startActivityForResult(intent, UPLOAD_IMAGES);
+				        		
+				        		//write the filepath to rec_sent.txt
+				        		//TODO: this is a temporary measure, because we don't know how to set up rec_recieved just yet --Alex Beard, 9/21/13
+				        		//start placeholder block
+				        		try {
+							        //write the file path as one item in "rec_sent.txt"
+				        			//format in rec_sent.txt
+				        			//filepath/filename1.rec
+				        			//filepath/filename2.rec
+					        		String rec_sent = "rec_sent.txt";
+							        File sentRec = new File(recSaved,rec_sent);
+							        if (sentRec.exists()) {
+										sentRec.createNewFile();
+									}
+							        
+							        fos = new FileOutputStream(sentRec,true);
+							        String text = recSaved+"/"+recFileName+"\n";		
+							        fos.write(text.getBytes());
+							        fos.close();
+							        						        						
+								} catch (Exception e) {
+									// TODO: handle exception
+									e.printStackTrace();
+								}
+								//end placeholder block
 				        	}else {
 				        		//if not, list the unsent event in "rec_unsent.txt"
 				        		try {
