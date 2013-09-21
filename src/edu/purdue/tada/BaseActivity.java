@@ -11,7 +11,7 @@ public class BaseActivity extends Activity {
     public int mTheme = R.style.AppBaseTheme;
     //no longer need to use this, use activitybridge.getInstance().getRecSaved()
 //	final String recSaved = getBaseContext().getFilesDir().getPath(); //changed to application directory --Alex Beard 9/21/2013 
-
+    final String recSaved = ActivityBridge.getInstance().getRecSaved();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
