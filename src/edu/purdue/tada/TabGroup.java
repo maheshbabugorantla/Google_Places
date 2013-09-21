@@ -49,6 +49,10 @@ public class TabGroup extends ActivityGroup{
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());
         
+        //Set storage directory --Alex Beard, 9/21/13
+        
+        ActivityBridge.getInstance().setRecSaved(getBaseContext().getFilesDir().getPath());
+        
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override

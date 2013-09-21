@@ -32,7 +32,7 @@ public class TadaActivity extends BaseActivity{
 		private static final int TAKE_PHOTO = 43;
 		private static final int UPLOAD_UNSENT = 59;
 		private Button unsent;
-		private String unsentRec = Environment.getExternalStorageDirectory().getPath()+"/rec_unsent.txt";
+		private String unsentRec = ActivityBridge.getInstance().getRecSaved()+"/rec_unsent.txt";
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -120,7 +120,7 @@ public class TadaActivity extends BaseActivity{
 								lineNum++;
 							}
 							fis.close();
-							String imageFolder = Environment.getExternalStorageDirectory().getPath()+"/";//this is the folder containing meal images
+							String imageFolder = ActivityBridge.getInstance().getRecSaved()+"/";//this is the folder containing meal images
 							ActivityBridge.getInstance().setFilepath2(imageFolder + data[3]);//this is the file path to the first image
 							ActivityBridge.getInstance().setFilepath(imageFolder + data[4]);//this is the file path to the second image
 						} catch (Exception e) {

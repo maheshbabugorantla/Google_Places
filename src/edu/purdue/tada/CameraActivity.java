@@ -139,7 +139,7 @@ private TextView angleView;
 				   Date date = new Date();
 				   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");//reset date format
 				   String dateString = dateFormat.format(date).toString();//generate date string to be used as filename 
-				   filePath = Environment.getExternalStorageDirectory().getPath() + "/"+ dateString + ".jpg";//filename
+				   filePath = ActivityBridge.getInstance().getRecSaved() + "/"+ dateString + ".jpg";//filename
 				   ActivityBridge.getInstance().setFilepath(filePath);//save the filename in singleton
 				   //get the location information and save it in singleton
 				   myGPS gps = new myGPS(CameraActivity.this);

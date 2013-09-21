@@ -9,7 +9,8 @@ import android.view.Window;
 
 public class BaseActivity extends Activity {
     public int mTheme = R.style.AppBaseTheme;
-	final String recSaved = Environment.getExternalStorageDirectory().getPath();
+    //no longer need to use this, use activitybridge.getInstance().getRecSaved()
+//	final String recSaved = getBaseContext().getFilesDir().getPath(); //changed to application directory --Alex Beard 9/21/2013 
 
 
     @Override
