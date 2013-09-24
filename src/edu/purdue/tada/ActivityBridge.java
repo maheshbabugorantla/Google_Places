@@ -3,7 +3,6 @@ package edu.purdue.tada;
 public class ActivityBridge {
 	
 	private static final ActivityBridge INSTANCE = new ActivityBridge();
-	private String recSaved;
 	private String filepath;
 	private String filepath2;
 	private String httpsresponse;
@@ -26,12 +25,7 @@ public class ActivityBridge {
 	public static ActivityBridge getInstance(){
 		return INSTANCE;
 	}
-	public String getRecSaved() { //added recSaved to singleton data --Alex Beard 9/21/13
-		return recSaved;
-	}
-	public void setRecSaved(String filepath) {
-		this.recSaved = filepath;
-	}
+	
 	public String getFilepath() {
 		return filepath;
 	}

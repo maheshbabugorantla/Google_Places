@@ -17,6 +17,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class TabGroup extends ActivityGroup{
 
+	private final String TAG = "TabGroup";
     private FrameLayout container = null;
     private RadioGroup rGroup;
     private RadioButton radio0;
@@ -48,11 +49,7 @@ public class TabGroup extends ActivityGroup{
                 new Intent(TabGroup.this, TadaActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());
-        
-        //Set storage directory --Alex Beard, 9/21/13
-        
-        ActivityBridge.getInstance().setRecSaved(getBaseContext().getFilesDir().getPath());
-        
+                
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override

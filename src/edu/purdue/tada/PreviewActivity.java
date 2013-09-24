@@ -33,7 +33,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class PreviewActivity extends Activity {
+public class PreviewActivity extends BaseActivity {
 	private ImageView mImageView;
 	private Bitmap bitmap;
 	private static final int UPLOAD_IMAGES = 53;
@@ -87,7 +87,7 @@ public class PreviewActivity extends Activity {
 				        
 				        //alternative::String dateString = filepath1.substring(filepath1.lastIndexOf("/")+1).substring(0,19);
 				        //folder name in which rec and gps files will be saved.
-				       	String recSaved = ActivityBridge.getInstance().getRecSaved();
+				       	
 				       	//prepare file names for writing out .rec and .gps
 				        String recFileName = deviceID + "_"+ dateString + ".rec";//.rec file name
 				        String gpsFileName = deviceID + "_"+ dateString + ".gps";//.gps file name
