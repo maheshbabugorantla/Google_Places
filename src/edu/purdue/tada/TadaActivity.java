@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dm.zbar.android.scanner.*;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,6 +31,8 @@ public class TadaActivity extends BaseActivity
 	
 	private ImageButton img_before;
 	private ImageButton img_after;
+	//ADDED 3rd for Bar Code Scanner
+	private ImageButton img_scanner;
 	private static final int TAKE_PHOTO = 43;
 	private static final int UPLOAD_UNSENT = 59;
 	private Button unsent;
@@ -299,6 +302,18 @@ public class TadaActivity extends BaseActivity
 		});
 		img_before = (ImageButton) findViewById(R.id.imageButton1);
 		img_after = (ImageButton) findViewById(R.id.imageButton2);
+		img_scanner = (ImageButton) findViewById(R.id.imageButton3);
+		
+		img_scanner.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				callBarCode();
+				//ZBAR_SCANNER_REQUEST = 0
+				
+			}
+		});
 		
 		img_before.setOnClickListener(new View.OnClickListener()
 		{
@@ -447,6 +462,11 @@ public class TadaActivity extends BaseActivity
 	{
 		ConnectivityManager conManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		return (conManager.getActiveNetworkInfo() != null);
+	}
+	
+	public void callBarCode(){
+		Intent intent = new Intent(this, ZBarScannerActivity.class);
+		startActivityForResult(intent, 0);//ZBAR_SCANNER_REQUEST = 0
 	}
 	
 }
