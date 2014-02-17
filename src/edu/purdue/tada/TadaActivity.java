@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dm.zbar.android.scanner.*;
+// HEY! GO TO https://github.com/DushyanthMaguluru/ZBarScanner TO GET THE ZBAR LIBRARY ON YOUR INDIVIDUAL MACHINE
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -313,6 +314,8 @@ public class TadaActivity extends BaseActivity
 				//ZBAR_SCANNER_REQUEST = 0
 				
 			}
+			
+			
 		});
 		
 		img_before.setOnClickListener(new View.OnClickListener()
@@ -444,12 +447,24 @@ public class TadaActivity extends BaseActivity
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		super.onActivityResult(requestCode, resultCode, data);
-		System.out.println("tada gets result:" + resultCode);
-		if (requestCode == TAKE_PHOTO || requestCode == UPLOAD_UNSENT)
-		{
-			System.out.println("successfully return to main");
-		}
+		
+			super.onActivityResult(requestCode, resultCode, data);
+			System.out.println("tada gets result:" + resultCode);
+			if (requestCode == TAKE_PHOTO || requestCode == UPLOAD_UNSENT)
+			{
+				System.out.println("successfully return to main");
+			}
+			if(requestCode == 0){
+				if (resultCode == RESULT_OK){
+					// Scan result is available by making a call to data.getStringExtra(ZBarConstants.SCAN_RESULT)
+					// Type of the scan result is available by making a call to data.getStringExtra(ZBarConstants.SCAN_RESULT_TYPE)
+					Toast.makeText(this, "Scan Result = " + data.getStringExtra(ZBarConstants.SCAN_RESULT), Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, "Scan Result Type = " + data.getIntExtra(ZBarConstants.SCAN_RESULT_TYPE, 0), Toast.LENGTH_SHORT).show();
+		        
+				} else if(resultCode == RESULT_CANCELED) {
+					Toast.makeText(this, "Camera unavailable", Toast.LENGTH_SHORT).show();
+				}
+			}
 	}
 	
 	@Override
@@ -464,6 +479,7 @@ public class TadaActivity extends BaseActivity
 		return (conManager.getActiveNetworkInfo() != null);
 	}
 	
+	//Calls bar code scanner
 	public void callBarCode(){
 		Intent intent = new Intent(this, ZBarScannerActivity.class);
 		startActivityForResult(intent, 0);//ZBAR_SCANNER_REQUEST = 0
