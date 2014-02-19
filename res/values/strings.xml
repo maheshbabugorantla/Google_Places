@@ -48,6 +48,9 @@
 	<string name="record_title">Record</string>
 	<string name="unsent_event">unsent</string>
 	
+	<!-- Bar Code -->
+	<string name="scan">Scan</string>
+	
 	<!-- More Tab -->
 	<string name="settings_version">Version: 0.1.1\nRelease Date: Jun. 18 2013</string>
 	<string name="settings_about">About</string>

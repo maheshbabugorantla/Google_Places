@@ -32,10 +32,9 @@ public class TadaActivity extends BaseActivity
 	
 	private ImageButton img_before;
 	private ImageButton img_after;
-	//ADDED 3rd for Bar Code Scanner
-	private ImageButton img_scanner;
 	private static final int TAKE_PHOTO = 43;
 	private static final int UPLOAD_UNSENT = 59;
+	private Button img_scanner;
 	private Button unsent;
 	private String unsentRec; // moved to oncreate.
 	
@@ -50,6 +49,7 @@ public class TadaActivity extends BaseActivity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_tada);
+		img_scanner = (Button) findViewById(R.id.scan);
 		unsent = (Button) findViewById(R.id.unsent_event);
 		System.out.println("Tada: on create!");
 		// Initialize imgFlag
@@ -303,8 +303,8 @@ public class TadaActivity extends BaseActivity
 		});
 		img_before = (ImageButton) findViewById(R.id.imageButton1);
 		img_after = (ImageButton) findViewById(R.id.imageButton2);
-		img_scanner = (ImageButton) findViewById(R.id.imageButton3);
 		
+		//WHAT HAPPENS WHEN THE 'SCAN' BUTTON IS CLICKED
 		img_scanner.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -317,7 +317,7 @@ public class TadaActivity extends BaseActivity
 			
 			
 		});
-		
+		//WHAT HAPPENS WHEN THE 'BEFORE' BUTTON IS CLICKED
 		img_before.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -368,6 +368,8 @@ public class TadaActivity extends BaseActivity
 				
 			}
 		});
+		
+		//WHAT HAPPENS AFTER THE 'AFTER' BUTTON IS CLICKED
 		img_after.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -445,6 +447,8 @@ public class TadaActivity extends BaseActivity
 	}
 	
 	@Override
+	//WHAT HAPPENS WHEN AN ACTIVITY RETURNS
+	//BOTH THE 'SCAN' AND 'BEFORE/AFTER' CAMARAS RETURN VALUES THROUGH THIS METHOD
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		
