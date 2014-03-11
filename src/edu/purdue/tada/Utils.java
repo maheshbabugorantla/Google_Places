@@ -42,11 +42,11 @@ public class Utils extends Activity {
 												 */
 	public final static String TWO_HYPHENS = "--";
 	public final static String BOUNDARY = "*****";
-	public final static String PATH = "/~tada/backendapi/";
+	public final static String PATH = "/~tadaepics/";
 
 	private static final String TAG = "ALBERT-UTILS";
 
-	// ////////////////////// HTTPS ////////////////////////
+	//////////////////////// HTTPS ////////////////////////
 
 	/* Always verify the host - Do not check for certificate */
 	public final static HostnameVerifier hostVerify() {

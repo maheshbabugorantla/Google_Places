@@ -40,6 +40,9 @@
             android:name="edu.purdue.tada.TadaActivity" 
             />
         <activity
+            android:name="edu.purdue.tada.ScanResult" 
+            />
+        <activity
             android:name="edu.purdue.tada.CameraActivity"
             android:label="@string/camera"
             />

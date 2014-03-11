@@ -14,6 +14,10 @@
 	<string name="refresh">refresh</string>
 	<string name="review">Review</string>
 	
+	<!-- Scanner Results -->
+	<string name="retake_scan">Retake?</string>
+	<string name="keep_scan">Keep?</string>
+	
 	<!-- Researcher Settings -->
 	<string name="user_id">User ID</string>
 	<string name="server_ip">Server IP</string>

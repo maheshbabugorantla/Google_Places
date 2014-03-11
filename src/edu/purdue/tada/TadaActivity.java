@@ -34,6 +34,10 @@ public class TadaActivity extends BaseActivity
 	private ImageButton img_after;
 	private static final int TAKE_PHOTO = 43;
 	private static final int UPLOAD_UNSENT = 59;
+	private static final int SCAN_RESULT_REQUEST = 1001;
+	private static final int ZBAR_SCANNER_REQUEST = 0;
+	private static final int KEEP_RESULT = 99;
+	private static final int RETAKE_RESULT = 98;
 	private Button img_scanner;
 	private Button unsent;
 	private String unsentRec; // moved to oncreate.
@@ -458,16 +462,30 @@ public class TadaActivity extends BaseActivity
 			{
 				System.out.println("successfully return to main");
 			}
-			if(requestCode == 0){
+			if(requestCode == ZBAR_SCANNER_REQUEST){
 				if (resultCode == RESULT_OK){
+					Intent scanIntent = new Intent(this, ScanResult.class);
+					scanIntent.putExtra("SCAN_RESULT", data.getStringExtra(ZBarConstants.SCAN_RESULT));
+					startActivityForResult(scanIntent, SCAN_RESULT_REQUEST);
 					// Scan result is available by making a call to data.getStringExtra(ZBarConstants.SCAN_RESULT)
 					// Type of the scan result is available by making a call to data.getStringExtra(ZBarConstants.SCAN_RESULT_TYPE)
-					Toast.makeText(this, "Scan Result = " + data.getStringExtra(ZBarConstants.SCAN_RESULT), Toast.LENGTH_SHORT).show();
-					Toast.makeText(this, "Scan Result Type = " + data.getIntExtra(ZBarConstants.SCAN_RESULT_TYPE, 0), Toast.LENGTH_SHORT).show();
+					//Toast.makeText(this, "Scan Result = " + data.getStringExtra(ZBarConstants.SCAN_RESULT), Toast.LENGTH_SHORT).show();
+					//Toast.makeText(this, "Scan Result Type = " + data.getIntExtra(ZBarConstants.SCAN_RESULT_TYPE, 0), Toast.LENGTH_SHORT).show();
 		        
 				} else if(resultCode == RESULT_CANCELED) {
 					Toast.makeText(this, "Camera unavailable", Toast.LENGTH_SHORT).show();
 				}
+			}
+			if(requestCode == SCAN_RESULT_REQUEST)
+			{
+				if(resultCode == KEEP_RESULT){
+					
+				}else if(resultCode == RETAKE_RESULT){
+					//if retake pressed, call the zbar activity again
+					Intent intent = new Intent(this, ZBarScannerActivity.class);
+					startActivityForResult(intent, ZBAR_SCANNER_REQUEST);
+				}
+				
 			}
 	}
 	
@@ -486,7 +504,7 @@ public class TadaActivity extends BaseActivity
 	//Calls bar code scanner
 	public void callBarCode(){
 		Intent intent = new Intent(this, ZBarScannerActivity.class);
-		startActivityForResult(intent, 0);//ZBAR_SCANNER_REQUEST = 0
+		startActivityForResult(intent, ZBAR_SCANNER_REQUEST);//ZBAR_SCANNER_REQUEST = 0
 	}
 	
 }

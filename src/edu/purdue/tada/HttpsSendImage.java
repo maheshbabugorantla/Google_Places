@@ -25,7 +25,7 @@ public class HttpsSendImage extends Utils {
 	 */
 
 	/* Specify server-side filename */
-	private String PHP_FILENAME = PATH + "rest_receive_image.php";
+	private String PHP_FILENAME = PATH + "epics_receive_image.php";
 
 	/* Create tag for logcat */
 	private static final String TAG = "YU-HTTPSENDIMAGE";
@@ -90,8 +90,8 @@ public class HttpsSendImage extends Utils {
 				 */
 
 				/* Get user ID and password (MD5) */
-				String userIdLogin = "8001";
-				String pwdMd5Login = "itisme";
+				String userIdLogin = "5001";
+				String pwdMd5Login = "epics975";
 
 				/*
 				 * Call method to create HTTPS connection and communicate with
@@ -148,7 +148,7 @@ public class HttpsSendImage extends Utils {
 
 		/* Get server URL from singleton */
 		//String server = ActivityBridge.getInstance().getServerDomainName();
-		String server = "tada.ecn.purdue.edu";
+		String server = "epicsapps.ecn.purdue.edu";
 		
 		/* Open HTPPS connection to the server */
 		HttpsURLConnection httpsConnection = getHttpsConnection(serverFilename,
