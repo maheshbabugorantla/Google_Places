@@ -313,7 +313,6 @@ public class TadaActivity extends BaseActivity
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				callBarCode();
 				//ZBAR_SCANNER_REQUEST = 0
 				

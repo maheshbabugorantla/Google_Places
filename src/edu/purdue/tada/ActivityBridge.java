@@ -19,6 +19,7 @@ public class ActivityBridge {
 	private boolean radio2 = false;
 	private String angle1;
 	private String angle2;
+	private String barcode;
 	private ActivityBridge(){
 		
 	}
@@ -122,5 +123,12 @@ public class ActivityBridge {
 	public void setAngle2(String angle2) {
 		this.angle2 = angle2;
 	}
+	public String getBarCode(){
+		return barcode;
+	}
+	public void setBarCode(String barcode){
+		this.barcode = barcode;
+	}
+	
 	
 }

@@ -1,12 +1,8 @@
 package edu.purdue.tada;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.dm.zbar.android.scanner.*;
 
@@ -14,6 +10,7 @@ import com.dm.zbar.android.scanner.*;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,7 +34,8 @@ public class ScanResult extends BaseActivity{
 	TextView code;
 	private static final int KEEP_RESULT = 99;
 	private static final int RETAKE_RESULT = 98;
-
+	private static final int REQUEST_BAR_CODE = 1234;
+	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.scan_result_layout);
@@ -45,7 +43,7 @@ public class ScanResult extends BaseActivity{
 		keep = (Button) findViewById(R.id.keep_btn);
 		code = (TextView) findViewById(R.id.code_text);
 		Intent intent = getIntent();
-		String data = intent.getStringExtra("SCAN_RESULT");
+		final String data = intent.getStringExtra("SCAN_RESULT");
 		code.setText(data);
 		
 		retake.setOnClickListener(new View.OnClickListener(){
@@ -60,7 +58,18 @@ public class ScanResult extends BaseActivity{
 			@Override
 			public void onClick(View v){
 				setResult(KEEP_RESULT);
-				//store the value in memory and return to main screen
+				
+				Date date = new Date();
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");//reset date format
+				String dateString = dateFormat.format(date).toString();//generate date string to be used as filename 
+				String filePath = data + "/"+ dateString + ".jpg";//filename
+				//ActivityBridge.getInstance().setFilepath(filePath);
+				
+				//Intent intent = new Intent();
+			//	intent.setClass(ScanResult.this, HttpsSendImage.class);
+			//	intent.putExtra("requestCode", REQUEST_BAR_CODE);
+				ActivityBridge.getInstance().setBarCode(data);
+			//	startActivityForResult(intent, REQUEST_BAR_CODE);
 				//also, put on Toast that it was saved
 				finish();
 			}
