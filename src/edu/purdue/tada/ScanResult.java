@@ -25,6 +25,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/*
+ * 	----ABOUT----
+ *	This is the activity that is called when a barcode is successfully scanned.
+ *  It will display two buttons, "keep" and "retake."
+ */
 
 public class ScanResult extends BaseActivity{
 	//add text view and set the text field to the sent string
@@ -39,47 +44,37 @@ public class ScanResult extends BaseActivity{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.scan_result_layout);
+		//---CREATE BUTTONS
 		retake = (Button) findViewById(R.id.retake_btn);
 		keep = (Button) findViewById(R.id.keep_btn);
+		//---CREATE TEXT FIELD
 		code = (TextView) findViewById(R.id.code_text);
+		//---SET TEXT OF TEXT FIELD TO BARCODE
 		Intent intent = getIntent();
 		final String data = intent.getStringExtra("SCAN_RESULT");
 		code.setText(data);
 		
+		//---WHAT HAPPENS WHEN RETAKE IS CLICKED
 		retake.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
+				//result loops back to camera
 				setResult(RETAKE_RESULT);
 				finish();
-				//return value that would go back to camera
 			}
 		});
+		
+		//---WHAT HAPPENS WHEN KEEP IS CLICKED
 		keep.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
+				//adds barcode to arraylist and returns to title screen
 				setResult(KEEP_RESULT);
-				
-				Date date = new Date();
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");//reset date format
-				String dateString = dateFormat.format(date).toString();//generate date string to be used as filename 
-				String filePath = data + "/"+ dateString + ".jpg";//filename
-				//ActivityBridge.getInstance().setFilepath(filePath);
-				
-				//Intent intent = new Intent();
-			//	intent.setClass(ScanResult.this, HttpsSendImage.class);
-			//	intent.putExtra("requestCode", REQUEST_BAR_CODE);
 				ActivityBridge.getInstance().setBarCode(data);
-			//	startActivityForResult(intent, REQUEST_BAR_CODE);
-				//also, put on Toast that it was saved
 				finish();
 			}
 		});
 	}
-	
-	
-	
-	
-	
 	
 	
 	

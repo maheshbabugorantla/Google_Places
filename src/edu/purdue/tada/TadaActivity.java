@@ -26,6 +26,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+/* 
+ * -----ABOUT-----
+ *  TadaActivity is the "Main Page" of the app. It is the activity that house he before and after buttons.
+ *  -----IMPORTANT!!!!-----
+ *  // HEY! GO TO https://github.com/DushyanthMaguluru/ZBarScanner TO GET THE ZBAR LIBRARY ON YOUR INDIVIDUAL MACHINE
+ */
+
 public class TadaActivity extends BaseActivity
 {
 	private final String TAG = "TadaActivity";
@@ -454,31 +461,37 @@ public class TadaActivity extends BaseActivity
 	//BOTH THE 'SCAN' AND 'BEFORE/AFTER' CAMARAS RETURN VALUES THROUGH THIS METHOD
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		
 			super.onActivityResult(requestCode, resultCode, data);
 			System.out.println("tada gets result:" + resultCode);
+			
+			//returns here from 'before/after' cameras
 			if (requestCode == TAKE_PHOTO || requestCode == UPLOAD_UNSENT)
 			{
 				System.out.println("successfully return to main");
 			}
+			
+			//returns here from barcode scanner
 			if(requestCode == ZBAR_SCANNER_REQUEST){
 				if (resultCode == RESULT_OK){
 					Intent scanIntent = new Intent(this, ScanResult.class);
 					scanIntent.putExtra("SCAN_RESULT", data.getStringExtra(ZBarConstants.SCAN_RESULT));
 					startActivityForResult(scanIntent, SCAN_RESULT_REQUEST);
+					
+					// ---IMPORTANT---
 					// Scan result is available by making a call to data.getStringExtra(ZBarConstants.SCAN_RESULT)
 					// Type of the scan result is available by making a call to data.getStringExtra(ZBarConstants.SCAN_RESULT_TYPE)
-					//Toast.makeText(this, "Scan Result = " + data.getStringExtra(ZBarConstants.SCAN_RESULT), Toast.LENGTH_SHORT).show();
-					//Toast.makeText(this, "Scan Result Type = " + data.getIntExtra(ZBarConstants.SCAN_RESULT_TYPE, 0), Toast.LENGTH_SHORT).show();
+					
 		        
 				} else if(resultCode == RESULT_CANCELED) {
-					Toast.makeText(this, "Camera unavailable", Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, "Picture Cancelled", Toast.LENGTH_SHORT).show();
 				}
 			}
+			
+			//Returns here from ScanResult Activity
 			if(requestCode == SCAN_RESULT_REQUEST)
 			{
 				if(resultCode == KEEP_RESULT){
-					
+					//dont do anything
 				}else if(resultCode == RETAKE_RESULT){
 					//if retake pressed, call the zbar activity again
 					Intent intent = new Intent(this, ZBarScannerActivity.class);

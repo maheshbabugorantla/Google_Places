@@ -18,15 +18,18 @@ import android.util.Log;
 import edu.purdue.tada.ActivityBridge;
 import edu.purdue.tada.Utils;
 
+/*
+ * ----ABOUT----
+ * HttpSendImage is an ACTIVITY, as it is part of the User Interface (UI) -
+ * it opens a new layout view and shows the uploaded picture and relevant
+ * data. Server connection is established here.
+ */
+
 public class HttpsSendImage extends Utils {
 	private static final int REQUEST_BAR_CODE = 1234;
 	private static final int UPLOAD_IMAGES = 53;
 	private static final int UPLOAD_UNSENT = 59;
-	/*
-	 * HttpSendImage is an ACTIVITY, as it is part of the User Interface (UI) -
-	 * it opens a new layout view and shows the uploaded picture and relevant
-	 * data
-	 */
+	
 
 	/* Specify server-side filename */
 	private String PHP_FILENAME = PATH + "epics_receive_image.php";
@@ -42,6 +45,7 @@ public class HttpsSendImage extends Utils {
 
 		Intent intent = getIntent();
 		int requestCode = intent.getIntExtra("requestCode",0);
+		
 		/* Insert code to setup activity layout ... */
 
 		/*
@@ -51,16 +55,9 @@ public class HttpsSendImage extends Utils {
 		
 		//sees from which activity this activity was called from
 		//and creates a ddt with a code that specifies the desired action
-		DownloadDataTask ddt;
 		
-		if(requestCode == REQUEST_BAR_CODE){
-			ddt = new DownloadDataTask(REQUEST_BAR_CODE);
-		}else{
-			ddt = new DownloadDataTask(0);
-		}
+		DownloadDataTask ddt = new DownloadDataTask();
 		
-		
-
 		ddt.execute();
 	}
 
@@ -72,12 +69,6 @@ public class HttpsSendImage extends Utils {
 	 * 
 	 */
 	private class DownloadDataTask extends AsyncTask<Void, Integer, Void> {
-		
-		private int type;
-		DownloadDataTask(int type){
-			super();
-			this.type = type;
-		}
 		
 		private final ProgressDialog dialog = new ProgressDialog(
 				HttpsSendImage.this);
@@ -121,14 +112,8 @@ public class HttpsSendImage extends Utils {
 				 * Call method to create HTTPS connection and communicate with
 				 * server
 				 */
-				String response;
-				if(type == REQUEST_BAR_CODE){
-					response = sendBarCode(filepath, PHP_FILENAME,
+				String response = sendImageAndLogin(filepath, PHP_FILENAME,
 						userIdLogin, pwdMd5Login);
-				}else{
-					response = sendImageAndLogin(filepath, PHP_FILENAME,
-						userIdLogin, pwdMd5Login);
-				}
 
 				/* Set response to singleton to analyze it on onPostExecute */
 				ActivityBridge.getInstance().setHttpsresponse(response);
@@ -171,85 +156,85 @@ public class HttpsSendImage extends Utils {
 	}
 
 	
-	public String sendBarCode(String imagePath, String serverFilename,
-			String userIdLogin, String pwdMd5Login) throws IOException {
-
-		//NOTE!!! THE STRING PARAMETER "imagePath" IS THE PATH FOR THE BARCODE
-		
-		/* Always verify the host - Do not check for certificate */
-		HostnameVerifier v = Utils.hostVerify();
-
-		/* Get server URL from singleton */
-		//String server = ActivityBridge.getInstance().getServerDomainName();
-		String server = "epicsapps.ecn.purdue.edu";
-		
-		/* Open HTPPS connection to the server */
-		HttpsURLConnection httpsConnection = getHttpsConnection(serverFilename,
-				v, server, "multipart/form-data;boundary=" + BOUNDARY);
-
-		/* Create output stream to write bytes (headers/data/image) */
-		DataOutputStream outputStream = createOutputStream(httpsConnection);
-
-		String httpsResponseBody;
-
-		/* Wrong server request */
-		if (outputStream == null) {
-			/* We need to check this on the returning method */
-			httpsResponseBody = null;
-
-		} else {
-
-			/* Send data/headers */
-			outputStream = outputStreamHeaderMultiPartForm(outputStream);
-
-			// --------------- LOGIN ---------------
-
-			/* Set up output stream for user ID form */
-			outputStream = outputStreamSetUpForm(outputStream, PHP_USER_ID,
-					userIdLogin);
-
-			/* Set up output stream for MD5 password form */
-			outputStream = outputStreamSetUpForm(outputStream, PHP_PWD,
-					pwdMd5Login);
-			
-			//---------------Bar Code---------------
-			outputStream = outputStreamSetUpForm(outputStream, "numOfBarcodes", "1");
-			outputStream = outputStreamSetUpForm(outputStream, "barcode1", ActivityBridge.getInstance().getBarCode());
-			outputStream = outputStreamSetUpForm(outputStream, "barcodemismatch1", "0");
-			
-			//------------send code --------------------------------------
-			/* Set up output stream for file upload */
-			outputStream = outputStreamSetUpFile(imagePath, outputStream, "file2");
-			
-			/* Create input stream to put the image */
-			FileInputStream fileInputStream = new FileInputStream(new File(
-					imagePath));
-
-			/* Retrieve file and write it to output stream to be sent */
-			retrieveFileBytes(imagePath, outputStream, fileInputStream);
-			//End of the send code----------------------------------------
-			
-			/* Send multipart form data necessary after file data */
-			outputStreamComplete(outputStream);
-
-			/* Print code and message to the log */
-			getServerResponse(httpsConnection);
-
-			/* Get data from server and convert it to string */
-			InputStream httpsInputStream = httpsConnection.getInputStream();
-			httpsResponseBody = convertStreamToString(httpsInputStream);
-
-			Log.d(TAG, "Response Body: " + httpsResponseBody);
-
-			/* Close streams */
-			Utils.closeStreams(httpsInputStream, outputStream);
-			fileInputStream.close();
-
-			/* Parse received data */
-		}
-
-		return httpsResponseBody;
-	}
+//	public String sendBarCode(String imagePath, String serverFilename,
+//			String userIdLogin, String pwdMd5Login) throws IOException {
+//
+//		//NOTE!!! THE STRING PARAMETER "imagePath" IS THE PATH FOR THE BARCODE
+//		
+//		/* Always verify the host - Do not check for certificate */
+//		HostnameVerifier v = Utils.hostVerify();
+//
+//		/* Get server URL from singleton */
+//		//String server = ActivityBridge.getInstance().getServerDomainName();
+//		String server = "epicsapps.ecn.purdue.edu";
+//		
+//		/* Open HTPPS connection to the server */
+//		HttpsURLConnection httpsConnection = getHttpsConnection(serverFilename,
+//				v, server, "multipart/form-data;boundary=" + BOUNDARY);
+//
+//		/* Create output stream to write bytes (headers/data/image) */
+//		DataOutputStream outputStream = createOutputStream(httpsConnection);
+//
+//		String httpsResponseBody;
+//
+//		/* Wrong server request */
+//		if (outputStream == null) {
+//			/* We need to check this on the returning method */
+//			httpsResponseBody = null;
+//
+//		} else {
+//
+//			/* Send data/headers */
+//			outputStream = outputStreamHeaderMultiPartForm(outputStream);
+//
+//			// --------------- LOGIN ---------------
+//
+//			/* Set up output stream for user ID form */
+//			outputStream = outputStreamSetUpForm(outputStream, PHP_USER_ID,
+//					userIdLogin);
+//
+//			/* Set up output stream for MD5 password form */
+//			outputStream = outputStreamSetUpForm(outputStream, PHP_PWD,
+//					pwdMd5Login);
+//			
+//			//---------------Bar Code---------------
+//			outputStream = outputStreamSetUpForm(outputStream, "numOfBarcodes", "1");
+//			outputStream = outputStreamSetUpForm(outputStream, "barcode1", ActivityBridge.getInstance().getBarCode());
+//			outputStream = outputStreamSetUpForm(outputStream, "barcodemismatch1", "0");
+//			
+//			//------------send code --------------------------------------
+//			/* Set up output stream for file upload */
+//			outputStream = outputStreamSetUpFile(imagePath, outputStream, "file2");
+//			
+//			/* Create input stream to put the image */
+//			FileInputStream fileInputStream = new FileInputStream(new File(
+//					imagePath));
+//
+//			/* Retrieve file and write it to output stream to be sent */
+//			retrieveFileBytes(imagePath, outputStream, fileInputStream);
+//			//End of the send code----------------------------------------
+//			
+//			/* Send multipart form data necessary after file data */
+//			outputStreamComplete(outputStream);
+//
+//			/* Print code and message to the log */
+//			getServerResponse(httpsConnection);
+//
+//			/* Get data from server and convert it to string */
+//			InputStream httpsInputStream = httpsConnection.getInputStream();
+//			httpsResponseBody = convertStreamToString(httpsInputStream);
+//
+//			Log.d(TAG, "Response Body: " + httpsResponseBody);
+//
+//			/* Close streams */
+//			Utils.closeStreams(httpsInputStream, outputStream);
+//			fileInputStream.close();
+//
+//			/* Parse received data */
+//		}
+//
+//		return httpsResponseBody;
+//	}
 			
 			
 	
@@ -307,10 +292,27 @@ public class HttpsSendImage extends Utils {
 			
 			
 			//---------------Bar Code---------------
-			if( ActivityBridge.getInstance().getBarCode() != null ){
-			outputStream = outputStreamSetUpForm(outputStream, "numOfBarcodes", "1");
-			outputStream = outputStreamSetUpForm(outputStream, "barcode1", ActivityBridge.getInstance().getBarCode());
-			outputStream = outputStreamSetUpForm(outputStream, "barcodemismatch1", "0");
+			if( ActivityBridge.getInstance().numOfBarCodes() != 0 ){
+				int number = ActivityBridge.getInstance().numOfBarCodes();
+				String S_number = Integer.toString(number);
+				outputStream = outputStreamSetUpForm(outputStream, "numOfBarcodes", S_number);
+				Log.d("--num--", S_number);
+				for(int i = 0; i < number; i++){
+					int j = i+1;
+					String title1 = "barcode"+j;
+					String title2 = "barcodemismatch"+j;
+					//NOTE//
+					//IMPORTANT//
+					//THE CALL TO THE SECOND outputStreamSetUpForm HAS AN "INCORRECT" PARAMETER
+					//THE "0" NEEDS TO CHANGE WHEN BARCODE MISMATCHES ARE EVENTUALLY IMPLEMENTED
+					//THE CHANGE WILL DEPEND ON THE IMPLEMENTATION
+					//UNTIL THEN, DO NOT CHANGE
+					Log.d("BARCODE SENT?:",ActivityBridge.getInstance().getBarCode(i));
+					
+					outputStream = outputStreamSetUpForm(outputStream, title1, ActivityBridge.getInstance().getBarCode(i));
+					outputStream = outputStreamSetUpForm(outputStream, title2, "0");
+				}
+				ActivityBridge.getInstance().clearBarcodes();
 			}
 			
 			//----------------first image ------------

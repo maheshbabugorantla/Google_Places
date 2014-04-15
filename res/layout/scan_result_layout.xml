@@ -14,33 +14,37 @@
             android:textColor="@color/black"
             android:textSize="25sp" />
 
-        <FrameLayout
+        <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_centerInParent="true" >
 
-        <Button
-            android:id="@+id/keep_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="@dimen/keep_button_value"
-            android:background="@drawable/btn_grey"
-            android:padding="5dp"
-            android:text="@string/keep_scan"
-            android:textColor="@color/black" />
+	        <Button
+	            android:id="@+id/keep_btn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerInParent="true"
+	            android:background="@+drawable/button"
+	            android:padding="5dp"
+	            android:text="@string/keep_scan"
+	            android:textColor="@color/white"
+	            android:textSize="25sp" />
 
-        <Button
-            android:id="@+id/retake_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="@dimen/keep_button_value"
-            android:background="@drawable/btn_grey"
-            android:padding="5dp"
-            android:text="@string/retake_scan"
-            android:textColor="@color/black" />
+       		<Button
+	            android:id="@+id/retake_btn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_below="@id/keep_btn"
+	            android:layout_margin="10dp"
+	            android:background="@+drawable/button"
+	            android:padding="5dp"
+	            android:text="@string/retake_scan"
+	            android:textColor="@color/white"
+	            android:textSize="25sp" />
         
-    </FrameLayout>
+    	</RelativeLayout>
     
 
 

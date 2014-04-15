@@ -1,5 +1,14 @@
 package edu.purdue.tada;
 
+import java.util.ArrayList;
+
+/* 
+ * 	----ABOUT (Spring 2014)----
+ * The ActivityBridge is a "structure" where important data can be stored while in one activity
+ *  and retrieved later while in another. You will need to use ActivityBridge.getInstance to return
+ *  the "INSTANCE" ActivityBridge object and then use the various get and set methods to access and set its data.
+ */
+
 public class ActivityBridge {
 	
 	private static final ActivityBridge INSTANCE = new ActivityBridge();
@@ -19,9 +28,18 @@ public class ActivityBridge {
 	private boolean radio2 = false;
 	private String angle1;
 	private String angle2;
-	private String barcode;
+	
+	/* NOTE
+	 * THE BARCODES ARE STORED IN AN ARRAYLIST<STRING>
+	 * THE ACTIVITYBRIDGE INSTANCE KEEPS TRACK OF THE INDEX OF 
+	 * THE CURRENT BARCODE IN bIndex
+	 */
+	
+	private ArrayList<String> barcodes;
+	private int bIndex;
 	private ActivityBridge(){
-		
+		this.barcodes = new ArrayList<String>(); 
+		bIndex = 0;
 	}
 	public static ActivityBridge getInstance(){
 		return INSTANCE;
@@ -123,11 +141,23 @@ public class ActivityBridge {
 	public void setAngle2(String angle2) {
 		this.angle2 = angle2;
 	}
-	public String getBarCode(){
-		return barcode;
+	//returns barcode at index
+	public String getBarCode(int index){
+		return this.barcodes.get(index);
 	}
+	//sets barcode to current element
 	public void setBarCode(String barcode){
-		this.barcode = barcode;
+		this.barcodes.add(bIndex,barcode);
+		bIndex++;
+	}
+	//returns size of arraylist
+	public int numOfBarCodes(){
+		return this.barcodes.size();
+	}
+	//sets index to 0 and clears the data
+	public void clearBarcodes(){
+		bIndex = 0;
+		this.barcodes.clear();
 	}
 	
 	

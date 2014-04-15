@@ -12,9 +12,8 @@ public class PreferenceHelper {
     private static SharedPreferences.Editor mEditor = null;
     private static SharedPreferences mPreferences = null;
     
-	public PreferenceHelper(Context context)
-	{
-	}
+	public PreferenceHelper(Context context){}
+	
 	//get a SharePreferences instance that points to the default file that is used by the preference framework in the given context
     private static SharedPreferences getSharedPreferences(Context paramContext) {
         if (mPreferences == null)

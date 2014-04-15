@@ -46,6 +46,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
  
+/*
+ * ----ABOUT----
+ * This activity is called to start to the camera when the "before" or "after" button is pushed
+ */
+
 public class CameraActivity extends BaseActivity implements SurfaceHolder.Callback{
 private static final String TAG = "mCamera";
 private static final int SHOW_PREVIEW = 47;
