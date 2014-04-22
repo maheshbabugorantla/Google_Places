@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dm.zbar.android.scanner.*;
-// HEY! GO TO https://github.com/DushyanthMaguluru/ZBarScanner TO GET THE ZBAR LIBRARY ON YOUR INDIVIDUAL MACHINE
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,7 +25,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-/* 
+/*  Spring 2014
  * -----ABOUT-----
  *  TadaActivity is the "Main Page" of the app. It is the activity that house he before and after buttons.
  *  -----IMPORTANT!!!!-----
@@ -513,7 +512,9 @@ public class TadaActivity extends BaseActivity
 		return (conManager.getActiveNetworkInfo() != null);
 	}
 	
+	//Spring 2014
 	//Calls bar code scanner
+	// To implement surface overlay on camera, since zbarscanneractivity resides within the jar, will need to pull that code out and modify it.
 	public void callBarCode(){
 		Intent intent = new Intent(this, ZBarScannerActivity.class);
 		startActivityForResult(intent, ZBAR_SCANNER_REQUEST);//ZBAR_SCANNER_REQUEST = 0

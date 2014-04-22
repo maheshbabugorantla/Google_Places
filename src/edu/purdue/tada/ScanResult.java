@@ -6,7 +6,7 @@ import java.util.Date;
 
 import com.dm.zbar.android.scanner.*;
 
-//HEY! GO TO https://github.com/DushyanthMaguluru/ZBarScanner TO GET THE ZBAR LIBRARY ON YOUR INDIVIDUAL MACHINE
+
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,7 +25,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/*
+/* Spring 2014
  * 	----ABOUT----
  *	This is the activity that is called when a barcode is successfully scanned.
  *  It will display two buttons, "keep" and "retake."
