@@ -1,6 +1,7 @@
 package com.dm.zbar.android.scanner;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.PreviewCallback;
@@ -10,8 +11,12 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import java.io.IOException;
 import java.util.List;
+
+import edu.purdue.tada.R;
 
 class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
     private final String TAG = "CameraPreview";
@@ -31,6 +36,19 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
         mAutoFocusCallback = autoFocusCb;
         mSurfaceView = new SurfaceView(context);
         addView(mSurfaceView);
+        
+        /*
+         * Ben Klutzke 09/27/14
+         * Adds overlay to barcode scanner
+         * TODO: Change for vertical/landscape mode
+         * 		 Make smaller border / fix border
+         */
+        ImageView bo = new ImageView(context);
+        bo.setScaleType(ImageView.ScaleType.FIT_XY);
+        Drawable image = getResources().getDrawable(R.drawable.barcode_overlay_land);
+	   	bo.setImageDrawable(image);
+        addView(bo);
+        bringChildToFront(bo);
 
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
@@ -64,28 +82,31 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         if (changed && getChildCount() > 0) {
-            final View child = getChildAt(0);
-
-            final int width = r - l;
-            final int height = b - t;
-
-            int previewWidth = width;
-            int previewHeight = height;
-            if (mPreviewSize != null) {
-                previewWidth = mPreviewSize.width;
-                previewHeight = mPreviewSize.height;
-            }
-
-            // Center the child SurfaceView within the parent.
-            if (width * previewHeight > height * previewWidth) {
-                final int scaledChildWidth = previewWidth * height / previewHeight;
-                child.layout((width - scaledChildWidth) / 2, 0,
-                        (width + scaledChildWidth) / 2, height);
-            } else {
-                final int scaledChildHeight = previewHeight * width / previewWidth;
-                child.layout(0, (height - scaledChildHeight) / 2,
-                        width, (height + scaledChildHeight) / 2);
-            }
+        	System.out.println("child count: " + getChildCount());
+        	for(int i = 0; i < getChildCount(); i++){
+	            final View child = getChildAt(i);
+	
+	            final int width = r - l;
+	            final int height = b - t;
+	
+	            int previewWidth = width;
+	            int previewHeight = height;
+	            if (mPreviewSize != null) {
+	                previewWidth = mPreviewSize.width;
+	                previewHeight = mPreviewSize.height;
+	            }
+	
+	            // Center the child SurfaceView within the parent.
+	            if (width * previewHeight > height * previewWidth) {
+	                final int scaledChildWidth = previewWidth * height / previewHeight;
+	                child.layout((width - scaledChildWidth) / 2, 0,
+	                        (width + scaledChildWidth) / 2, height);
+	            } else {
+	                final int scaledChildHeight = previewHeight * width / previewWidth;
+	                child.layout(0, (height - scaledChildHeight) / 2,
+	                        width, (height + scaledChildHeight) / 2);
+	            }
+        	}
         }
     }
 
