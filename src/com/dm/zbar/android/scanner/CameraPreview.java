@@ -85,6 +85,11 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         if (changed && getChildCount() > 0) {
         	System.out.println("child count: " + getChildCount());
+        	
+        	/*
+        	 * Ben Klutzke 09/27/14
+        	 * Every child needs to be centered within the parent here for it to be displayed.
+        	 */
         	for(int i = 0; i < getChildCount(); i++){
 	            final View child = getChildAt(i);
 	
@@ -98,7 +103,7 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 	                previewHeight = mPreviewSize.height;
 	            }
 	
-	            // Center the child SurfaceView within the parent.
+	            // Center the child within the parent.
 	            if (width * previewHeight > height * previewWidth) {
 	                final int scaledChildWidth = previewWidth * height / previewHeight;
 	                child.layout((width - scaledChildWidth) / 2, 0,
