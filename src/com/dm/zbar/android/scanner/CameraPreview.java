@@ -1,6 +1,7 @@
 package com.dm.zbar.android.scanner;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
@@ -28,6 +29,7 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
     Camera mCamera;
     PreviewCallback mPreviewCallback;
     AutoFocusCallback mAutoFocusCallback;
+    ImageView bo;
 
     CameraPreview(Context context, PreviewCallback previewCallback, AutoFocusCallback autoFocusCb) {
         super(context);
@@ -41,11 +43,11 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
          * Ben Klutzke 09/27/14
          * Adds overlay to barcode scanner
          * TODO: Change for vertical/landscape mode
-         * 		 Make smaller border / fix border
+         * 		 Make smaller border?
          */
-        ImageView bo = new ImageView(context);
+        bo = new ImageView(context);
         bo.setScaleType(ImageView.ScaleType.FIT_XY);
-        Drawable image = getResources().getDrawable(R.drawable.barcode_overlay_land);
+        Drawable image = getResources().getDrawable(R.drawable.barcode_overlay);
 	   	bo.setImageDrawable(image);
         addView(bo);
         bringChildToFront(bo);

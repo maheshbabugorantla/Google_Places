@@ -40,6 +40,7 @@
             />
         <activity
             android:name="edu.purdue.tada.ScanResult" 
+        	android:screenOrientation="portrait"
             />
         <activity
             android:name="edu.purdue.tada.CameraActivity"

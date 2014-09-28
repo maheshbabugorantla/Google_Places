@@ -53,6 +53,7 @@ public class ZBarScannerActivity extends Activity implements Camera.PreviewCallb
         mPreview = new CameraPreview(this, this, autoFocusCB);
         setContentView(mPreview);
     }
+    
 
     public void setupScanner() {
         mScanner = new ImageScanner();
