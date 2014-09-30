@@ -47,7 +47,7 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
          */
         bo = new ImageView(context);
         bo.setScaleType(ImageView.ScaleType.FIT_XY);
-        Drawable image = getResources().getDrawable(R.drawable.barcode_overlay);
+        Drawable image = getResources().getDrawable(R.drawable.barcode_overlay_plus);
 	   	bo.setImageDrawable(image);
         addView(bo);
         bringChildToFront(bo);
