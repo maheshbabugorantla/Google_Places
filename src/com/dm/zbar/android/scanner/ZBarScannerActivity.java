@@ -132,20 +132,28 @@ public class ZBarScannerActivity extends Activity implements Camera.PreviewCallb
         int result = mScanner.scanImage(barcode);
 
         if (result != 0) {
-            mCamera.cancelAutoFocus();
-            mCamera.setPreviewCallback(null);
-            mCamera.stopPreview();
-            mPreviewing = false;
             SymbolSet syms = mScanner.getResults();
             for (Symbol sym : syms) {
                 String symData = sym.getData();
                 if (!TextUtils.isEmpty(symData)) {
-                    Intent dataIntent = new Intent();
-                    dataIntent.putExtra(SCAN_RESULT, symData);
-                    dataIntent.putExtra(SCAN_RESULT_TYPE, sym.getType());
-                    setResult(Activity.RESULT_OK, dataIntent);
-                    finish();
-                    break;
+                	/*
+                	 * Ben Klutzke 10/17/14
+                	 * Verifies the check digit of the barcode results before progressing.
+                	 */
+                	if(verifyBarcode(symData, sym.getType())){
+
+                        mCamera.cancelAutoFocus();
+                        mCamera.setPreviewCallback(null);
+                        mCamera.stopPreview();
+                        mPreviewing = false;
+                        
+                        Intent dataIntent = new Intent();
+                        dataIntent.putExtra(SCAN_RESULT, symData);
+                        dataIntent.putExtra(SCAN_RESULT_TYPE, sym.getType());
+                        setResult(Activity.RESULT_OK, dataIntent);
+                        finish();
+                        break;                		
+                	}
                 }
             }
         }
@@ -164,4 +172,120 @@ public class ZBarScannerActivity extends Activity implements Camera.PreviewCallb
             mAutoFocusHandler.postDelayed(doAutoFocus, 1000);
         }
     };
+    
+    /*
+     * Ben Klutzke 10/17/14
+     * Barcode number verification method. Most barcodes are changed to EAN13 format by zbar.
+     * Maybe determine which barcodes are only used with foods.
+     */
+    private boolean verifyBarcode(String barcode, int type){
+    	int digit;
+    	char check_digit;
+    	int sum1;
+    	int sum2;
+    	
+    	switch(type){
+    	case Symbol.UPCE:
+    	case Symbol.UPCA:
+    	case Symbol.EAN8:
+    	case Symbol.I25:
+	    	sum1 = 0;
+	    	sum2 = 0;
+	    	for(int i = 0; i < barcode.length()-1; i++){
+	    		if(i%2 == 0)
+	    			sum2 += 3*Integer.parseInt("" + barcode.charAt(i));
+	    		else
+	    			sum1 += Integer.parseInt("" + barcode.charAt(i));
+	    	}
+	    	digit = 10 - (sum1+sum2) % 10;
+	    	if(digit == 10)
+	    		check_digit = '0';
+	    	else
+		    	check_digit = (char)('0' + digit);
+	    	
+	    	return check_digit == barcode.charAt(barcode.length()-1);
+    	
+    	case Symbol.ISBN10:
+    		int sum = 0;
+    		for (int i = 0; i < barcode.length()-1; i++){
+    			sum += Integer.parseInt("" + barcode.charAt(i)) * (10-i);
+    		}
+    		digit = (11 - (sum % 11)) % 11;
+    		
+    		if(digit == 10)
+    			check_digit = 'X';
+    		else
+    			check_digit = (char)('0' + digit);
+
+    		return check_digit == barcode.charAt(barcode.length()-1);
+    	
+    	case Symbol.ISBN13:
+    	case Symbol.EAN13:
+	    	sum1 = 0;
+	    	sum2 = 0;
+	    	for(int i = 0; i < barcode.length()-1; i++){
+	    		if(i%2 == 0)
+	    			sum1 += Integer.parseInt("" + barcode.charAt(i));
+	    		else
+	    			sum2 += 3*Integer.parseInt("" + barcode.charAt(i));
+	    	}
+	    	digit = 10 - (sum1+sum2) % 10;
+	    	if(digit == 10)
+	    		check_digit = '0';
+	    	else
+		    	check_digit = (char)('0' + digit);
+
+	    	return check_digit == barcode.charAt(barcode.length()-1);
+    		
+    	case Symbol.CODABAR:
+	    	sum1 = 0;
+	    	sum2 = 0;
+	    	int dig;
+	    	for(int i = 0; i < barcode.length()-1; i++){
+	    		if(i%2 == 0){
+	    			dig = 2*Integer.parseInt("" + barcode.charAt(i));
+	    			if(dig >= 10)
+	    				dig -= 9;
+	    			sum2 += dig;
+	    		}else
+	    			sum1 += Integer.parseInt("" + barcode.charAt(i));
+	    	}
+	    	digit = 10 - (sum1+sum2) % 10;
+	    	if(digit == 10)
+	    		check_digit = '0';
+	    	else
+		    	check_digit = (char)('0' + digit);
+
+	    	return check_digit == barcode.charAt(barcode.length()-1);
+
+    	case Symbol.DATABAR:
+	    	sum1 = 0;
+	    	sum2 = 0;
+	    	for(int i = 2; i < barcode.length()-1; i++){
+	    		if(i%2 == 0)
+	    			sum2 += 3*Integer.parseInt("" + barcode.charAt(i));
+	    		else
+	    			sum1 += Integer.parseInt("" + barcode.charAt(i));
+	    	}
+	    	digit = 10 - (sum1+sum2) % 10;
+	    	if(digit == 10)
+	    		check_digit = '0';
+	    	else
+		    	check_digit = (char)('0' + digit);
+	    	
+	    	return check_digit == barcode.charAt(barcode.length()-1);
+    		
+    	case Symbol.DATABAR_EXP:
+    	case Symbol.CODE39:
+    	case Symbol.CODE93:
+    	case Symbol.CODE128:
+    	case Symbol.QRCODE:
+    	case Symbol.PDF417:
+    		return true; // future
+    	case Symbol.NONE:
+    	case Symbol.PARTIAL:
+    		return false;
+    	}   
+    	return true;
+    }
 }

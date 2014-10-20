@@ -105,7 +105,7 @@ public class HttpsSendImage extends Utils {
 				 */
 
 				/* Get user ID and password (MD5) */
-				String userIdLogin = "5001";
+				String userIdLogin = "3001";
 				String pwdMd5Login = "epics975";
 
 				/*
