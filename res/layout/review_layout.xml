@@ -32,11 +32,14 @@
             android:background="@drawable/title_button"
             />
     </FrameLayout>
-    <TextView
-        android:id="@+id/isTab2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
 
+	<TableLayout
+	    android:id="@+id/reviewTable"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+
+
+	</TableLayout>
 
 </LinearLayout>

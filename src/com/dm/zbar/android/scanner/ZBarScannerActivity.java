@@ -281,7 +281,7 @@ public class ZBarScannerActivity extends Activity implements Camera.PreviewCallb
     	case Symbol.CODE128:
     	case Symbol.QRCODE:
     	case Symbol.PDF417:
-    		return true; // future
+    		return true; // future if relevant
     	case Symbol.NONE:
     	case Symbol.PARTIAL:
     		return false;
