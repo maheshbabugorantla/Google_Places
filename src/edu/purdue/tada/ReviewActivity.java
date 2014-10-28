@@ -68,7 +68,7 @@ public class ReviewActivity extends BaseActivity{
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 	        String line;
 	        while((line = reader.readLine()) != null) {
-	        	System.out.println(line);
+//	        	System.out.println(line);
 	        	generateTableRow(line);
 	        }
 	        
@@ -88,8 +88,7 @@ public class ReviewActivity extends BaseActivity{
 		TableRow tr = new TableRow(this);
 //		tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, rowHeight));
 		LinearLayout outerLayout = new LinearLayout(this);
-//		outerLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		
+//		outerLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
 		
 		InputStream in = null;
 		String hash;
@@ -102,7 +101,7 @@ public class ReviewActivity extends BaseActivity{
 		try{
 	        File rec = new File(s);
 	        if (!rec.exists()) {
-				System.out.println("File "+ s + "Doesn't exist???");
+				System.out.println("File " + s + "Doesn't exist???");
 				return;
 			}
 	        
@@ -123,7 +122,7 @@ public class ReviewActivity extends BaseActivity{
 			return;
 		}
 		
-		System.out.println(date);
+//		System.out.println(date);
 		
 		// Make an imageView and put image1 in it
 		ImageView iv = new ImageView(this);
@@ -134,14 +133,14 @@ public class ReviewActivity extends BaseActivity{
 		
 		// Make a textView and put date in it, Note that the date needs to be formatted
 		TextView tv = new TextView(this);
-		tv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
+		tv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT, 1f));
 		tv.setGravity(Gravity.CENTER_VERTICAL);
 		tv.setText(date);
 		outerLayout.addView(tv);
 		
 		// Make another textView and put B(reakfast), L(unch), or D(innner)
 		TextView tv2 = new TextView(this);
-		tv2.setLayoutParams(new LayoutParams(imageWidth, LayoutParams.WRAP_CONTENT));
+		tv2.setLayoutParams(new LayoutParams(imageWidth, LayoutParams.FILL_PARENT));
 		tv2.setGravity(Gravity.CENTER);
 		tv2.setText("L");
 		outerLayout.addView(tv2);
