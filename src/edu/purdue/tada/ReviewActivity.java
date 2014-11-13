@@ -1,159 +1,139 @@
 package edu.purdue.tada;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import com.hb.views.PinnedSectionListView.PinnedSectionListAdapter;
+
+import android.content.Context;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 
 public class ReviewActivity extends BaseActivity{
-	private TableLayout tl;
-	
-	private float scale;
-	private int rowHeight;
-	private int imageWidth;
-	private int idCount;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.review_layout);
 		
-		tl = (TableLayout)findViewById(R.id.reviewTable);
+		ListView lv = (ListView) findViewById(R.id.reviewList);		
+		ArrayList<ReviewContainer> review = new ArrayList<ReviewContainer>();
 		
-		// Get the screen's density scale
-		scale = getResources().getDisplayMetrics().density;
-		rowHeight = (int) (50 * scale + 0.5f); // 50dp to pixels
-		imageWidth = (int) (70 * scale + 0.5f); // 70dp to pixels
-		idCount = 100;
+		for(int i = 1; i < 6; i++){
+			ReviewContainer rc = new ReviewContainer("Date " + i);
+			for(int j = 0; j < i + 1; j++){
+				rc.addItem("imageString", "time " + j);
+			}
+			review.add(rc);
+		}	
 		
-		generateReviewTable();
+		ReviewAdapter adapter = new ReviewAdapter(this);
+		ArrayAdapter<String> itemAdapter = null;
+		
+		for(ReviewContainer rc : review){
+			itemAdapter = new ArrayAdapter<String>(this, R.layout.review_list_item, R.id.reviewTime);
+			for(ReviewItem ri : rc.getItems()){
+				itemAdapter.add(ri.getTime());
+			}
+			adapter.addSection(rc.getDate(), itemAdapter);
+		}	
+		
+		lv.setAdapter(adapter);
 	}
 	
-	/*
-	 * Ben Klutzke 10/27/14
-	 * Generates the table
-	 */	
-	private void generateReviewTable(){
-		// Refresh button may call this but will need to clear the table first
-		InputStream in = null;
-		
-		try{
-			String rec_sent = "rec_sent.txt"; // Going to used rec_sent.txt because it has test data that can easily be added to
-	        File sentRec = new File(recSaved,rec_sent);
-	        if (!sentRec.exists()) {
-				System.out.println("No Rec File to Test Stuff With");
-				return;
-			}
-	        
-	        in = new BufferedInputStream(new FileInputStream(sentRec));
-	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-	        String line;
-	        while((line = reader.readLine()) != null) {
-//	        	System.out.println(line);
-	        	generateTableRow(line);
-	        }
-	        
-	        in.close();
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return;
-		}
-	}
+	
+	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter {
+		private ArrayAdapter<String> headers;
+		private Map<String, Adapter> sections = new LinkedHashMap<String, Adapter>();
 
-	/*
-	 * Ben Klutzke 10/27/14
-	 * Generates the row
-	 */
-	private void generateTableRow(String s){
-		TableRow tr = new TableRow(this);
-//		tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, rowHeight));
-		LinearLayout outerLayout = new LinearLayout(this);
-//		outerLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
-		
-		InputStream in = null;
-		String hash;
-		String date;
-		String imageCnt;
-		String image1;
-		String image2;
-		
-		// Read s (.rec file) to get time and image names 
-		try{
-	        File rec = new File(s);
-	        if (!rec.exists()) {
-				System.out.println("File " + s + "Doesn't exist???");
-				return;
-			}
-	        
-	        in = new BufferedInputStream(new FileInputStream(rec));
-	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-	        
-	        // Big assumptions made here about the contents of .rec files
-	        hash = reader.readLine();
-	        date = reader.readLine();
-	        imageCnt = reader.readLine();
-	        image1 = reader.readLine();
-	        image2 = reader.readLine();	        
-	        
-	        in.close();	      
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return;
+		public ReviewAdapter(Context context){
+			headers = new ArrayAdapter<String>(context, R.layout.review_list_container, R.id.list_header_title);
 		}
 		
-//		System.out.println(date);
+		public void addSection(String header, Adapter adapter){
+			this.headers.add(header);
+			this.sections.put(header, adapter);
+		}
 		
-		// Make an imageView and put image1 in it
-		ImageView iv = new ImageView(this);
-		iv.setLayoutParams(new LayoutParams(imageWidth, rowHeight));
-		Bitmap bm = BitmapFactory.decodeFile(recSaved + "/" + image1);
-		iv.setImageBitmap(bm);
-		outerLayout.addView(iv);
+		public View getView(int position, View convertView, ViewGroup parent){			
+			int sectionnum = 0;
+            for (String section : this.sections.keySet()) {
+                Adapter adapter = sections.get(section);
+                int size = adapter.getCount() + 1;
+
+                // check if position inside this section                    
+                if (position == 0){ // Null the convertView to have it auto inflate from correct layout (it gets confused otherwise)
+                	return headers.getView(sectionnum, null, parent);
+                }else if (position < size){
+                	return adapter.getView(position - 1, null, parent);
+                }else{
+                    // otherwise jump into next section
+                    position -= size;
+                    sectionnum++;
+                }
+            }
+            return null;
+		}
+
+		@Override
+		public int getCount() {
+			// total together all sections, plus one for each section header
+            int total = 0;
+            for (Adapter adapter : this.sections.values())
+                total += adapter.getCount() + 1;
+            return total;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			for (String section : this.sections.keySet()) {
+                Adapter adapter = sections.get(section);
+                int size = adapter.getCount() + 1;
+
+                // check if position inside this section
+                if (position == 0) return section;
+                if (position < size) return adapter.getItem(position - 1);
+
+                // otherwise jump into next section
+                position -= size;
+            }
+			return null;
+		}
+
+		@Override
+		public long getItemId(int arg0) {
+			return arg0;
+		}
 		
-		// Make a textView and put date in it, Note that the date needs to be formatted
-		TextView tv = new TextView(this);
-		tv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT, 1f));
-		tv.setGravity(Gravity.CENTER_VERTICAL);
-		tv.setText(date);
-		outerLayout.addView(tv);
+		public int getItemViewType(int position) {  
+	        int type = 1;  
+	        for(String section : this.sections.keySet()) {  
+	            Adapter adapter = sections.get(section);  
+	            int size = adapter.getCount() + 1;  
+	              
+	            // check if position inside this section   
+	            if(position == 0) return 0;  
+	            if(position < size) return type + adapter.getItemViewType(position - 1);  
+	  
+	            // otherwise jump into next section  
+	            position -= size;  
+	            type += adapter.getViewTypeCount();  
+	        }  
+	        return -1;  
+	    }	
 		
-		// Make another textView and put B(reakfast), L(unch), or D(innner)
-		TextView tv2 = new TextView(this);
-		tv2.setLayoutParams(new LayoutParams(imageWidth, LayoutParams.FILL_PARENT));
-		tv2.setGravity(Gravity.CENTER);
-		tv2.setText("L");
-		outerLayout.addView(tv2);
-		
-		tr.addView(outerLayout);
-		
-		tl.addView(tr, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, rowHeight));
-		
-		// Row Divider
-		View v = new View(this);
-		v.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, 1));
-		v.setBackgroundColor(Color.rgb(51, 51, 51));
-		
-		tl.addView(v);
+		// We implement this method to return 'true' for all view types we want to pin
+	      @Override
+	      public boolean isItemViewTypePinned(int viewType) {
+	          return viewType == 0;
+	      }
 	}
 }

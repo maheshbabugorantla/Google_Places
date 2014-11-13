@@ -33,13 +33,10 @@
             />
     </FrameLayout>
 
-
-	<TableLayout
-	    android:id="@+id/reviewTable"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent" >
-
-
-	</TableLayout>
+	<com.hb.views.PinnedSectionListView
+	    android:id="@+id/reviewList"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content" >	    
+	</com.hb.views.PinnedSectionListView>
 
 </LinearLayout>
