@@ -10,11 +10,13 @@ public class ReviewItem {
 	private Date date;
 	private String image1;
 	private String image2;
+	private String subDate;
 	
 	public ReviewItem(String hash, String date, String image1, String image2){
 		this.hash = hash;
 		this.image1 = image1;
 		this.image2 = image2;
+		this.subDate = null;
 		
 		try {
 			this.date = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.ENGLISH).parse(date);
@@ -23,6 +25,13 @@ public class ReviewItem {
 			e.printStackTrace();
 			this.date = null;
 		}
+	}
+	
+	public void setSubDate(String s){
+		this.subDate = s;
+	}
+	public String getSubDate(){
+		return this.subDate;
 	}
 
 	public String getHash(){

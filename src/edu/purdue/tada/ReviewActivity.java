@@ -15,14 +15,19 @@ import java.util.Map;
 import com.hb.views.PinnedSectionListView.PinnedSectionListAdapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class ReviewActivity extends BaseActivity{
@@ -58,6 +63,7 @@ public class ReviewActivity extends BaseActivity{
 	        in = new BufferedInputStream(new FileInputStream(sentRec));
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 	        String line;
+	        // Each line will be a .rec file
 	        while((line = reader.readLine()) != null) {
 	        	lines.add(line);
 	        }
@@ -69,18 +75,16 @@ public class ReviewActivity extends BaseActivity{
 			return null;
 		}
 		
-		// Parses rec_sent.txt into meaningful data
+		// Parses .rec files into meaningful data
 		Map<String, ReviewContainer> map = generateMap(lines);
 		
 		// Sets up list adapter
-		ArrayAdapter<String> itemAdapter = null;
+		ItemAdapter itemAdapter = null;
 		for(String key : map.keySet()){
 			ReviewContainer rc = map.get(key);			
-			itemAdapter = new ArrayAdapter<String>(this, R.layout.review_list_item, R.id.reviewTime);
+			itemAdapter = new ItemAdapter(this, R.layout.review_list_item);
 			
-			for(ReviewItem ri : rc.getItems()){
-				itemAdapter.add(new SimpleDateFormat("E, MMMM d h:mm a").format(ri.getDate()).toString());
-			}
+			itemAdapter.setList(rc.getItems());
 			
 			adapter.addSection(key, itemAdapter);
 		}
@@ -99,6 +103,8 @@ public class ReviewActivity extends BaseActivity{
 			String month = new SimpleDateFormat("MMMM").format(ri.getDate()).toString();
 			String year = new SimpleDateFormat("yyyy").format(ri.getDate()).toString();		
 			String key = month + ", " + year;
+			
+			ri.setSubDate(new SimpleDateFormat("E, MMMM d h:mm a").format(ri.getDate()).toString());
 			
 			// Basically sorts the .recs by their month and year. This will change when there are more .recs to mess with
 			if(map.containsKey(key)){
@@ -149,6 +155,50 @@ public class ReviewActivity extends BaseActivity{
 		return new ReviewItem(hash, date, image1, image2);
 	}
 	
+	private class ItemAdapter extends ArrayAdapter<String> {
+		ArrayList<ReviewItem> itemList = new ArrayList<ReviewItem>();
+		private Context context;
+		private int resource;
+		
+		public ItemAdapter(Context context, int resource) {
+			super(context, resource);
+			this.context = context;
+			this.resource = resource;
+		}
+		public View getView(int position, View convertView, ViewGroup parent){
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		    View view = inflater.inflate(resource, parent, false);
+		    ImageView picture = (ImageView) view.findViewById(R.id.reviewPicture);
+		    TextView time = (TextView) view.findViewById(R.id.reviewTime);
+		    TextView bld = (TextView) view.findViewById(R.id.reviewBLD);
+		    TextView status = (TextView) view.findViewById(R.id.status);
+		    
+		    // Probably wrong
+		    ReviewItem item = itemList.get(position);
+		    
+		    // Sets food picture
+		    Bitmap bm = BitmapFactory.decodeFile(recSaved + "/" + item.getImage1());
+			picture.setImageBitmap(bm);
+			
+			// Sets time subtext
+			time.setText(item.getSubDate());
+			
+			// Sets status text (food or not yet reviewed)
+			status.setText("Not yet reviewed");
+			
+			// Sets BLD text (not yet implemented)
+			bld.setText("B|L|D");		
+
+		    return view;
+		}
+		
+		public void setList(ArrayList<ReviewItem> al){
+			itemList = al;
+			for(ReviewItem ri : al){
+				add(ri.getSubDate());
+			}
+		}
+	}
 	
 	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter {
 		private ArrayAdapter<String> headers;
