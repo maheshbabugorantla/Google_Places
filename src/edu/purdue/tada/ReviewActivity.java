@@ -1,6 +1,14 @@
 package edu.purdue.tada;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -24,29 +32,121 @@ public class ReviewActivity extends BaseActivity{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.review_layout);
 		
-		ListView lv = (ListView) findViewById(R.id.reviewList);		
-		ArrayList<ReviewContainer> review = new ArrayList<ReviewContainer>();
+		ListView lv = (ListView) findViewById(R.id.reviewList);
 		
-		for(int i = 1; i < 6; i++){
-			ReviewContainer rc = new ReviewContainer("Date " + i);
-			for(int j = 0; j < i + 1; j++){
-				rc.addItem("imageString", "time " + j);
-			}
-			review.add(rc);
-		}	
+		// Later, caching the information need for the adapter will be optimal
+		ReviewAdapter adapter = generateReviewAdapter(); 
 		
+		if(adapter != null)
+			lv.setAdapter(adapter);
+	}
+	
+	private ReviewAdapter generateReviewAdapter(){
 		ReviewAdapter adapter = new ReviewAdapter(this);
-		ArrayAdapter<String> itemAdapter = null;
+		// Refresh button may call this but will need to clear the table first
+		InputStream in = null;
+		ArrayList<String> lines = new ArrayList<String>();
 		
-		for(ReviewContainer rc : review){
-			itemAdapter = new ArrayAdapter<String>(this, R.layout.review_list_item, R.id.reviewTime);
-			for(ReviewItem ri : rc.getItems()){
-				itemAdapter.add(ri.getTime());
+		try{
+			String rec_sent = "rec_sent.txt"; // Going to use rec_sent.txt because it has test data that can easily be added to
+	        File sentRec = new File(recSaved,rec_sent);
+	        if (!sentRec.exists()) {
+				System.out.println("No Rec File to Test Stuff With");
+				return null;
 			}
-			adapter.addSection(rc.getDate(), itemAdapter);
-		}	
+	        
+	        in = new BufferedInputStream(new FileInputStream(sentRec));
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+	        String line;
+	        while((line = reader.readLine()) != null) {
+	        	lines.add(line);
+	        }
+	        
+	        in.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
 		
-		lv.setAdapter(adapter);
+		// Parses rec_sent.txt into meaningful data
+		Map<String, ReviewContainer> map = generateMap(lines);
+		
+		// Sets up list adapter
+		ArrayAdapter<String> itemAdapter = null;
+		for(String key : map.keySet()){
+			ReviewContainer rc = map.get(key);			
+			itemAdapter = new ArrayAdapter<String>(this, R.layout.review_list_item, R.id.reviewTime);
+			
+			for(ReviewItem ri : rc.getItems()){
+				itemAdapter.add(new SimpleDateFormat("E, MMMM d h:mm a").format(ri.getDate()).toString());
+			}
+			
+			adapter.addSection(key, itemAdapter);
+		}
+		
+		return adapter;
+	}
+	
+	private Map<String, ReviewContainer> generateMap(ArrayList<String> lines){
+		Map<String, ReviewContainer> map = new HashMap<String, ReviewContainer>();
+		
+		for(String line : lines){
+			// Parses .rec file
+			ReviewItem ri = generateReviewItem(line);
+			
+			// Generates a string which is the month and year the .rec was made
+			String month = new SimpleDateFormat("MMMM").format(ri.getDate()).toString();
+			String year = new SimpleDateFormat("yyyy").format(ri.getDate()).toString();		
+			String key = month + ", " + year;
+			
+			// Basically sorts the .recs by their month and year. This will change when there are more .recs to mess with
+			if(map.containsKey(key)){
+				map.get(key).addItem(ri);
+			}else{
+				ReviewContainer rc = new ReviewContainer(key);
+				rc.addItem(ri);
+				map.put(key, rc);
+			}
+		}
+		
+		return map;
+	}
+	
+	private ReviewItem generateReviewItem(String fileName){
+		InputStream in = null;
+		String hash;
+		String date;
+		String imageCnt;
+		String image1;
+		String image2;
+		
+		// Reads .rec file to get time and image names 
+		try{
+	        File rec = new File(fileName);
+	        if (!rec.exists()) {
+				System.out.println("File "+ fileName + "Doesn't exist???");
+				return null;
+			}
+	        
+	        in = new BufferedInputStream(new FileInputStream(rec));
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+	        
+	        // Big assumptions made here about the contents of .rec files
+	        hash = reader.readLine();
+	        date = reader.readLine();
+	        imageCnt = reader.readLine();
+	        image1 = reader.readLine();
+	        image2 = reader.readLine();	        
+	        
+	        in.close();	      
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		
+		return new ReviewItem(hash, date, image1, image2);
 	}
 	
 	
