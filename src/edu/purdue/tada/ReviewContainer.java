@@ -27,4 +27,8 @@ public class ReviewContainer {
 	public ArrayList<ReviewItem> getItems(){
 		return items;
 	}
+	
+	public int getItemCount(){
+		return items.size();
+	}
 }

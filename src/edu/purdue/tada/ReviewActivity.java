@@ -9,28 +9,24 @@ import java.io.BufferedInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.hb.views.PinnedSectionListView.PinnedSectionListAdapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 public class ReviewActivity extends BaseActivity{
+	
+	// Note that the refresh button should do adapter.notifyDataSetChanged();
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -39,7 +35,6 @@ public class ReviewActivity extends BaseActivity{
 		
 		ListView lv = (ListView) findViewById(R.id.reviewList);
 		
-		// Later, caching the information need for the adapter will be optimal
 		ReviewAdapter adapter = generateReviewAdapter(); 
 		
 		if(adapter != null)
@@ -48,7 +43,6 @@ public class ReviewActivity extends BaseActivity{
 	
 	private ReviewAdapter generateReviewAdapter(){
 		ReviewAdapter adapter = new ReviewAdapter(this);
-		// Refresh button may call this but will need to clear the table first
 		InputStream in = null;
 		ArrayList<String> lines = new ArrayList<String>();
 		
@@ -76,28 +70,25 @@ public class ReviewActivity extends BaseActivity{
 		}
 		
 		// Parses .rec files into meaningful data
-		Map<String, ReviewContainer> map = generateMap(lines);
+		ArrayList<ReviewContainer> list = generateList(lines);
 		
 		// Sets up list adapter
-		ItemAdapter itemAdapter = null;
-		for(String key : map.keySet()){
-			ReviewContainer rc = map.get(key);			
-			itemAdapter = new ItemAdapter(this, R.layout.review_list_item);
-			
-			itemAdapter.setList(rc.getItems());
-			
-			adapter.addSection(key, itemAdapter);
+		for(ReviewContainer rc : list){
+			adapter.addSection(rc);
 		}
 		
 		return adapter;
 	}
 	
-	private Map<String, ReviewContainer> generateMap(ArrayList<String> lines){
+	// Will need heavy modifications for sorting the dates by today, yesterday, this week, last week, etc
+	private ArrayList<ReviewContainer> generateList(ArrayList<String> lines){
 		Map<String, ReviewContainer> map = new HashMap<String, ReviewContainer>();
+		ArrayList<ReviewContainer> list = new ArrayList<ReviewContainer>();
 		
 		for(String line : lines){
 			// Parses .rec file
 			ReviewItem ri = generateReviewItem(line);
+			ri.setThumbnail(recSaved);
 			
 			// Generates a string which is the month and year the .rec was made
 			String month = new SimpleDateFormat("MMMM").format(ri.getDate()).toString();
@@ -112,11 +103,12 @@ public class ReviewActivity extends BaseActivity{
 			}else{
 				ReviewContainer rc = new ReviewContainer(key);
 				rc.addItem(ri);
+				list.add(rc);
 				map.put(key, rc);
 			}
 		}
 		
-		return map;
+		return list;
 	}
 	
 	private ReviewItem generateReviewItem(String fileName){
@@ -141,7 +133,7 @@ public class ReviewActivity extends BaseActivity{
 	        // Big assumptions made here about the contents of .rec files
 	        hash = reader.readLine();
 	        date = reader.readLine();
-	        imageCnt = reader.readLine();
+	        imageCnt = reader.readLine(); // Not used for anything really
 	        image1 = reader.readLine();
 	        image2 = reader.readLine();	        
 	        
@@ -155,106 +147,85 @@ public class ReviewActivity extends BaseActivity{
 		return new ReviewItem(hash, date, image1, image2);
 	}
 	
-	private class ItemAdapter extends ArrayAdapter<String> {
-		ArrayList<ReviewItem> itemList = new ArrayList<ReviewItem>();
-		private Context context;
-		private int resource;
+	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter {		
+		private ArrayList<ReviewContainer> list = new ArrayList<ReviewContainer>();
+		LayoutInflater inflater = null;
 		
-		public ItemAdapter(Context context, int resource) {
-			super(context, resource);
-			this.context = context;
-			this.resource = resource;
-		}
-		public View getView(int position, View convertView, ViewGroup parent){
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		    View view = inflater.inflate(resource, parent, false);
-		    ImageView picture = (ImageView) view.findViewById(R.id.reviewPicture);
-		    TextView time = (TextView) view.findViewById(R.id.reviewTime);
-		    TextView bld = (TextView) view.findViewById(R.id.reviewBLD);
-		    TextView status = (TextView) view.findViewById(R.id.status);
-		    
-		    // Probably wrong
-		    ReviewItem item = itemList.get(position);
-		    
-		    // Sets food picture
-		    Bitmap bm = BitmapFactory.decodeFile(recSaved + "/" + item.getImage1());
-			picture.setImageBitmap(bm);
-			
-			// Sets time subtext
-			time.setText(item.getSubDate());
-			
-			// Sets status text (food or not yet reviewed)
-			status.setText("Not yet reviewed");
-			
-			// Sets BLD text (not yet implemented)
-			bld.setText("B|L|D");		
-
-		    return view;
-		}
-		
-		public void setList(ArrayList<ReviewItem> al){
-			itemList = al;
-			for(ReviewItem ri : al){
-				add(ri.getSubDate());
-			}
-		}
-	}
-	
-	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter {
-		private ArrayAdapter<String> headers;
-		private Map<String, Adapter> sections = new LinkedHashMap<String, Adapter>();
+		private final int HEADER_TYPE = 0;
+		private final int ITEM_TYPE = 1;
 
 		public ReviewAdapter(Context context){
-			headers = new ArrayAdapter<String>(context, R.layout.review_list_container, R.id.list_header_title);
+			this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 		
-		public void addSection(String header, Adapter adapter){
-			this.headers.add(header);
-			this.sections.put(header, adapter);
+		public void addSection(ReviewContainer rc){
+			list.add(rc);
 		}
 		
-		public View getView(int position, View convertView, ViewGroup parent){			
-			int sectionnum = 0;
-            for (String section : this.sections.keySet()) {
-                Adapter adapter = sections.get(section);
-                int size = adapter.getCount() + 1;
-
-                // check if position inside this section                    
-                if (position == 0){ // Null the convertView to have it auto inflate from correct layout (it gets confused otherwise)
-                	return headers.getView(sectionnum, null, parent);
-                }else if (position < size){
-                	return adapter.getView(position - 1, null, parent);
-                }else{
-                    // otherwise jump into next section
-                    position -= size;
-                    sectionnum++;
-                }
-            }
-            return null;
+		// convertView is a previously used view of the same view type supplied by ListView to improve performance
+		public View getView(int position, View convertView, ViewGroup parent){
+			int viewType = getItemViewType(position);
+			if(convertView == null){
+				if(viewType == HEADER_TYPE){
+					convertView = inflater.inflate(R.layout.review_list_container, parent, false);
+				}else{
+					convertView = inflater.inflate(R.layout.review_list_item, parent, false);
+				}
+			}
+			
+			if(viewType == HEADER_TYPE){
+				ReviewContainer rc = (ReviewContainer) getItem(position);
+				TextView tv = (TextView) convertView.findViewById(R.id.list_header_title);
+				tv.setText(rc.getDate());
+			}else{
+				ReviewItem ri = (ReviewItem) getItem(position);
+				ImageView picture = (ImageView) convertView.findViewById(R.id.reviewPicture);
+			    TextView time = (TextView) convertView.findViewById(R.id.reviewTime);
+			    TextView bld = (TextView) convertView.findViewById(R.id.reviewBLD);
+			    TextView status = (TextView) convertView.findViewById(R.id.status);
+			    
+			    // Sets the thumbnail image
+				picture.setImageBitmap(ri.getThumbnail());
+				
+				// Sets time subtext
+				time.setText(ri.getSubDate());
+				
+				// Sets status text (food or not yet reviewed)
+				status.setText("Not yet reviewed");
+				
+				// Sets BLD text (not yet implemented)
+				bld.setText("B|L|D");
+			}
+			return convertView;
 		}
-
+		
 		@Override
-		public int getCount() {
-			// total together all sections, plus one for each section header
-            int total = 0;
-            for (Adapter adapter : this.sections.values())
-                total += adapter.getCount() + 1;
-            return total;
+		public int getCount(){
+			int total = 0;
+			
+			for(ReviewContainer rc : list){
+				total++; // One for the header
+				total += rc.getItemCount(); // Adds one for each review item
+			}
+			
+			return total;
+			
 		}
 
 		@Override
 		public Object getItem(int position) {
-			for (String section : this.sections.keySet()) {
-                Adapter adapter = sections.get(section);
-                int size = adapter.getCount() + 1;
-
-                // check if position inside this section
-                if (position == 0) return section;
-                if (position < size) return adapter.getItem(position - 1);
-
-                // otherwise jump into next section
-                position -= size;
-            }
+			for(ReviewContainer rc : list){
+				 int size = rc.getItemCount() + 1;
+				 
+				 // Is position inside this section
+				 if(position == 0)
+					 return rc;
+				 else if(position < size)
+					 return rc.getItems().get(position - 1);
+				 
+				 // Jump to next section
+				 position -= size;				 
+			}
 			return null;
 		}
 
@@ -263,27 +234,30 @@ public class ReviewActivity extends BaseActivity{
 			return arg0;
 		}
 		
-		public int getItemViewType(int position) {  
-	        int type = 1;  
-	        for(String section : this.sections.keySet()) {  
-	            Adapter adapter = sections.get(section);  
-	            int size = adapter.getCount() + 1;  
-	              
-	            // check if position inside this section   
-	            if(position == 0) return 0;  
-	            if(position < size) return type + adapter.getItemViewType(position - 1);  
-	  
-	            // otherwise jump into next section  
-	            position -= size;  
-	            type += adapter.getViewTypeCount();  
-	        }  
-	        return -1;  
-	    }	
+		public int getItemViewType(int position){
+			for(ReviewContainer rc : list){
+				 int size = rc.getItemCount() + 1;
+				 
+				 // Is position inside this section
+				 if(position == 0)
+					 return HEADER_TYPE;
+				 else if(position < size)
+					 return ITEM_TYPE;
+				 
+				 // Jump to next section
+				 position -= size;				 
+			}
+			return -1;
+		}
+		
+		public int getViewTypeCount(){
+			return 2;
+		}
 		
 		// We implement this method to return 'true' for all view types we want to pin
 	      @Override
 	      public boolean isItemViewTypePinned(int viewType) {
-	          return viewType == 0;
+	          return viewType == HEADER_TYPE;
 	      }
 	}
 }
