@@ -32,11 +32,11 @@
             android:background="@drawable/title_button"
             />
     </FrameLayout>
-    <TextView
-        android:id="@+id/isTab2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
-
+	<com.hb.views.PinnedSectionListView
+	    android:id="@+id/reviewList"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content" >	    
+	</com.hb.views.PinnedSectionListView>
 
 </LinearLayout>
