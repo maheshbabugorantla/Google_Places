@@ -1,6 +1,9 @@
 package edu.purdue.tada;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /* 
  * 	----ABOUT (Spring 2014)----
@@ -28,7 +31,7 @@ public class ActivityBridge {
 	private boolean radio2 = false;
 	private String angle1;
 	private String angle2;
-	
+	private Map<String, ArrayList<String>> foodPins = new HashMap<String, ArrayList<String>>();  // Initialize mapping elements
 	/* NOTE
 	 * THE BARCODES ARE STORED IN AN ARRAYLIST<STRING>
 	 * THE ACTIVITYBRIDGE INSTANCE KEEPS TRACK OF THE INDEX OF 
@@ -158,6 +161,18 @@ public class ActivityBridge {
 	public void clearBarcodes(){
 		bIndex = 0;
 		this.barcodes.clear();
+	}
+	public int getfoodPinsSize() {
+		return this.foodPins.size();
+	}
+	public Set<String> getfoodPinsKeys() {
+		return this.foodPins.keySet();
+	}
+	public ArrayList<String> getfoodPinsNames(String key) {
+		return this.foodPins.get(key);
+	}
+	public void setfoodPins(String key, ArrayList<String> value) {
+		this.foodPins.put(key, value);
 	}
 	
 	
