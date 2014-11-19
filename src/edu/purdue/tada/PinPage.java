@@ -53,7 +53,7 @@ public class PinPage extends Activity {
 		}*/
 		// above code is from tag file parsing
 		
-		int pinNumber = ActivityBridge.getInstance().getfoodPinsSize();
+		//int pinNumber = ActivityBridge.getInstance().getfoodPinsSize();
 		final RelativeLayout rm = (RelativeLayout) findViewById(R.id.relativePins);
 	    RelativeLayout.LayoutParams params;
 	    int i = 1;
