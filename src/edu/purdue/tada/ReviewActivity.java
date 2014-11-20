@@ -39,6 +39,8 @@ public class ReviewActivity extends BaseActivity{
 		
 		if(adapter != null)
 			lv.setAdapter(adapter);
+		
+		// onselect
 	}
 	
 	private ReviewAdapter generateReviewAdapter(){
