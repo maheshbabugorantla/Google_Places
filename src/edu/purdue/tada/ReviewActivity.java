@@ -14,11 +14,14 @@ import java.util.Map;
 import com.hb.views.PinnedSectionListView.PinnedSectionListAdapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,14 +38,31 @@ public class ReviewActivity extends BaseActivity{
 		
 		ListView lv = (ListView) findViewById(R.id.reviewList);
 		
-		ReviewAdapter adapter = generateReviewAdapter(); 
+		final ReviewAdapter adapter = generateReviewAdapter(); 
 		
 		if(adapter != null)
 			lv.setAdapter(adapter);
 		
 		// onselect
+		lv.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
+				if(adapter.getItemViewType(position) == adapter.HEADER_TYPE){
+					// Header was clicked, collapse section
+					System.out.println("Header");
+				}else{
+					// Item was clicked, open up pin activity
+					System.out.println("Item");
+					ActivityBridge.getInstance().setReviewImagePath(((ReviewItem)adapter.getItem(position)).getImage1());
+					Intent intent = new Intent();
+					intent.setClass(ReviewActivity.this, PinPage.class);
+					startActivity(intent);
+				}
+				
+			}
+		});
 	}
-	
+
 	private ReviewAdapter generateReviewAdapter(){
 		ReviewAdapter adapter = new ReviewAdapter(this);
 		InputStream in = null;

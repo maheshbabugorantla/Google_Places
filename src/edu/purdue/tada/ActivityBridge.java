@@ -40,6 +40,7 @@ public class ActivityBridge {
 	
 	private ArrayList<String> barcodes;
 	private int bIndex;
+	private String reviewImagePath;
 	private ActivityBridge(){
 		this.barcodes = new ArrayList<String>(); 
 		bIndex = 0;
@@ -173,6 +174,12 @@ public class ActivityBridge {
 	}
 	public void setfoodPins(String key, ArrayList<String> value) {
 		this.foodPins.put(key, value);
+	}
+	public void setReviewImagePath(String reviewImagePath) {
+		this.reviewImagePath = reviewImagePath;		
+	}
+	public String getReviewImagePath(){
+		return this.reviewImagePath;
 	}
 	
 	

@@ -17,7 +17,7 @@ public class PinPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pinpage);
-		/*	for debugging purpose
+		//for debugging purpose
 		String faketagString = "FFFFFFFF6638EC19F5BD42C8AC0EF9E86EA0831C\n3\n" +
 				"0\n2576\t791\n6310100\tapple\n63101000\tapple\n63107010\tbanana\n" +
 				"14010100\tcheese\n63101000\tapple\n0\n1455\t1269\n21500100\tground beef\n" +
@@ -49,8 +49,8 @@ public class PinPage extends Activity {
 		}
 		// mapping the coordinates to the array of food names
 		for(int i = 0; i < size; i++) {
-			foodPins.put(pinCoord[i],parts.get(i));
-		}*/
+			ActivityBridge.getInstance().setfoodPins(pinCoord[i],parts.get(i));
+		}
 		// above code is from tag file parsing
 		
 		//int pinNumber = ActivityBridge.getInstance().getfoodPinsSize();
