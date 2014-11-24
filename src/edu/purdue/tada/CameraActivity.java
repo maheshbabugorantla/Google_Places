@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
  
 import android.app.Activity;
@@ -18,8 +20,12 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.ImageFormat;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
@@ -45,6 +51,31 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
+import android.widget.Toast;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.calib3d.Calib3d;
+//import org.opencv.core.Core;
+//import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+//import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfDMatch;
+import org.opencv.core.MatOfKeyPoint;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
+//import org.opencv.core.Scalar;
+import org.opencv.features2d.DMatch;
+import org.opencv.features2d.DescriptorExtractor;
+import org.opencv.features2d.DescriptorMatcher;
+import org.opencv.features2d.FeatureDetector;
+//import org.opencv.features2d.Features2d;
+import org.opencv.features2d.KeyPoint;
+//import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;
+
  
 public class CameraActivity extends BaseActivity implements SurfaceHolder.Callback{
 private static final String TAG = "mCamera";
@@ -58,6 +89,97 @@ private SensorManager sensorManager;
 private Drawable image;
 private Button buttonTakePicture;
 private TextView angleView;
+private Mat Mat1;
+private Mat Mat2;
+private MatOfDMatch matches;
+//private MatOfDMatch gm;
+private MatOfKeyPoint keypoints_object;
+private MatOfKeyPoint keypoints_scene;
+private Mat descriptors_object;
+private Mat descriptors_scene;
+private MatOfPoint2f obj;
+private MatOfPoint2f scene;
+private LinkedList<DMatch> good_matches;
+private LinkedList<Point> objList;
+private LinkedList<Point> sceneList;
+private FeatureDetector fd;
+private DescriptorExtractor extractor;
+private DescriptorMatcher matcher;
+private Mat H;
+//private Mat obj_corners;
+//private Mat scene_corners;
+//private Mat img_matches;
+//private Scalar scale5;
+//private Scalar scale6;
+//private MatOfByte dat;
+
+private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+
+	  //By downloading, copying, installing or using the software you agree to this license.
+	  //If you do not agree to this license, do not download, install, copy or use the software.
+	  //
+	  //
+	  //								License Agreement
+	  //					For Open Source Computer Vision Library
+	  //							(3-clause BSD License)
+	  //
+	  //
+	  //		*Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	  //		*Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	  //		*Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+	  //
+	  //
+	  //Neither the names of the copyright holders nor the names of the contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+	  //This software is provided by the copyright holders and contributors “as is” and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall copyright holders or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of
+	  //the use of this software, even if advised of the possibility of such damage.
+    @Override
+    public void onManagerConnected(int status) {
+        switch (status) {
+            case LoaderCallbackInterface.SUCCESS:
+            {
+                Log.i(TAG, "OpenCV loaded successfully");
+                
+                Mat1 = new Mat();
+                Mat2 = new Mat();
+                matches = new MatOfDMatch();
+      		  	//gm = new MatOfDMatch();
+      		  	keypoints_object = new MatOfKeyPoint();
+      		  	keypoints_scene = new MatOfKeyPoint();
+      		  	descriptors_object = new Mat();
+      		  	descriptors_scene = new Mat();
+      		  	obj = new MatOfPoint2f();
+      		  	scene = new MatOfPoint2f();
+      		  	good_matches = new LinkedList<DMatch>();
+      		  	objList = new LinkedList<Point>();
+      		  	sceneList = new LinkedList<Point>();
+    		   // obj_corners = new Mat(4,1,CvType.CV_32FC2);
+    		    //scene_corners = new Mat(4,1,CvType.CV_32FC2);
+    		    
+    		    //img_matches = new Mat();
+                //scale5 = new Scalar(255,0,0);
+                //scale6 = new Scalar(0,0,255);
+                //dat = new MatOfByte();
+      		  	
+                //change features and test
+      		  	fd = FeatureDetector.create(FeatureDetector.GRID_FAST);
+      		  	extractor = DescriptorExtractor.create(DescriptorExtractor.OPPONENT_FREAK);
+      		  	matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
+                
+            } break;
+            default:
+            {
+                super.onManagerConnected(status);
+            } break;
+        }
+    }
+};
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_6, this, mLoaderCallback);
+	}
 
    /** Called when the activity is first created. */
    @Override
@@ -135,7 +257,12 @@ private TextView angleView;
 			   // TODO Auto-generated method stub
 			   try{
 				   Bitmap bitmapPicture = BitmapFactory.decodeByteArray(data, 0, data.length);//create bitmap to store the captured photo
-      
+				   
+				   Boolean fm_check = fmHomography(bitmapPicture);
+				   
+				   //Bitmap nyc = fmHomography(bitmapPicture);
+				   //bitmapPicture = nyc;
+				   
 				   Date date = new Date();
 				   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");//reset date format
 				   String dateString = dateFormat.format(date).toString();//generate date string to be used as filename 
@@ -154,15 +281,35 @@ private TextView angleView;
 						gps.showSettingsAlert();//show an alert if location is not available
 					}
 				   
+				  
+				   
 				   FileOutputStream b = new FileOutputStream(filePath);
 				   bitmapPicture.compress(Bitmap.CompressFormat.JPEG,100,b);
 				   b.flush();//write out image file on SDcard
 				   b.close();//close file output stream
 				   galleryAddPic();//broadcast photos in the gallery
 				   
+				   //just for demo
+				   Context context = getApplicationContext();
+				   CharSequence text = " ";
+				   int duration = Toast.LENGTH_SHORT;
+				   
+				   if (fm_check)
+				   {
+					   text = "FM Detected!" + good_matches.size();
+				   } 
+				   else
+				   {
+					   text = "FM not Detected!" + good_matches.size();
+				   }
+
+				   Toast toast = Toast.makeText(context, text, duration);
+				   toast.show();
+				   
 				   // preview the picture in new Activity
 				   Intent previewIntent = new Intent();
-				   previewIntent.setData(Uri.parse("file://"+filePath));//use Uri to send the image to preview activity
+				   //previewIntent.setData(Uri.parse("file://"+filePath));//use Uri to send the image to preview activity
+				   previewIntent.setData(Uri.parse("file://"+filePath));
 				   previewIntent.setClass(CameraActivity.this,PreviewActivity.class);
 				   startActivityForResult(previewIntent, SHOW_PREVIEW);
 			   }
@@ -172,6 +319,9 @@ private TextView angleView;
  
 		   }
 	   };
+	   
+	   
+	   
 	   
 	   @Override
 	   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -358,5 +508,201 @@ private TextView angleView;
 			  arg0.dismiss();
 		  }});
 	  builder.create().show();
+  }
+
+  
+  //By downloading, copying, installing or using the software you agree to this license.
+  //If you do not agree to this license, do not download, install, copy or use the software.
+  //
+  //
+  //								License Agreement
+  //					For Open Source Computer Vision Library
+  //							(3-clause BSD License)
+  //
+  //
+  //		*Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+  //		*Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+  //		*Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+  //
+  //
+  //Neither the names of the copyright holders nor the names of the contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+  //This software is provided by the copyright holders and contributors “as is” and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall copyright holders or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of
+  //the use of this software, even if advised of the possibility of such damage.
+  
+  
+  
+  public Boolean fmHomography(Bitmap input) {	  
+	  //Bitmap i_object = BitmapFactory.decodeResource(getResources(), R.drawable.fmimage);
+	  //Utils.bitmapToMat(i_object, img_object);
+	  //Utils.bitmapToMat(i_scene, img_scene);
+	  
+	 try{
+	  		//Mat2 = Highgui.imread(filePath, Highgui.CV_LOAD_IMAGE_COLOR);
+	  
+	  		//load object
+	  		Bitmap i_object = BitmapFactory.decodeResource(getResources(),R.drawable.fmimage);
+	  		//Bitmap i_object_gray = toGrayscale(i_object);
+	  		//Utils.bitmapToMat(i_object_gray, Mat1);
+	  		Utils.bitmapToMat(i_object, Mat1);
+	  		
+		
+	  		//load scene
+	  		//Bitmap input_gray = toGrayscale(input);
+		  	//Utils.bitmapToMat(input_gray, Mat2);
+		  	Utils.bitmapToMat(input, Mat2);
+		  	
+		  	//changing the color of the images
+		  	Imgproc.cvtColor(Mat2, Mat2, Imgproc.COLOR_RGBA2RGB);
+		  	Imgproc.cvtColor(Mat1, Mat1, Imgproc.COLOR_RGBA2RGB);
+		  	
+		  	//Imgproc.cvtColor( Mat1, Mat1, Imgproc.COLOR_RGBA2GRAY );
+		  	//Imgproc.cvtColor( Mat2, Mat2, Imgproc.COLOR_RGBA2GRAY );
+
+		  	//changing the size of the image
+		  	org.opencv.core.Size fsize = new org.opencv.core.Size(5,5);
+		  	//org.opencv.core.Size nsize = new org.opencv.core.Size(800,400);
+		  	//org.opencv.core.Size nsize2 = new org.opencv.core.Size(200,168);
+		  	
+		  	//Imgproc.resize(Mat2, Mat2, nsize);
+		  	//Imgproc.resize(Mat1, Mat1, nsize2);
+		  	
+		  	Imgproc.blur(Mat2, Mat2, fsize);
+		  	Imgproc.blur(Mat1, Mat1, fsize);
+		  	
+		    fd.detect( Mat1, keypoints_object );
+		    fd.detect( Mat2, keypoints_scene );
+		  
+		    //– Step 2: Calculate descriptors (feature vectors)
+		    extractor.compute( Mat1, keypoints_object, descriptors_object );
+		    extractor.compute( Mat2, keypoints_scene, descriptors_scene );
+
+		    Mat1.release();
+		    Mat2.release();
+		    i_object.recycle();
+		    
+		    Mat1 = null;
+		    Mat2 = null;
+		    i_object = null;
+		    
+		    matcher.match( descriptors_object, descriptors_scene, matches);
+		    
+		    descriptors_scene.release();
+		    descriptors_scene = null;
+
+		    double max_dist = 0; 
+		    double min_dist = 100;
+		  
+		    List<DMatch> matchesList = matches.toList();
+		    
+		    matches.release();
+		    matches = null;
+
+		    //– Quick calculation of max and min distances between keypoints
+		    for( int i = 0; i < descriptors_object.rows(); i++ ){
+		    	Double dist = (double) matchesList.get(i).distance;
+		    	if( dist < min_dist ) min_dist = dist;
+		    	if( dist > max_dist ) max_dist = dist;
+		    }
+
+		    for(int i = 0; i < descriptors_object.rows(); i++){
+		    	if(matchesList.get(i).distance < 3*min_dist){
+		    		good_matches.addLast(matchesList.get(i));
+		    	}
+		    }
+
+		    descriptors_object.release();
+		    descriptors_object = null;
+		    //matchesList.free();
+		    
+		    //gm.fromList(good_matches);
+		    
+		    //Features2d.drawMatches( Mat1, keypoints_object, Mat2, keypoints_scene, gm, img_matches);
+
+		    List<KeyPoint> keypoints_objectList = keypoints_object.toList();
+		    List<KeyPoint> keypoints_sceneList = keypoints_scene.toList();
+
+		    for(int i = 0; i<good_matches.size(); i++){
+		    	objList.addLast(keypoints_objectList.get(good_matches.get(i).queryIdx).pt);
+		    	sceneList.addLast(keypoints_sceneList.get(good_matches.get(i).trainIdx).pt);
+		    }
+		    
+		    keypoints_object.release();
+		    keypoints_scene.release();
+		    keypoints_scene = null;
+		    keypoints_object = null;
+		  
+		    obj.fromList(objList);
+		    scene.fromList(sceneList);
+		    
+		    //objList.removeAll(objList);
+		    //sceneList.removeAll(sceneList);
+		    //objList = null;
+		    //sceneList = null;
+		    //good_matches.remove();
+		    //keypoints_objectList.remove();
+		    //keypoints_sceneList.remove();
+
+		    //change values and test
+		    H = Calib3d.findHomography(obj, scene,Calib3d.RANSAC,3);
+		    
+		    //obj.release();
+		    //obj = null;
+		   // scene.release();
+		    //scene = null;
+		    
+
+		    //obj_corners.put(0, 0, new double[] {0,0});
+		    //obj_corners.put(1, 0, new double[] {Mat1.cols(),0});
+		    //obj_corners.put(2, 0, new double[] {Mat1.cols(),Mat1.rows()});
+		    //obj_corners.put(3, 0, new double[] {0,Mat1.rows()});
+		    
+		    //Core.perspectiveTransform(obj_corners,scene_corners, H);
+		    
+		    //Core.line(img_matches, new Point(scene_corners.get(0,0)), new Point(scene_corners.get(1,0)), new Scalar(0, 255, 0),4);
+		    //Core.line(img_matches, new Point(scene_corners.get(1,0)), new Point(scene_corners.get(2,0)), new Scalar(0, 255, 0),4);
+		    //Core.line(img_matches, new Point(scene_corners.get(2,0)), new Point(scene_corners.get(3,0)), new Scalar(0, 255, 0),4);
+		    //Core.line(img_matches, new Point(scene_corners.get(3,0)), new Point(scene_corners.get(0,0)), new Scalar(0, 255, 0),4);
+		    
+		    //Point c1 = new Point(scene_corners.get(0,0));
+		    //Point c2 = new Point(scene_corners.get(1,0));
+		    //Point c3 = new Point(scene_corners.get(2,0));
+		    //Point c4 = new Point(scene_corners.get(3,0));
+		    
+		    //c1.x = c1.x + Mat1.cols();
+		   // c2.x = c2.x + Mat1.cols();
+		    //c3.x = c3.x + Mat1.cols();
+		    //c4.x = c4.x + Mat1.cols();
+		    
+		    //Core.line(img_matches, c1, c2, new Scalar(0, 255, 0), 4);
+		    //Core.line(img_matches, c2, c3, new Scalar(0, 255, 0), 4);
+		    //Core.line(img_matches, c3, c4, new Scalar(0, 255, 0), 4);
+		    //Core.line(img_matches, c4, c1, new Scalar(0, 255, 0), 4); 
+
+		    //Bitmap out = Bitmap.createBitmap(Mat2.cols(),Mat2.rows(),Bitmap.Config.ARGB_8888); // this creates a MUTABLE bitmap;
+		    //Utils.matToBitmap(Mat2, out);
+		    
+		  		    
+		    //Bitmap out = Bitmap.createBitmap(img_matches.cols(),img_matches.rows(),Bitmap.Config.ARGB_8888); // this creates a MUTABLE bitmap;
+		    //Utils.matToBitmap(img_matches, out);
+		  
+		    //H.release();
+		    //H = null;
+		    
+		    if(good_matches.size() >= 43)
+		    {
+		    	Log.i(TAG, "FM detected");
+		    	return true;
+		    }
+		    else
+		    {
+		    	Log.i(TAG, "FM not detected");
+		    	return false;
+		    }
+		    	
+	  	} catch (Exception e){
+	  		Log.i(TAG, "FM not detected");
+	  		return false;
+	  	}	   
+	 
   }
 }
