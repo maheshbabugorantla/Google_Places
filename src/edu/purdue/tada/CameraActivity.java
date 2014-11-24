@@ -690,7 +690,7 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		    //H.release();
 		    //H = null;
 		    
-		    if(good_matches.size() >= 43)
+		    if(good_matches.size() > 20)  //  >= 43 ideal
 		    {
 		    	Log.i(TAG, "FM detected");
 		    	return true;
