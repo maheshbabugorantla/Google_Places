@@ -592,6 +592,8 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		    double max_dist = 0; 
 		    double min_dist = 100;
 		  
+		    
+		    
 		    List<DMatch> matchesList = matches.toList();
 		    
 		    matches.release();
