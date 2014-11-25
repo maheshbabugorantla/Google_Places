@@ -64,14 +64,16 @@ public class PinPage extends BaseActivity {
 		
 		//int pinNumber = ActivityBridge.getInstance().getfoodPinsSize();
 		final RelativeLayout rm = (RelativeLayout) findViewById(R.id.relativePins);
-		
+		float screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+	    float screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+	    
 	    RelativeLayout.LayoutParams params;
 	    int i = 1;
 	    for(String key : ActivityBridge.getInstance().getfoodPinsKeys()) {
 	    	// Extracting the x,y coordinates from the key
 	    	String [] coord = key.split(",");
-	    	int xcoord = Integer.parseInt(coord[0]);
-	    	int ycoord = Integer.parseInt(coord[1]);
+	    	float xcoord = Integer.parseInt(coord[0]);
+	    	float ycoord = Integer.parseInt(coord[1]);
 	    	
 	    	// dynamically reallocating the params
 	    	params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -82,13 +84,15 @@ public class PinPage extends BaseActivity {
 		    // button settings
 		    btn.setId(i++);
 		    btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
+		    float w = xcoord/2560*screenWidth;
+		    float h = ycoord/1920*screenHeight;
 		    //System.out.println(pinNumber);
-		    params.setMargins(xcoord/1028*100, ycoord/512*100,0,0);
+		    params.setMargins((int)w, (int)h,0,0);	
 		    btn.setLayoutParams(params);
 		    
 		    rl.addView(btn);
 		    rm.addView(rl);
-		    Log.d("Button",key);
+		    Log.d("ButtonTag",key);
 	    }
 		
 	}
