@@ -5,18 +5,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import edu.purdue.tada.ActivityBridge;
 
 
-public class PinPage extends Activity {
+public class PinPage extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pinpage);
+		
+		// Makes background image
+		String imagePath = ActivityBridge.getInstance().getReviewImagePath();
+		ImageView picture = (ImageView) findViewById(R.id.backgroundPicture);
+		picture.setImageBitmap(BitmapFactory.decodeFile(recSaved + "/" + imagePath));
+		
+		
 		//for debugging purpose
 		String faketagString = "FFFFFFFF6638EC19F5BD42C8AC0EF9E86EA0831C\n3\n" +
 				"0\n2576\t791\n6310100\tapple\n63101000\tapple\n63107010\tbanana\n" +
@@ -55,6 +64,7 @@ public class PinPage extends Activity {
 		
 		//int pinNumber = ActivityBridge.getInstance().getfoodPinsSize();
 		final RelativeLayout rm = (RelativeLayout) findViewById(R.id.relativePins);
+		
 	    RelativeLayout.LayoutParams params;
 	    int i = 1;
 	    for(String key : ActivityBridge.getInstance().getfoodPinsKeys()) {

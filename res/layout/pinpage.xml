@@ -12,6 +12,14 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" >
 
+        <ImageView
+            android:id="@+id/backgroundPicture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/white" />
+
     </RelativeLayout>
 
 </RelativeLayout>

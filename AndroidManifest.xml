@@ -49,7 +49,7 @@
         <activity android:name="edu.purdue.tada.ReviewActivity"
             android:label="tab2" />
         <activity android:name="edu.purdue.tada.PinPage"
-            />
+        	android:screenOrientation="landscape"/>
         <activity android:name="edu.purdue.tada.HttpsSendImage"
             android:label="@string/httpssendimage" 
             />
