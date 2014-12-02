@@ -27,10 +27,20 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * Review activity generates a list based on the images taken using the app.
+ * The user goes through each entry of the list to review their activity and
+ * to confirm the server's food guesses.
+ * 
+ * @author Ben Klutzke
+ * 
+ */
 public class ReviewActivity extends BaseActivity{
 	
 	// Note that the refresh button should do adapter.notifyDataSetChanged();
 	
+	protected static final int TAG_REQUEST = 101;
+
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -48,15 +58,15 @@ public class ReviewActivity extends BaseActivity{
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
 				if(adapter.getItemViewType(position) == adapter.HEADER_TYPE){
-					// Header was clicked, collapse section
+					// Header was clicked, collapse section (eventually)
 					System.out.println("Header");
 				}else{
-					// Item was clicked, open up pin activity
+					// Item was clicked, open up request tag from server
 					System.out.println("Item");
 					ActivityBridge.getInstance().setReviewImagePath(((ReviewItem)adapter.getItem(position)).getImage1());
 					Intent intent = new Intent();
-					intent.setClass(ReviewActivity.this, PinPage.class);
-					startActivity(intent);
+					intent.setClass(ReviewActivity.this,HttpsReceiveTag.class);
+	        		startActivityForResult(intent, TAG_REQUEST);
 				}
 				
 			}
@@ -153,7 +163,7 @@ public class ReviewActivity extends BaseActivity{
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 	        
 	        // Big assumptions made here about the contents of .rec files
-	        hash = reader.readLine();
+	        hash = reader.readLine(); // Not really a hash, it's the same everywhere
 	        date = reader.readLine();
 	        imageCnt = reader.readLine(); // Not used for anything really
 	        image1 = reader.readLine();
@@ -169,6 +179,12 @@ public class ReviewActivity extends BaseActivity{
 		return new ReviewItem(hash, date, image1, image2);
 	}
 	
+	/**
+	 * Adapter for the review list. Handles pinned section headers.
+	 * 
+	 * @author Ben Klutzke
+	 * 
+	 */
 	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter {		
 		private ArrayList<ReviewContainer> list = new ArrayList<ReviewContainer>();
 		LayoutInflater inflater = null;
@@ -186,7 +202,10 @@ public class ReviewActivity extends BaseActivity{
 		
 		// convertView is a previously used view of the same view type supplied by ListView to improve performance
 		public View getView(int position, View convertView, ViewGroup parent){
+			// Determines whether the view at this position is a section header or an item
 			int viewType = getItemViewType(position);
+			
+			// Inflate a view from the appropriate layout if converView is not supplied
 			if(convertView == null){
 				if(viewType == HEADER_TYPE){
 					convertView = inflater.inflate(R.layout.review_list_container, parent, false);
@@ -195,6 +214,7 @@ public class ReviewActivity extends BaseActivity{
 				}
 			}
 			
+			// Provide appropriate contents for each view
 			if(viewType == HEADER_TYPE){
 				ReviewContainer rc = (ReviewContainer) getItem(position);
 				TextView tv = (TextView) convertView.findViewById(R.id.list_header_title);
@@ -277,9 +297,22 @@ public class ReviewActivity extends BaseActivity{
 		}
 		
 		// We implement this method to return 'true' for all view types we want to pin
-	      @Override
-	      public boolean isItemViewTypePinned(int viewType) {
-	          return viewType == HEADER_TYPE;
-	      }
+		 @Override
+		 public boolean isItemViewTypePinned(int viewType) {
+		     return viewType == HEADER_TYPE;
+		 }
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Starts the pin page activity after receiving tag file from server
+		super.onActivityResult(requestCode, resultCode, data);
+		System.out.println("Review gets result: "+resultCode);
+		if (requestCode == TAG_REQUEST) {
+			System.out.println("Successfully requested tag file");
+			Intent intent = new Intent();
+			intent.setClass(ReviewActivity.this, PinPage.class);
+			startActivity(intent);
+		}
 	}
 }

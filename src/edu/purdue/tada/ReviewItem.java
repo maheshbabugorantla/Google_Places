@@ -9,6 +9,13 @@ import java.util.Locale;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+/**
+ * Class detailing the contents of each row for the review activity
+ * 
+ * @author Ben Klutzke
+ * 
+ */
+
 public class ReviewItem {
 	private String hash;
 	private Date date;
@@ -36,7 +43,9 @@ public class ReviewItem {
 		return this.bm;
 	}
 	public Bitmap setThumbnail(String s){
-		this.bm = BitmapFactory.decodeFile(s + "/" + image1);
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inSampleSize = 20;
+		this.bm = BitmapFactory.decodeFile(s + "/" + image1, o); // scaled to 1/20th image size
 		return this.bm;
 	}
 	public void setSubDate(String s){

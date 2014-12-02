@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -15,32 +16,29 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.util.Log;
-//import edu.purdue.tada.HttpsSendImage.DownloadDataTask;
 
+/**
+ * File based on HttpsSendImage, may combine the two at some point. Requests
+ * a tag file from the server and forwards the data as needed.
+ * 
+ * @author Ben Klutzke
+ * 
+ */
 public class HttpsReceiveTag extends Utils {
-//	private static final int REQUEST_BAR_CODE = 1234;
-//	private static final int UPLOAD_IMAGES = 53;
-//	private static final int UPLOAD_UNSENT = 59;
 	
-
 	/* Specify server-side filename */
-	private String PHP_FILENAME = PATH + "epics_get_results.php";
+	private String PHP_FILENAME = PATH + "tag_test/epics_get_results.php";
 
 	/* Create tag for logcat */
-	private static final String TAG = "YU-HTTPSENDIMAGE";
+	private static final String TAG = "HttpsReceiveTag";
 
 	/* Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-//		Intent intent = getIntent();
-//		int requestCode = intent.getIntExtra("requestCode",0);
-		
-		/* Insert code to setup activity layout ... */
-
 		/*
-		 * Create async task to upload an image to the server while showing a
+		 * Create async task to request a tag file from the server while showing a
 		 * progress dialog
 		 */
 		
@@ -53,7 +51,7 @@ public class HttpsReceiveTag extends Utils {
 	}
 
 	/**
-	 * Extends {@link AsyncTask}. Shows progress bar while uploading image to
+	 * Extends {@link AsyncTask}. Shows progress bar while requesting tag file from
 	 * the server. Based on Yu Wang's DownloadDataTask
 	 */
 	private class DownloadTagTask extends AsyncTask<Void, Integer, Void> {
@@ -106,12 +104,6 @@ public class HttpsReceiveTag extends Utils {
 				this.dialog.dismiss();
 			}
 
-			/* Get bitmap of current image (uploaded image) from singleton */
-			//Bitmap rgbBitmap = ActivityBridge.getInstance().getRgbBitmap();
-
-			/* Set bitmap of current image (uploaded image) to singleton */
-			//ActivityBridge.getInstance().setScreenSizeBitmap(rgbBitmap);
-
 			/* Get HTTPS response from singleton */
 			String response = ActivityBridge.getInstance().getHttpsresponse();
 
@@ -123,7 +115,7 @@ public class HttpsReceiveTag extends Utils {
 			} else {
 				
 				/* Set image and text to layout */
-				System.out.println("response::"+ response);
+				System.out.println("response received");
 			}
 			HttpsReceiveTag.this.setResult(RESULT_OK);
 			finish();
@@ -184,46 +176,42 @@ public class HttpsReceiveTag extends Utils {
 			InputStream httpsInputStream = httpsConnection.getInputStream();
 			httpsResponseBody = convertStreamToString(httpsInputStream);
 
-			Log.d(TAG, "Response Body: " + httpsResponseBody);
+//			Log.d(TAG, "Response Body: " + httpsResponseBody);
 
 			/* Close streams */
 			Utils.closeStreams(httpsInputStream, outputStream);
 
-//			/* Parse received data */
-//			String faketagString = "FFFFFFFF6638EC19F5BD42C8AC0EF9E86EA0831C\n3\n" +
-//					"0\n2576\t791\n6310100\tapple\n63101000\tapple\n63107010\tbanana\n" +
-//					"14010100\tcheese\n63101000\tapple\n0\n1455\t1269\n21500100\tground beef\n" +
-//					"21500100\tground beef\n41201010\tbeans\n63107010\tbanana\n63101000\tapple\n" +
-//					"0\n144\t1497\n11112110\tmilk\n11112110\tmilk\n91501010\tjello\n41201010\tbeans\n" +
-//					"63107010\tbanana\n";
-//			
-//			String[] tokens = faketagString.split("\n|\t"); 			// tokenize the input stream by splitting \t and \n
-//			int size = Integer.parseInt(tokens[1]);						// size is how many food pins tag files provide
-//			String [] pinCoord = new String[size];						// a string to catch the pins' coordinates
-//			ArrayList<String> foodNames = new ArrayList<String>();		// an array list to store food names on each pin
-//			ArrayList<ArrayList<String>> parts = new ArrayList<ArrayList<String>>();	// creating sub list for foodNames
-//			
-//			// iterating through the pin coordinates, saves into the array of string for later use
-//			for(int i = 0; i < size; i++) {
-//				pinCoord[i] = tokens[i*13+3] + "," + tokens[i*13+4];
-//			}
-//			// adding all food names into a big array
-//			for(int i = 0; i < size; i++) {
-//				foodNames.add(tokens[i*13+6]);
-//				foodNames.add(tokens[i*13+8]);
-//				foodNames.add(tokens[i*13+10]);
-//				foodNames.add(tokens[i*13+12]);
-//				foodNames.add(tokens[i*13+14]);
-//			}
-//			// splitting the foodNames into small sub array to store into the mapping
-//			for(int i = 0; i < foodNames.size(); i+=5) {
-//				parts.add(new ArrayList<String>(foodNames.subList(i,i+5)));
-//			}
-//			// mapping the coordinates to the array of food names
-//			for(int i = 0; i < size; i++) {
-//				ActivityBridge.getInstance().setfoodPins(pinCoord[i],parts.get(i));
-//			}
-//			// above code is from tag file parsing
+			/* Parse received data - Code by Jason Lin*/	
+			String tagString = httpsResponseBody.substring(httpsResponseBody.indexOf('\n')+1); // Removes first line of response
+			
+			String[] tokens = tagString.split("\n|\t"); 			// tokenize the input stream by splitting \t and \n
+			int size = Integer.parseInt(tokens[1]);						// size is how many food pins tag files provide
+			
+			String [] pinCoord = new String[size];						// a string to catch the pins' coordinates
+			ArrayList<String> foodNames = new ArrayList<String>();		// an array list to store food names on each pin
+			ArrayList<ArrayList<String>> parts = new ArrayList<ArrayList<String>>();	// creating sub list for foodNames
+			
+			// iterating through the pin coordinates, saves into the array of string for later use
+			for(int i = 0; i < size; i++) {
+				pinCoord[i] = tokens[i*13+3] + "," + tokens[i*13+4];
+			}
+			// adding all food names into a big array
+			for(int i = 0; i < size; i++) {
+				foodNames.add(tokens[i*13+6]);
+				foodNames.add(tokens[i*13+8]);
+				foodNames.add(tokens[i*13+10]);
+				foodNames.add(tokens[i*13+12]);
+				foodNames.add(tokens[i*13+14]);
+			}
+			// splitting the foodNames into small sub array to store into the mapping
+			for(int i = 0; i < foodNames.size(); i+=5) {
+				parts.add(new ArrayList<String>(foodNames.subList(i,i+5)));
+			}
+			// mapping the coordinates to the array of food names
+			for(int i = 0; i < size; i++) {
+				ActivityBridge.getInstance().setfoodPins(pinCoord[i],parts.get(i));
+			}
+			// above code is from tag file parsing
 		}
 
 		return httpsResponseBody;

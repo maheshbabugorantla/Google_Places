@@ -133,21 +133,18 @@ public class Utils extends Activity {
 
 	public final static String convertStreamToString(InputStream inputStream)
 			throws IOException {
+		/* Method updated 12/01/14 by Ben Klutzke
+		 * Tag files are parsed by tabs and so each line must be trimmed to remove
+		 * extra tabs.
+		 */
 		if (inputStream != null) {
-			Writer writer = new StringWriter();
-
-			char[] buffer = new char[1024];
-			try {
-				Reader reader = new BufferedReader(new InputStreamReader(
-						inputStream, "UTF-8"));
-				int n;
-				while ((n = reader.read(buffer)) != -1) {
-					writer.write(buffer, 0, n);
-				}
-			} finally {
-				inputStream.close();
+			String line;
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			StringBuilder sb = new StringBuilder();
+			while((line = reader.readLine()) != null){
+				sb.append(line.trim() + '\n');
 			}
-			return writer.toString();
+			return sb.toString();
 		} else {
 			return "";
 		}

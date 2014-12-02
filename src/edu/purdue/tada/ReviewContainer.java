@@ -2,6 +2,14 @@ package edu.purdue.tada;
 
 import java.util.ArrayList;
 
+/**
+ * Review activity list is split into sections. This class details the contents
+ * of each section
+ * 
+ * @author Ben Klutzke
+ * 
+ */
+
 public class ReviewContainer {
 	private String date;
 	private ArrayList<ReviewItem> items;
@@ -10,11 +18,6 @@ public class ReviewContainer {
 		this.date = d;
 		items = new ArrayList<ReviewItem>();
 	}
-	
-//	public void addItem(String image, String time){
-//		ReviewItem ri = new ReviewItem(image, time, "B");
-//		items.add(ri);
-//	}
 	
 	public void addItem(ReviewItem ri){
 		items.add(ri);
