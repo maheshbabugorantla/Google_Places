@@ -5,9 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -18,6 +23,7 @@ import edu.purdue.tada.ActivityBridge;
  * and confirm.
  */
 public class PinPage extends BaseActivity {
+	Context context = this;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,6 +56,29 @@ public class PinPage extends BaseActivity {
 		    // button settings
 		    btn.setId(i++);
 		    btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
+		    btn.setOnClickListener(new OnClickListener() {
+		    	@Override
+		    	public void onClick(View arg0) {
+		    		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		    		alertDialogBuilder.setTitle("Choices of food");
+		    		alertDialogBuilder
+		    			.setMessage("Click to choose")
+		    			.setCancelable(false)
+		    			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		    				public void onClick(DialogInterface dialog, int id) {
+		    					dialog.cancel();
+		    				}
+		    			})
+		    			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		    				public void onClick(DialogInterface dialog, int id) {
+		    					dialog.cancel();
+		    				}
+		    			});
+		    		AlertDialog alertDialog = alertDialogBuilder.create();
+		    		alertDialog.show();
+		    		
+		    	}
+		    });
 		    float w = xcoord/2560*screenWidth;
 		    float h = ycoord/1920*screenHeight;
 		    //System.out.println(pinNumber);
