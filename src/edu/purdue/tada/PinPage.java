@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import edu.purdue.tada.ActivityBridge;
 
 /**
@@ -56,31 +57,9 @@ public class PinPage extends BaseActivity {
 		    // button settings
 		    btn.setId(i++);
 		    btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
-		    btn.setOnClickListener(new OnClickListener() {
-		    	@Override
-		    	public void onClick(View arg0) {
-		    		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-		    		alertDialogBuilder.setTitle("Choices of food");
-		    		alertDialogBuilder
-		    			.setMessage("Click to choose")
-		    			.setCancelable(false)
-		    			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-		    				public void onClick(DialogInterface dialog, int id) {
-		    					dialog.cancel();
-		    				}
-		    			})
-		    			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		    				public void onClick(DialogInterface dialog, int id) {
-		    					dialog.cancel();
-		    				}
-		    			});
-		    		AlertDialog alertDialog = alertDialogBuilder.create();
-		    		alertDialog.show();
-		    		
-		    	}
-		    });
-		    float w = xcoord/2560*screenWidth;
-		    float h = ycoord/1920*screenHeight;
+		    btn.setOnClickListener(new myOnClickListener(ActivityBridge.getInstance().getfoodPinsNames(key),i++) {});
+		    float w = xcoord/picture.getWidth()*screenWidth;
+		    float h = ycoord/picture.getHeight()*screenHeight;
 		    //System.out.println(pinNumber);
 		    params.setMargins((int)w, (int)h,0,0);	
 		    btn.setLayoutParams(params);
@@ -91,5 +70,45 @@ public class PinPage extends BaseActivity {
 	    }
 		
 	}
+	/* 
+	 * Author: Jason Lin
+	 * Created: 12/2/2014
+	 * 
+	 * OnClickListener implementation
+	 * Parameters: 	ArrayList<String> items - the list of food associated to the button generating.
+	 * 				Int id					- the id associated to the button
+	 */
+	public class myOnClickListener implements OnClickListener {
+		ArrayList<String> items = new ArrayList<String>();
+		int id;
+		public myOnClickListener(ArrayList<String> i, int id) {
+			this.items = i;
+			this.id = id;
+		}
+		@Override
+		public void onClick(View arg0) {
+			CharSequence [] array = {items.get(1),items.get(2), items.get(3), items.get(4)};
+    		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+    		alertDialogBuilder.setTitle("Choices of food");
+    		alertDialogBuilder
+    			.setItems(array, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Button btn = (Button) findViewById(id);
+						btn.setText(items.get(which+1));
+						Toast toast = Toast.makeText(context, "Changed to "+items.get(which+1), Toast.LENGTH_SHORT);
+						toast.show();
+					}
+				})
+    			.setCancelable(false)
+    			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+    				public void onClick(DialogInterface dialog, int id) {
+    					dialog.cancel();
+    				}
+    			});
+    		AlertDialog alertDialog = alertDialogBuilder.create();
+    		alertDialog.show();
+		}
+	}	
 
 }
