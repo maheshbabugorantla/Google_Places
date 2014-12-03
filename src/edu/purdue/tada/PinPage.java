@@ -55,7 +55,7 @@ public class PinPage extends BaseActivity {
 	    	// Creating a button
 		    final Button btn = new Button(this);
 		    // button settings
-		    btn.setId(i++);
+		    btn.setId(i);
 		    btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
 		    btn.setOnClickListener(new myOnClickListener(ActivityBridge.getInstance().getfoodPinsNames(key),i++) {});
 		    float w = xcoord/2560*screenWidth;
