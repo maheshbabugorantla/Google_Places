@@ -58,8 +58,8 @@ public class PinPage extends BaseActivity {
 		    btn.setId(i++);
 		    btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
 		    btn.setOnClickListener(new myOnClickListener(ActivityBridge.getInstance().getfoodPinsNames(key),i++) {});
-		    float w = xcoord/picture.getWidth()*screenWidth;
-		    float h = ycoord/picture.getHeight()*screenHeight;
+		    float w = xcoord/2560*screenWidth;
+		    float h = ycoord/1920*screenHeight;
 		    //System.out.println(pinNumber);
 		    params.setMargins((int)w, (int)h,0,0);	
 		    btn.setLayoutParams(params);
@@ -89,7 +89,7 @@ public class PinPage extends BaseActivity {
 		public void onClick(View arg0) {
 			CharSequence [] array = {items.get(1),items.get(2), items.get(3), items.get(4)};
     		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-    		alertDialogBuilder.setTitle("Choices of food");
+    		alertDialogBuilder.setTitle("Choices of food:");
     		alertDialogBuilder
     			.setItems(array, new DialogInterface.OnClickListener() {
 					@Override
