@@ -6,13 +6,14 @@
     <!-- This shouldn't be aligned to the top -->
 
     <TextView
-    android:id="@+id/list_header_title"
-    android:layout_width="fill_parent"
-    android:layout_height="30dip"
-    android:paddingTop="2dip"
-    android:paddingBottom="2dip"
-    android:paddingLeft="5dip"
-    android:text="Date"
-    style="?android:attr/listSeparatorTextViewStyle" />
+        android:id="@+id/list_header_title"
+        android:layout_width="fill_parent"
+        android:layout_height="30dip"
+        android:background="@color/steelblue"
+        android:gravity="center"
+        android:text="Date"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="22dip" />
 
 </RelativeLayout>

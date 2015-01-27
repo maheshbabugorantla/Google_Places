@@ -20,7 +20,9 @@
         android:layout_centerVertical="true"
         android:paddingLeft="10dp"
         android:text="BLD"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/crimson"
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/status"
@@ -44,6 +46,7 @@
         android:layout_toRightOf="@+id/reviewPicture"
         android:paddingLeft="5dp"
         android:text="Time"
+        android:textStyle="italic"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
