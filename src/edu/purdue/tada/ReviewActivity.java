@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.BufferedInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,8 +105,13 @@ public class ReviewActivity extends BaseActivity{
 		// Parses .rec files into meaningful data
 		ArrayList<ReviewContainer> list = generateList(lines);
 		
+		// Sort contents of the list appropriately
+		// Reverse Order because we want the most recent items to appear top of the list
+		Collections.sort(list, Collections.reverseOrder());
+		
 		// Sets up list adapter
 		for(ReviewContainer rc : list){
+			Collections.sort(rc.getItems(), Collections.reverseOrder());
 			adapter.addSection(rc);
 		}
 		
@@ -205,7 +211,7 @@ public class ReviewActivity extends BaseActivity{
 			// Determines whether the view at this position is a section header or an item
 			int viewType = getItemViewType(position);
 			
-			// Inflate a view from the appropriate layout if converView is not supplied
+			// Inflate a view from the appropriate layout if convertView is not supplied
 			if(convertView == null){
 				if(viewType == HEADER_TYPE){
 					convertView = inflater.inflate(R.layout.review_list_container, parent, false);
@@ -218,7 +224,7 @@ public class ReviewActivity extends BaseActivity{
 			if(viewType == HEADER_TYPE){
 				ReviewContainer rc = (ReviewContainer) getItem(position);
 				TextView tv = (TextView) convertView.findViewById(R.id.list_header_title);
-				tv.setText(rc.getDate());
+				tv.setText(rc.getDateString());
 			}else{
 				ReviewItem ri = (ReviewItem) getItem(position);
 				ImageView picture = (ImageView) convertView.findViewById(R.id.reviewPicture);
@@ -236,7 +242,7 @@ public class ReviewActivity extends BaseActivity{
 				status.setText("Not yet reviewed");
 				
 				// Sets BLD text (not yet implemented)
-				bld.setText("B|L|D");
+				bld.setText(ri.getBLD());
 			}
 			return convertView;
 		}
