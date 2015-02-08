@@ -16,12 +16,13 @@ import android.graphics.BitmapFactory;
  * 
  */
 
-public class ReviewItem {
+public class ReviewItem implements Comparable<ReviewItem> {
 	private String hash;
 	private Date date;
 	private String image1;
 	private String image2;
 	private String subDate;
+	private String bld;
 	private Bitmap bm;
 	
 	public ReviewItem(String hash, String date, String image1, String image2){
@@ -33,10 +34,18 @@ public class ReviewItem {
 		
 		try {
 			this.date = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.ENGLISH).parse(date);
+			int hr = this.date.getHours();
+			if(hr >= 0 && hr < 10)
+				this.bld = "B";
+			else if(hr >= 10 && hr< 16)
+				this.bld = "L";
+			else
+				this.bld = "D";
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			this.date = null;
+			this.bld = "E";			
 		}
 	}
 	public Bitmap getThumbnail(){
@@ -66,5 +75,12 @@ public class ReviewItem {
 	}
 	public String getImage2(){
 		return this.image2;
+	}
+	public String getBLD(){
+		return bld;
+	}
+	@Override
+	public int compareTo(ReviewItem ri) {
+		return date.compareTo(ri.getDate());
 	}
 }

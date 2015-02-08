@@ -26,6 +26,8 @@ import edu.purdue.tada.Utils;
  * data. Server connection is established here.
  */
 
+// comment
+
 public class HttpsSendImage extends Utils {
 	private static final int REQUEST_BAR_CODE = 1234;
 	private static final int UPLOAD_IMAGES = 53;
