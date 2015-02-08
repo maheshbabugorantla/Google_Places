@@ -388,7 +388,7 @@ public class TadaActivity extends BaseActivity
 				{
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							TadaActivity.this);
-					builder.setTitle("You have not taken the first image :P");
+					builder.setTitle("You have not taken the first image yet");
 					builder.setPositiveButton("OK",
 							new DialogInterface.OnClickListener()
 							{
