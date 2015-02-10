@@ -1,6 +1,7 @@
 package edu.purdue.tada;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -27,6 +28,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import java.util.Date;
+import java.text.DateFormat; 
+import java.text.SimpleDateFormat;
 
 /**
  * Review activity generates a list based on the images taken using the app.
@@ -132,6 +136,15 @@ public class ReviewActivity extends BaseActivity{
 			String month = new SimpleDateFormat("MMMM").format(ri.getDate()).toString();
 			String year = new SimpleDateFormat("yyyy").format(ri.getDate()).toString();		
 			String key = month + ", " + year;
+			
+			/*Gets Current Date ParthPatel*/
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+			String Date = dateFormat.format(ri.getDate()).toString();
+			Date currentDate = new Date(); 
+			String currDate = dateFormat.format(currentDate.toString());
+			if((Date).equals(currDate)){
+					key = currDate;
+			}
 			
 			ri.setSubDate(new SimpleDateFormat("E, MMMM d h:mm a").format(ri.getDate()).toString());
 			
