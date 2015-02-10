@@ -26,6 +26,7 @@ public class ActivityBridge {
 	private int imgFlag = 0;
 	private boolean checked1 = true;
 	private boolean checked2 = true;
+	private boolean checked3 = true;
 	private boolean radio0 = true;
 	private boolean radio1 = false;
 	private boolean radio2 = false;
@@ -115,6 +116,15 @@ public class ActivityBridge {
 	public void setChecked2(boolean checked2) {
 		this.checked2 = checked2;
 	}
+	
+	public void setChecked3() {
+		this.checked3 = false;
+	}
+	
+	public boolean getChecked3() {
+		return checked3;
+	}
+	
 	public boolean isRadio0() {
 		return radio0;
 	}

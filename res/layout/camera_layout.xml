@@ -49,8 +49,12 @@
             android:layout_gravity="center"
             android:layout_weight="1.0"
             android:text="@string/cancel" />
+        
+
+        
+
     </LinearLayout>
-    
+            
 	
     </FrameLayout>
 

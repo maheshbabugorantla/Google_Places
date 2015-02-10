@@ -41,6 +41,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -63,13 +64,16 @@ private SensorManager sensorManager;
 private Drawable image;
 private Button buttonTakePicture;
 private TextView angleView;
+private CheckBox doNotShow;
+private int doNotShowAgain = 0;
+
 
    /** Called when the activity is first created. */
    @Override
    public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        Log.d(TAG, "onCreate");
-              
+
        getWindow().setFormat(PixelFormat.TRANSLUCENT);
        requestWindowFeature(Window.FEATURE_NO_TITLE);
        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -84,6 +88,7 @@ private TextView angleView;
        ActivityBridge.getInstance().setChecked1((PreferenceHelper.getTips(this)));
        //set onClickListener on the "Snap it" button 
        buttonTakePicture = (Button)findViewById(R.id.takebutton);
+
        buttonTakePicture.setOnClickListener(new Button.OnClickListener(){
  
     	   @Override
@@ -263,7 +268,7 @@ private TextView angleView;
 				   }
 			   }, gSensor, SensorManager.SENSOR_DELAY_NORMAL);
 			   //if "Tips" in user settings is checked, then show tips when camera opens.
-			   if (ActivityBridge.getInstance().isChecked1()) {
+			   if (ActivityBridge.getInstance().isChecked1() && ActivityBridge.getInstance().getChecked3()) {
 				 dialog();
 			}
 			  
@@ -352,16 +357,30 @@ private TextView angleView;
 	  }
   }
   //show a dialog when users press tips button
+
+
+  
+  
+  
   private void dialog() {
 	  AlertDialog.Builder builder = new Builder(CameraActivity.this);
+	  LayoutInflater inflater = LayoutInflater.from(CameraActivity.this);
+	  View layout = inflater.inflate(R.layout.scroll_tips, null);
+	  doNotShow = (CheckBox)layout.findViewById(R.id.DoNotShow);
 	  builder.setTitle("Tips");
-	  builder.setView(LayoutInflater.from(this).inflate(R.layout.scroll_tips,null));
+	  builder.setView(layout);
 	  builder.setPositiveButton("OK", new OnClickListener() {
-		  @Override
+		  
 		  public void onClick(DialogInterface arg0, int arg1) {
 			  // TODO Auto-generated method stub
+			  if (doNotShow.isChecked()) {
+				  ActivityBridge.getInstance().setChecked3();
+				  PreferenceHelper.setTips(CameraActivity.this, false);
+			  }
 			  arg0.dismiss();
-		  }});
+		  }});	
+
 	  builder.create().show();
-  }
+	  }
+  
 }
