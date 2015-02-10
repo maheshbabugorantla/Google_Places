@@ -44,7 +44,8 @@
         android:layout_margin="16dp"
         android:gravity="center"
         android:text="@string/tada_project"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:autoLink = "web" />
 
     <TextView
         android:layout_width="match_parent"
@@ -52,7 +53,8 @@
         android:layout_margin="16dp"
         android:gravity="center"
         android:text="@string/tada_website"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:autoLink = "web" />
     
     <TextView 
         android:layout_width="match_parent"

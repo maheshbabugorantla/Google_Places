@@ -9,20 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dm.zbar.android.scanner.*;
+
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /*  Spring 2014
@@ -346,7 +350,9 @@ public class TadaActivity extends BaseActivity
 					// first image
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							TadaActivity.this);
-					builder.setTitle("You have already taken the first image. Do you want to replace it?");
+					//builder.setTitle("You have already taken the first image. Do you want to replace it?");
+					//The setMessage should be used since it allows more characters Nicole Missele 2/8/2014
+					builder.setMessage("You have already taken the first image. Do you want to replace it?");
 					builder.setPositiveButton("Yes",
 							new DialogInterface.OnClickListener()
 							{
@@ -378,6 +384,7 @@ public class TadaActivity extends BaseActivity
 			}
 		});
 		
+
 		//WHAT HAPPENS AFTER THE 'AFTER' BUTTON IS CLICKED
 		img_after.setOnClickListener(new View.OnClickListener()
 		{
@@ -388,7 +395,7 @@ public class TadaActivity extends BaseActivity
 				{
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							TadaActivity.this);
-					builder.setTitle("You have not taken the first image :P");
+					builder.setTitle("You have not taken the first image yet");
 					builder.setPositiveButton("OK",
 							new DialogInterface.OnClickListener()
 							{

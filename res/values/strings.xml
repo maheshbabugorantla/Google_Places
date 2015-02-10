@@ -9,7 +9,7 @@
 	
 	<!-- Tip content -->
 	<string name="tip_content">1. Arrange food and beverages on a flat surface covered by grey placement\n2. Place fidulcial marker to the lower left of the food\n3. Hold the phone in landscape mode\n</string>
-	
+	<string name="tip_checkbox">Do Not Show Again</string>
 	<!-- Review Tab -->
 	<string name="refresh">refresh</string>
 	<string name="review">Review</string>
@@ -45,7 +45,7 @@
 	
 	<!-- Camera -->
 	<string name="tips">Tips</string>
-	<string name="take_picture">Snap it</string>
+	<string name="take_picture">Snap</string>
 	<string name="cancel">Cancel</string>
 	
 	<!-- Record Tab -->
@@ -67,5 +67,5 @@
 	<string name="tada_project">http://www.tadaproject.org</string>
 	<string name="tada_website">http://www.tadaproject.org</string>
 	<string name="copyright">Copyright 2013 The Board of Trustees,\nPurdue University</string>
-	<string name="about_paragraph">Dietary intake provides some of the most valuable insights for mounting intervention programs for prevention.\nWith the growing concern about overweight, the need to accurately measure diet becomes imperative.\n\nTADA provides tools that translate to an accurate account of dialy food and nutrient intake.</string>
+	<string name="about_paragraph">Monitoring dietary intake provides some of the most valuable insights for mounting intervention programs for obesity prevention.\nWith the growing concerns about obesity, the need to accurately measure diet becomes imperative.\n\nTADA provides tools that translate to an accurate account of daily food and nutrient intake.</string>
 </resources>
