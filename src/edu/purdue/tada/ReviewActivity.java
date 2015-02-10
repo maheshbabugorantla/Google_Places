@@ -1,7 +1,6 @@
 package edu.purdue.tada;
 
 import java.io.BufferedReader;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -9,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.BufferedInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,16 +28,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import java.util.Date;
 import java.text.DateFormat; 
-import java.text.SimpleDateFormat;
 
 /**
  * Review activity generates a list based on the images taken using the app.
  * The user goes through each entry of the list to review their activity and
  * to confirm the server's food guesses.
  * 
- * @author Ben Klutzke
+ * @author Ben Klutzke Parth Patel
  * 
  */
 public class ReviewActivity extends BaseActivity{
@@ -137,13 +137,22 @@ public class ReviewActivity extends BaseActivity{
 			String year = new SimpleDateFormat("yyyy").format(ri.getDate()).toString();		
 			String key = month + ", " + year;
 			
-			/*Gets Current Date ParthPatel*/
+			/*Gets Current Date Parth Patel*/
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 			String Date = dateFormat.format(ri.getDate()).toString();
 			Date currentDate = new Date(); 
 			String currDate = dateFormat.format(currentDate.toString());
 			if((Date).equals(currDate)){
-					key = currDate;
+					key = currDate; //sets a new key to Today
+			}
+			
+			/*Gets Yesterday's Date Parth Patel*/
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE,-1);
+			System.out.println(cal.toString());
+			String yesterday = dateFormat.format(cal.getTime());
+			if((Date).equals(yesterday)){
+					key = yesterday; //sets a new key to Yesterday
 			}
 			
 			ri.setSubDate(new SimpleDateFormat("E, MMMM d h:mm a").format(ri.getDate()).toString());
