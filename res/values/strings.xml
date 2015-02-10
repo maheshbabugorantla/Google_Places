@@ -9,7 +9,7 @@
 	
 	<!-- Tip content -->
 	<string name="tip_content">1. Arrange food and beverages on a flat surface covered by grey placement\n2. Place fidulcial marker to the lower left of the food\n3. Hold the phone in landscape mode\n</string>
-	
+	<string name="tip_checkbox">Do Not Show Again</string>
 	<!-- Review Tab -->
 	<string name="refresh">refresh</string>
 	<string name="review">Review</string>
