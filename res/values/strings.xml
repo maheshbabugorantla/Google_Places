@@ -45,7 +45,7 @@
 	
 	<!-- Camera -->
 	<string name="tips">Tips</string>
-	<string name="take_picture">Snap it</string>
+	<string name="take_picture">Snap</string>
 	<string name="cancel">Cancel</string>
 	
 	<!-- Record Tab -->
