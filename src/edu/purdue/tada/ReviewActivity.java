@@ -37,7 +37,7 @@ import java.text.DateFormat;
  * The user goes through each entry of the list to review their activity and
  * to confirm the server's food guesses.
  * 
- * @author Ben Klutzke Parth Patel
+ * @author Ben Klutzke, Parth Patel
  * 
  */
 public class ReviewActivity extends BaseActivity{
@@ -136,23 +136,26 @@ public class ReviewActivity extends BaseActivity{
 			String month = new SimpleDateFormat("MMMM").format(ri.getDate()).toString();
 			String year = new SimpleDateFormat("yyyy").format(ri.getDate()).toString();		
 			String key = month + ", " + year;
+			String type = "month";
 			
 			/*Gets Current Date Parth Patel*/
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-			String Date = dateFormat.format(ri.getDate()).toString();
+			DateFormat dateFormat = new SimpleDateFormat("MMMM/dd/yyyy");
+			String date = dateFormat.format(ri.getDate()).toString();
 			Date currentDate = new Date(); 
-			String currDate = dateFormat.format(currentDate.toString());
-			if((Date).equals(currDate)){
+			String currDate = dateFormat.format(currentDate); // <-- dateFormat.format needs a Date object as parameter, not a string
+			if((date).equals(currDate)){
 					key = currDate; //sets a new key to Today
+					type = "today";
 			}
 			
 			/*Gets Yesterday's Date Parth Patel*/
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DATE,-1);
-			System.out.println(cal.toString());
+//			System.out.println(cal.toString());
 			String yesterday = dateFormat.format(cal.getTime());
-			if((Date).equals(yesterday)){
+			if((date).equals(yesterday)){
 					key = yesterday; //sets a new key to Yesterday
+					type = "yesterday";
 			}
 			
 			ri.setSubDate(new SimpleDateFormat("E, MMMM d h:mm a").format(ri.getDate()).toString());
@@ -161,7 +164,7 @@ public class ReviewActivity extends BaseActivity{
 			if(map.containsKey(key)){
 				map.get(key).addItem(ri);
 			}else{
-				ReviewContainer rc = new ReviewContainer(key);
+				ReviewContainer rc = new ReviewContainer(key, type);
 				rc.addItem(ri);
 				list.add(rc);
 				map.put(key, rc);

@@ -17,10 +17,16 @@ import java.text.SimpleDateFormat;
 public class ReviewContainer implements Comparable<ReviewContainer>{
 	private Date date;
 	private ArrayList<ReviewItem> items;
+	private String type;
 	
-	public ReviewContainer(String d){
+	public ReviewContainer(String d, String type){
+		this.type = type;
 		try {
-			this.date = new SimpleDateFormat("MMMM, yyyy", Locale.ENGLISH).parse(d);
+			if(type.equals("month"))
+				this.date = new SimpleDateFormat("MMMM, yyyy", Locale.ENGLISH).parse(d);
+			else // today or yesterday
+				this.date = new SimpleDateFormat("MMMM/dd/yyyy", Locale.ENGLISH).parse(d);
+				
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,7 +42,7 @@ public class ReviewContainer implements Comparable<ReviewContainer>{
 		return date;
 	}	
 	public String getDateString(){
-		return new SimpleDateFormat("MMMM, yyyy").format(date).toString();
+		return (type.equals("month")) ? new SimpleDateFormat("MMMM, yyyy").format(date).toString() : new SimpleDateFormat("MMMM/dd/yyyy").format(date).toString();
 	}
 	
 	public ArrayList<ReviewItem> getItems(){
