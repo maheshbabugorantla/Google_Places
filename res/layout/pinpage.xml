@@ -20,6 +20,14 @@
             android:layout_alignParentTop="true"
             android:src="@drawable/white" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:id="@+id/addpin"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" />
+
     </RelativeLayout>
 
 </RelativeLayout>

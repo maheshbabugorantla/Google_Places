@@ -185,6 +185,21 @@ public class ActivityBridge {
 	public void setfoodPins(String key, ArrayList<String> value) {
 		this.foodPins.put(key, value);
 	}
+    public void addNewPin(String name, String coord) {
+        ArrayList<String> newFood = new ArrayList<String>();
+        int i;
+        for(i = 0; i < 5; i++) newFood.add(name);
+        this.foodPins.put(coord, newFood);
+    }
+    public void removePin(String coord) {
+        this.foodPins.remove(coord);
+    }
+    public void editPin(String name, String coord) {
+        ArrayList<String> temp = new ArrayList<String>();
+        temp = this.foodPins.get(coord);
+        temp.set(0,name);
+        foodPins.put(coord,temp);
+    }
 	public void setReviewImagePath(String reviewImagePath) {
 		this.reviewImagePath = reviewImagePath;		
 	}
