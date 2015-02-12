@@ -133,12 +133,10 @@ public class PinPage extends BaseActivity {
                                         rl.addView(newpin);
                                         rm.addView(rl);
                                         // update the tagfile with coordinate
-                                        /*
                                         int x = (width_c+50)*2560/((width_c+50)*2);
                                         int y = (height_c+80)*1920/((height_c+80)*2);
                                         String c = Integer.toString(x)+','+Integer.toString(y);
-                                        ActivityBridge.getInstance().addNewPin(userInput.getText,c);
-                                        */
+                                        ActivityBridge.getInstance().addNewPin(userInput.getText().toString(),c);
                                     }
                                 })
                         .setNegativeButton("Cancel",
