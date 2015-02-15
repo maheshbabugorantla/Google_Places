@@ -131,6 +131,10 @@ public class TabGroup extends ActivityGroup{
 			View view = w.getDecorView();
 			SettingsGroup.group.setContentView(view);
     	}
+    	else
+    	{
+    		finish();
+    	}
     	
     	/*
     	//if users press the back button in the main activity, shows an alert dialog
