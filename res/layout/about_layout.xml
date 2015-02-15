@@ -37,24 +37,15 @@
 		    android:textSize="25sp" />
 	    
 	</FrameLayout>
-    
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:text="@string/tada_project"
-        android:textSize="16sp"
-        android:autoLink = "web" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:autoLink="web"
         android:gravity="center"
         android:text="@string/tada_website"
-        android:textSize="12sp"
-        android:autoLink = "web" />
+        android:textSize="16sp" />
     
     <TextView 
         android:layout_width="match_parent"

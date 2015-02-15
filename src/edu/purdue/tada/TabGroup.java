@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
@@ -118,7 +119,20 @@ public class TabGroup extends ActivityGroup{
 		}); 
     }
     @Override
-    public void onBackPressed() {   
+    public void onBackPressed() {  
+    	// In the more tab if you are in any of the settings, if you press the back button
+    	// it will take you back to original More tab
+    	if (ActivityBridge.getInstance().isRadio2() == true)
+    	{
+	    	Intent intent = new Intent(TabGroup.this, SettingsActivity.class)
+			.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			Window w = SettingsGroup.group.getLocalActivityManager()
+					.startActivity("BackToSettings", intent);
+			View view = w.getDecorView();
+			SettingsGroup.group.setContentView(view);
+    	}
+    	
+    	/*
     	//if users press the back button in the main activity, shows an alert dialog
         AlertDialog.Builder builder = new Builder(this);
   	  	builder.setTitle("Are you sure to quit TADA ?");
@@ -135,6 +149,7 @@ public class TabGroup extends ActivityGroup{
 			}
 		});
   	  	builder.create().show();
+  	  	*/
     }    
     @Override
     protected void onResume() {
