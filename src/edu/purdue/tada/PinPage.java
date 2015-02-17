@@ -30,7 +30,7 @@ import edu.purdue.tada.ActivityBridge;
 /* Issues:
  * Application crashes if screen is rotated while requesting tag file.
  * After creating a new pin, the created button is not wide enough for the word
- * 
+ * Test change
  */
 
 public class PinPage extends BaseActivity {
