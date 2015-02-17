@@ -26,6 +26,13 @@ import edu.purdue.tada.ActivityBridge;
  * Pin page displays an image and the food tags for the user to change
  * and confirm.
  */
+
+/* Issues:
+ * Application crashes if screen is rotated while requesting tag file.
+ * After creating a new pin, the created button is not wide enough for the word
+ * 
+ */
+
 public class PinPage extends BaseActivity {
     int i;
 	Context context = this;
