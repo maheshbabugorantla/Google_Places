@@ -34,7 +34,7 @@ public class ReviewContainer implements Comparable<ReviewContainer>{
 		}
 		items = new ArrayList<ReviewItem>();
 	}
-	public String getType(){
+	public String getType(){ //returns private variable "type" Parth Patel
 		return type;
 	}
 	public void addItem(ReviewItem ri){
