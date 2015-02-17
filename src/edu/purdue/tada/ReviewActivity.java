@@ -249,7 +249,17 @@ public class ReviewActivity extends BaseActivity{
 			if(viewType == HEADER_TYPE){
 				ReviewContainer rc = (ReviewContainer) getItem(position);
 				TextView tv = (TextView) convertView.findViewById(R.id.list_header_title);
-				tv.setText(rc.getDateString());
+				
+				/*Creates Tabs for Today, Yesterday, and Month Parth Patel*/
+				if(rc.getType() == "today"){   //Gets type from reviewContainer.java
+						tv.setText("Today");  
+				}
+				else if(rc.getType() == "yesterday"){
+						tv.setText("Yesterday");
+				}
+				else{
+					tv.setText(rc.getDateString()); //If it is not today or yesterday
+				}
 			}else{
 				ReviewItem ri = (ReviewItem) getItem(position);
 				ImageView picture = (ImageView) convertView.findViewById(R.id.reviewPicture);

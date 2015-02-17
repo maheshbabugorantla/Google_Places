@@ -34,7 +34,9 @@ public class ReviewContainer implements Comparable<ReviewContainer>{
 		}
 		items = new ArrayList<ReviewItem>();
 	}
-	
+	public String getType(){
+		return type;
+	}
 	public void addItem(ReviewItem ri){
 		items.add(ri);
 	}
