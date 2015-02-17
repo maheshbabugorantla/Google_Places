@@ -58,6 +58,8 @@ public class PinPage extends BaseActivity {
         createButtons function, creates default buttons on the page base on the tag file retrieved
         Modified: 2/11/2015
         modification: this code segment was in the main block, moved it to a function block for cleaner look
+        Modified: 2/17/2015
+        modification: add user input into the alertDialog
      */
     public void createButtons() {
         //int pinNumber = ActivityBridge.getInstance().getfoodPinsSize();
