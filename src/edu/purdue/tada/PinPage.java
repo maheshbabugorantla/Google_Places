@@ -76,7 +76,7 @@ public class PinPage extends BaseActivity {
             // button settings
             btn.setId(i);
             btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
-            btn.setOnClickListener(new myOnClickListener(ActivityBridge.getInstance().getfoodPinsNames(key),i++) {});
+            btn.setOnClickListener(new myOnClickListener(ActivityBridge.getInstance().getfoodPinsNames(key),key,i++) {});
             float w = xcoord/2560*screenWidth;
             float h = ycoord/1920*screenHeight;
             //System.out.println(pinNumber);
@@ -104,8 +104,8 @@ public class PinPage extends BaseActivity {
         Button addpin = (Button) findViewById(R.id.addpin);
         addpin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final int width_c = getWindowManager().getDefaultDisplay().getWidth()/2-50;
-                final int height_c = getWindowManager().getDefaultDisplay().getHeight()/2-80;
+                final int width_c = getWindowManager().getDefaultDisplay().getWidth()/2;
+                final int height_c = getWindowManager().getDefaultDisplay().getHeight()/2;
                 // calling the prompt view
                 final Button newpin = new Button(context);
                 LayoutInflater rm = LayoutInflater.from(context);
@@ -125,8 +125,8 @@ public class PinPage extends BaseActivity {
                                         // initialize the button to center of screen
                                         params.setMargins(width_c,height_c, 0, 0);
                                         newpin.setId(i);
-                                        newpin.setWidth(100);
-                                        newpin.setHeight(100);
+                                        //newpin.setWidth(100);
+                                        //newpin.setHeight(50);
                                         newpin.setText(userInput.getText());
                                         newpin.setLayoutParams(params);
                                         //newpin.setOnTouchListener(new myTouchListener());
@@ -161,9 +161,11 @@ public class PinPage extends BaseActivity {
 	public class myOnClickListener implements OnClickListener {
 		ArrayList<String> items = new ArrayList<String>();
 		int id;
-		public myOnClickListener(ArrayList<String> i, int id) {
+        String c = new String();
+		public myOnClickListener(ArrayList<String> i, String coord, int id) {
 			this.items = i;
 			this.id = id;
+            this.c = coord;
 		}
 		@Override
 		public void onClick(View arg0) {
@@ -176,6 +178,7 @@ public class PinPage extends BaseActivity {
 					public void onClick(DialogInterface dialog, int which) {
 						Button btn = (Button) findViewById(id);
 						btn.setText(items.get(which+1));
+                        ActivityBridge.getInstance().editPin(items.get(which+1),c);
 						Toast toast = Toast.makeText(context, "Changed to "+items.get(which+1), Toast.LENGTH_SHORT);
 						toast.show();
 					}

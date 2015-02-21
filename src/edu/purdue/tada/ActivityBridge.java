@@ -32,6 +32,7 @@ public class ActivityBridge {
 	private boolean radio2 = false;
 	private String angle1;
 	private String angle2;
+    private String userID;
 	private Map<String, ArrayList<String>> foodPins = new HashMap<String, ArrayList<String>>();  // Initialize mapping elements
 	/* NOTE
 	 * THE BARCODES ARE STORED IN AN ARRAYLIST<STRING>
@@ -173,6 +174,7 @@ public class ActivityBridge {
 		bIndex = 0;
 		this.barcodes.clear();
 	}
+    public void setUserID(String id) {this.userID = id;}
 	public int getfoodPinsSize() {
 		return this.foodPins.size();
 	}
@@ -199,6 +201,20 @@ public class ActivityBridge {
         temp = this.foodPins.get(coord);
         temp.set(0,name);
         foodPins.put(coord,temp);
+    }
+    public String newTagfile() {
+        String tagfile = this.userID;
+        tagfile.concat("\n"+this.foodPins.size()+"\n0\n");
+        for(String key : this.foodPins.keySet()) {
+            tagfile.concat(key+"\n");
+            tagfile.concat("0000 "+foodPins.get(key).get(0)+"\n");
+            tagfile.concat("0000 "+foodPins.get(key).get(0)+"\n");
+            tagfile.concat("0000 "+foodPins.get(key).get(0)+"\n");
+            tagfile.concat("0000 "+foodPins.get(key).get(0)+"\n");
+            tagfile.concat("0000 "+foodPins.get(key).get(0)+"\n");
+            tagfile.concat("0\n");
+        }
+        return tagfile;
     }
 	public void setReviewImagePath(String reviewImagePath) {
 		this.reviewImagePath = reviewImagePath;		
