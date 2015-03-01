@@ -17,6 +17,7 @@ import java.util.Map;
 
 import com.hb.views.PinnedSectionListView.PinnedSectionListAdapter;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,11 +25,14 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,6 +60,7 @@ public class ReviewActivity extends BaseActivity{
 		setContentView(R.layout.review_layout);
 		
 		ListView lv = (ListView) findViewById(R.id.reviewList);
+		Button bv = (Button) findViewById(R.id.refresh);
 		
 		final ReviewAdapter adapter = generateReviewAdapter(); 
 		
@@ -79,6 +84,21 @@ public class ReviewActivity extends BaseActivity{
 				}
 				
 			}
+		});
+		
+		// DatePickerDialog setup
+		Calendar c = Calendar.getInstance();		
+		final DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {			
+			public void onDateSet(DatePicker view, int year, int month, int day) {
+				System.out.println(day + " - " + month + " - " + year);
+			}
+		}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+		
+		bv.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				dpd.show();				
+			}			
 		});
 	}
 
