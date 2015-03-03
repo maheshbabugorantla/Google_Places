@@ -72,6 +72,12 @@
         <activity
             android:name="edu.purdue.tada.ChangeTheme"
             />
+        <activity
+            android:name="edu.purdue.tada.ResearchPassword"
+            />
+        <activity
+            android:name="edu.purdue.tada.ResearchSettings"
+            />
     </application>
 
 </manifest>
