@@ -8,12 +8,15 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.ViewFlipper;
 
 
 public class TabGroup extends ActivityGroup{
@@ -24,6 +27,8 @@ public class TabGroup extends ActivityGroup{
     private RadioButton radio0;
     private RadioButton radio1;
     private RadioButton radio2;
+    public static boolean isSetting = false;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +37,7 @@ public class TabGroup extends ActivityGroup{
         setContentView(R.layout.tada_layout);
         container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
+        
         
         radio0 = (RadioButton)findViewById(R.id.tab_0);
         radio1 = (RadioButton)findViewById(R.id.tab_1);
@@ -63,7 +69,7 @@ public class TabGroup extends ActivityGroup{
 		                        "Module1",
 		                        new Intent(TabGroup.this, TadaActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-		                        .getDecorView());
+		                        .getDecorView()); 
 		                //set the record button to "pressed" status
 		                radio0.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio1.setTextColor(Color.parseColor("#5DD2DC"));
@@ -96,6 +102,7 @@ public class TabGroup extends ActivityGroup{
 		                ActivityBridge.getInstance().setRadio2(false);
 		                break;
 					case R.id.tab_2:
+						isSetting = true;
 						container.removeAllViews();
 		                container.addView(getLocalActivityManager().startActivity(
 		                        "Module3",
@@ -118,18 +125,29 @@ public class TabGroup extends ActivityGroup{
 				}
 		}); 
     }
+    
+    
+    
     @Override
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
     	// it will take you back to original More tab
     	if (ActivityBridge.getInstance().isRadio2() == true)
     	{
-	    	Intent intent = new Intent(TabGroup.this, SettingsActivity.class)
-			.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			Window w = SettingsGroup.group.getLocalActivityManager()
-					.startActivity("BackToSettings", intent);
-			View view = w.getDecorView();
-			SettingsGroup.group.setContentView(view);
+    		if (isSetting == false)
+    		{
+    			isSetting = true;
+		    	Intent intent = new Intent(TabGroup.this, SettingsActivity.class)
+				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				Window w = SettingsGroup.group.getLocalActivityManager()
+						.startActivity("BackToSettings", intent);
+				View view = w.getDecorView();
+				SettingsGroup.group.setContentView(view);
+    		}
+    		else
+    		{
+    			finish();
+    		}
     	}
     	else
     	{

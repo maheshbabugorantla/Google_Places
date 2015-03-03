@@ -29,6 +29,7 @@ public class SettingsActivity extends BaseActivity{
 						.startActivity("UserSettings", intent);
 				View view = w.getDecorView();
 				SettingsGroup.group.setContentView(view);
+				TabGroup.isSetting = false;
 				
 			}
 		});
@@ -36,6 +37,7 @@ public class SettingsActivity extends BaseActivity{
 
 			@Override
 			public void onClick(View v) {
+				TabGroup.isSetting = false;
 			}
 			
 		});
@@ -49,6 +51,7 @@ public class SettingsActivity extends BaseActivity{
 						.startActivity("AboutTada", intent);
 				View view = w.getDecorView();
 				SettingsGroup.group.setContentView(view);
+				TabGroup.isSetting = false;
 			}
 		});	
 	}
