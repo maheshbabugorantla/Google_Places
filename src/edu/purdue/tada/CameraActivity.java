@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
  
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -42,6 +43,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,6 +68,8 @@ private Button buttonTakePicture;
 private TextView angleView;
 private CheckBox doNotShow;
 private int doNotShowAgain = 0;
+private Button buttonTip;
+private Button buttonCancel;
 
 
    /** Called when the activity is first created. */
@@ -86,19 +90,24 @@ private int doNotShowAgain = 0;
        previewSurfaceHolder.setFormat(ImageFormat.NV21);
        //get user settings for tips_option 
        ActivityBridge.getInstance().setChecked1((PreferenceHelper.getTips(this)));
+       
        //set onClickListener on the "Snap it" button 
-       buttonTakePicture = (Button)findViewById(R.id.takebutton);
-
-       buttonTakePicture.setOnClickListener(new Button.OnClickListener(){
- 
+       buttonTakePicture = (Button) findViewById(R.id.takebutton);
+       buttonTakePicture.setBackgroundResource(R.drawable.camera);
+       buttonTakePicture.setText(" ");
+       buttonTakePicture.setOnClickListener(new ImageButton.OnClickListener(){
+    
     	   @Override
     	   public void onClick(View view) {
     		   // TODO Auto-generated method stub
     		   ActivityBridge.getInstance().setAngle1(angleView.getText().toString().substring(0,2));
     		   myCamera.takePicture(null,null,jpegPictureCallback);   
     	   }});
+       
        //set onClickListener on the "cancel" button 
-       Button buttonCancel = (Button)findViewById(R.id.cancelbutton);
+       buttonCancel = (Button)findViewById(R.id.cancelbutton);
+       buttonCancel.setBackgroundResource(R.drawable.barcode);
+       buttonCancel.setText(" ");
        buttonCancel.setOnClickListener(new Button.OnClickListener(){
 		@Override
 		public void onClick(View view) {
@@ -111,8 +120,11 @@ private int doNotShowAgain = 0;
 			CameraActivity.this.setResult(Activity.RESULT_CANCELED);
 			finish();
 		}});
+       
        //set onClickListener on the "Tips" button 
-       Button buttonTip = (Button)findViewById(R.id.tipbutton);
+       buttonTip = (Button)findViewById(R.id.tipbutton);
+       buttonTip.setBackgroundResource(R.drawable.tip);
+       buttonTip.setText(" ");
        buttonTip.setOnClickListener(new Button.OnClickListener(){
 
 		@Override

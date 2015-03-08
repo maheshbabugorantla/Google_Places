@@ -67,19 +67,19 @@
     </style>
     
     <style name="AppTheme_cyan" parent="AppBaseTheme">
-        <item name="background">@color/cyan</item>
+        <item name="background">@color/paleturquoise</item>
     </style>
     
     <style name="AppTheme_orange" parent="AppBaseTheme">
-        <item name="background">@color/orange</item>
+        <item name="background">@color/sandybrown</item>
     </style>
     
     <style name="AppTheme_green" parent="AppBaseTheme">
-        <item name="background">@color/green</item>
+        <item name="background">@color/lightgreen</item>
     </style>
     
     <style name="AppTheme_magenta" parent="AppBaseTheme">
-        <item name="background">@color/magenta</item>
+        <item name="background">@color/mediumpurple</item>
     </style>
 	
 </resources>
