@@ -94,7 +94,7 @@ private Button buttonCancel;
        //set onClickListener on the "Snap it" button 
        buttonTakePicture = (Button) findViewById(R.id.takebutton);
        buttonTakePicture.setBackgroundResource(R.drawable.camera);
-       buttonTakePicture.setText(" ");
+
        buttonTakePicture.setOnClickListener(new ImageButton.OnClickListener(){
     
     	   @Override
@@ -107,7 +107,7 @@ private Button buttonCancel;
        //set onClickListener on the "cancel" button 
        buttonCancel = (Button)findViewById(R.id.cancelbutton);
        buttonCancel.setBackgroundResource(R.drawable.barcode);
-       buttonCancel.setText(" ");
+
        buttonCancel.setOnClickListener(new Button.OnClickListener(){
 		@Override
 		public void onClick(View view) {
@@ -124,7 +124,7 @@ private Button buttonCancel;
        //set onClickListener on the "Tips" button 
        buttonTip = (Button)findViewById(R.id.tipbutton);
        buttonTip.setBackgroundResource(R.drawable.tip);
-       buttonTip.setText(" ");
+
        buttonTip.setOnClickListener(new Button.OnClickListener(){
 
 		@Override

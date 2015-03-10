@@ -3,12 +3,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" 
-
     android:id="@+id/background">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="430dp" >
+        android:layout_height="match_parent" >
 
         <TextView
             android:id="@+id/angleView"
@@ -21,18 +20,23 @@
             android:id="@+id/previewsurface"
             android:layout_width="fill_parent"
             android:layout_height="match_parent" />
-    </FrameLayout>
+
 
   	<LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#FFFFFF">
+		
+		
        		<Button
                 android:id="@+id/cancelbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_gravity="bottom"
+                
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="3dp"
                 android:layout_weight="1.0"
                 android:background="@drawable/barcode" />
 
@@ -41,8 +45,9 @@
                 android:id="@+id/takebutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="100dp"
+                android:layout_gravity="bottom"
+
+                android:layout_marginBottom="3dp"
                 android:layout_weight="1.0"
                 android:background="@drawable/camera" />
 
@@ -50,12 +55,13 @@
                 android:id="@+id/tipbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="3dp"
                 android:layout_weight="1.0"
                 android:background="@drawable/tip" />
 
         
     </LinearLayout>
-
+    </FrameLayout>
 
 </LinearLayout>

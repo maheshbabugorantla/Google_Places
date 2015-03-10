@@ -26,6 +26,8 @@ public class ChangeTheme extends BaseActivity{
 				SettingsGroup.group.setContentView(view);
 			}
 		});
+		
+		//The first color
 		Button changeButton1 = (Button)findViewById(R.id.change1);
 		changeButton1.setOnClickListener(new OnClickListener() {
 			
@@ -37,6 +39,8 @@ public class ChangeTheme extends BaseActivity{
 			
 			}
 		});
+		
+		//The second color
 		Button changeButton2 = (Button)findViewById(R.id.change2);
 		changeButton2.setOnClickListener(new OnClickListener() {
 			
@@ -48,6 +52,8 @@ public class ChangeTheme extends BaseActivity{
 			
 			}
 		});
+		
+		//The third color
 		Button changeButton3 = (Button)findViewById(R.id.change3);
 		changeButton3.setOnClickListener(new OnClickListener() {
 			
@@ -59,6 +65,8 @@ public class ChangeTheme extends BaseActivity{
 			
 			}
 		});
+		
+		//The fourth color
 		Button changeButton4 = (Button)findViewById(R.id.change4);
 		changeButton4.setOnClickListener(new OnClickListener() {
 			
@@ -70,6 +78,8 @@ public class ChangeTheme extends BaseActivity{
 			
 			}
 		});
+		
+		//The fifth color
 		Button changeButton5 = (Button)findViewById(R.id.change5);
 		changeButton5.setOnClickListener(new OnClickListener() {
 			
