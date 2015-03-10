@@ -87,6 +87,7 @@ public class ReviewActivity extends BaseActivity{
 			}
 		});
 		
+		//Gets more reviews *Parth Patel 3/10/15*
 		more.setOnClickListener(new OnClickListener(){
 				public void onClick(View v){
 						//code to generate the next 20 reviews
