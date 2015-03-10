@@ -235,8 +235,8 @@ public class PinPage extends BaseActivity {
         }
         @Override
         public boolean onLongClick(View v){
-            final int oldX = (int)v.getX();
-            final int oldY = (int)v.getY();
+            final int oldX = (int)v.getTop();
+            final int oldY = (int)v.getLeft();
             Map<Integer,String[]> ss = PinPage.pinId;
             final float coordX = oldX *2560/screenWidth;
             final float coordY = oldY *1920/screenHeight;

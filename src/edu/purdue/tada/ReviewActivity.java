@@ -61,6 +61,7 @@ public class ReviewActivity extends BaseActivity{
 		
 		ListView lv = (ListView) findViewById(R.id.reviewList);
 		Button bv = (Button) findViewById(R.id.refresh);
+		Button more = (Button)findViewById(R.id.more_button);
 		
 		final ReviewAdapter adapter = generateReviewAdapter(); 
 		
@@ -86,6 +87,13 @@ public class ReviewActivity extends BaseActivity{
 			}
 		});
 		
+		more.setOnClickListener(new OnClickListener(){
+				public void onClick(View v){
+						//code to generate the next 20 reviews
+						generateReviewAdapter();
+				}
+		});
+		
 		// DatePickerDialog setup
 		Calendar c = Calendar.getInstance();		
 		final DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {			
@@ -105,6 +113,7 @@ public class ReviewActivity extends BaseActivity{
 	private ReviewAdapter generateReviewAdapter(){
 		ReviewAdapter adapter = new ReviewAdapter(this);
 		InputStream in = null;
+		int count = 0;
 		ArrayList<String> lines = new ArrayList<String>();
 		
 		try{
@@ -119,8 +128,9 @@ public class ReviewActivity extends BaseActivity{
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 	        String line;
 	        // Each line will be a .rec file
-	        while((line = reader.readLine()) != null) {
+	        while((line = reader.readLine()) != null && count <= 10) {
 	        	lines.add(line);
+	        	count = count + 1; //will limit the reviews to be displayed at 10 lines only
 	        }
 	        
 	        in.close();
