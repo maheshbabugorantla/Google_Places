@@ -23,6 +23,7 @@ public class UserSettings extends BaseActivity{
 		checkBox1.setChecked(PreferenceHelper.getTips(this));
 		checkBox2.setChecked(ActivityBridge.getInstance().isChecked2());
 		
+		/* Not needed due to functionality of back button in settings tab 
 		Button btn0 = (Button)findViewById(R.id.user_settings_button0);
 		btn0.setOnClickListener(new OnClickListener() {
 			
@@ -36,7 +37,7 @@ public class UserSettings extends BaseActivity{
 				View view = w.getDecorView();
 				SettingsGroup.group.setContentView(view);
 			}
-		});
+		}); */
 		//prepare "theme" button
 		Button themeButton = (Button)findViewById(R.id.theme_button);
 		themeButton.setOnClickListener(new OnClickListener() {

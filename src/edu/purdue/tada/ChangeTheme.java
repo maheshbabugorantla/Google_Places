@@ -12,21 +12,6 @@ public class ChangeTheme extends BaseActivity{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.change_theme);	
-		Button btn0 = (Button)findViewById(R.id.change_theme_button0);
-		btn0.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(ChangeTheme.this, UserSettings.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = SettingsGroup.group.getLocalActivityManager()
-						.startActivity("BackToUser", intent);
-				View view = w.getDecorView();
-				SettingsGroup.group.setContentView(view);
-			}
-		});
-		
 		//The first color
 		Button changeButton1 = (Button)findViewById(R.id.change1);
 		changeButton1.setOnClickListener(new OnClickListener() {

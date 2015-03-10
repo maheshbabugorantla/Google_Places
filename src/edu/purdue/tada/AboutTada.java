@@ -13,6 +13,7 @@ public class AboutTada extends BaseActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about_layout);	
 		
+		/* Not needed due to functionality of back button in settings tab
 		Button titleButton = (Button)findViewById(R.id.settings_button0);
 		titleButton.setOnClickListener(new OnClickListener() {
 			
@@ -26,6 +27,6 @@ public class AboutTada extends BaseActivity{
 				View view = w.getDecorView();
 				SettingsGroup.group.setContentView(view);
 			}
-		});
+		}); */
 	}
 }
