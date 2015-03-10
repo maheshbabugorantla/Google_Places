@@ -1,10 +1,16 @@
 package edu.purdue.tada;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 public class SettingsActivity extends BaseActivity{
@@ -35,17 +41,22 @@ public class SettingsActivity extends BaseActivity{
 		});
 		
 		//set up button two to go to Researcher settings - Nicole Missele 2/20/15
+		// Alert dialog
+		final SettingsActivity instance = this;
 		btn2.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				TabGroup.isSetting = false;
-				Intent intent = new Intent(SettingsActivity.this, ResearchPassword.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = SettingsGroup.group.getLocalActivityManager()
-						.startActivity("ResearchPassword", intent);
-				View view = w.getDecorView();
-				SettingsGroup.group.setContentView(view);
+//				TabGroup.isSetting = false;
+//				Intent intent = new Intent(SettingsActivity.this, ResearchPassword.class)
+//				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//				Window w = SettingsGroup.group.getLocalActivityManager()
+//						.startActivity("ResearchPassword", intent);
+//				View view = w.getDecorView();
+//				SettingsGroup.group.setContentView(view);
+				
+				// Above code moves to ResearchPassword class, let's try to do it with a dialog
+				instance.makeDiaglog();
 			}
 			
 		});
@@ -64,5 +75,39 @@ public class SettingsActivity extends BaseActivity{
 				TabGroup.isSetting = false;
 			}
 		});	
+	}
+	
+	protected void makeDiaglog() {
+		DialogFragment d = new ResearchDialogFragment(this);
+		d.show(getSupportFragmentManager(), "Reasearch Dialog");
+	}
+	
+	private class ResearchDialogFragment extends DialogFragment {
+		private Context c;
+		
+		public ResearchDialogFragment(Context context){
+			super();
+			c = context;
+		}
+		
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+	        LayoutInflater inflater = getActivity().getLayoutInflater();
+	        
+	        builder.setView(inflater.inflate(R.layout.password_layout, null))
+		        .setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
+	               @Override
+	               public void onClick(DialogInterface dialog, int id) {
+	                   System.out.println("test");
+	               }
+	           })
+	           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int id) {
+	            	   ResearchDialogFragment.this.getDialog().cancel();
+	               }
+	           });  
+	        
+	        return builder.create();
+		}
 	}
 }
