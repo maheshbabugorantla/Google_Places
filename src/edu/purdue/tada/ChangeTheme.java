@@ -12,6 +12,8 @@ public class ChangeTheme extends BaseActivity{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.change_theme);	
+		
+		/* Not needed due to functionality of back button in settings tab
 		Button btn0 = (Button)findViewById(R.id.change_theme_button0);
 		btn0.setOnClickListener(new OnClickListener() {
 			
@@ -25,7 +27,7 @@ public class ChangeTheme extends BaseActivity{
 				View view = w.getDecorView();
 				SettingsGroup.group.setContentView(view);
 			}
-		});
+		}); */
 		Button changeButton1 = (Button)findViewById(R.id.change1);
 		changeButton1.setOnClickListener(new OnClickListener() {
 			
