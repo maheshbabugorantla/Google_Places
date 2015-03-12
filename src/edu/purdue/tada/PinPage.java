@@ -1,7 +1,9 @@
 package edu.purdue.tada;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,24 +25,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import edu.purdue.tada.ActivityBridge;
 
-/**
+/*
  * Pin page displays an image and the food tags for the user to change
  * and confirm.
  */
 
 /* Issues:
- * Application crashes if screen is rotated while requesting tag file.
- * After creating a new pin, the created button is not wide enough for the word
- * Test change
+ * TextView cannot be updated since the space is occupied by same relative layout
+ * Precision loss in the coordinates
+ * Shadowing not working
+ * Dropping have issue on the edge which goes out of bound
  */
 
 public class PinPage extends BaseActivity {
     int i;
 	Context context = this;
-    public static Map<Integer,String[]> pinId = new HashMap<Integer, String[]>();
+    // mapping pins' Id to the coordinates to prevent precision loss
+    public static Map<Integer[],List<String>> pinCoord = new HashMap<Integer[], List<String>>();
+    // an array of pin coordinates that was created/modified, index is the id number
+    public static List<Integer[]> pinId = new ArrayList<Integer[]>();
+    // mapping textViews' Id to the coordinate to follow any changes in the pin
+    public static Map<Integer,String> textId = new HashMap<Integer, String>(); //
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,28 +67,53 @@ public class PinPage extends BaseActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	}
     /*
+        Author: Vicky Sun
+        Created: 3/1/2015
+        Initialize TextView's text, only works on initialization or new pin
+     */
+    public TextView setText(String key, int w, int h) {
+        TextView tt = new TextView(context);
+        try {
+            tt.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
+        } catch (Exception e) {
+            tt.setText(key);
+        }
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(w,h,0,0);
+        tt.setLayoutParams(params);
+        return tt;
+    }
+    /*
         Author: Jason Lin
         Created: 12/2/2014
         createButtons function, creates default buttons on the page base on the tag file retrieved
-        Modified: 2/11/2015
+        Modified: 2/11/2015 by Jason Lin
         modification: this code segment was in the main block, moved it to a function block for cleaner look
-        Modified: 2/17/2015
+        Modified: 2/17/2015 by Jason Lin
         modification: add user input into the alertDialog
+        Modified: 1/23/2015 by Vicky Sun
+        modification: adjust the params so the pins are on the exact coordinate, pin is no longer a box
      */
     public void createButtons() {
         //int pinNumber = ActivityBridge.getInstance().getfoodPinsSize();
         final RelativeLayout rm = (RelativeLayout) findViewById(R.id.relativePins);
+        // dynamic creating buttons on the page base on the tagfile parsed
+        RelativeLayout.LayoutParams params;
+        // getting the actual screen size
         float screenWidth = getWindowManager().getDefaultDisplay().getWidth();
         float screenHeight = getWindowManager().getDefaultDisplay().getHeight();
 
-        // dynamic creating buttons on the page base on the tagfile parsed
-        RelativeLayout.LayoutParams params;
+
         i = 1;
         for(String key : ActivityBridge.getInstance().getfoodPinsKeys()) {
             // Extracting the x,y coordinates from the key
             String [] coord = key.split(",");
+            // the coordinates of original tag file
             float xcoord = Integer.parseInt(coord[0]);
             float ycoord = Integer.parseInt(coord[1]);
+            // modified coordinates for the text with offsets
+            float textX = xcoord/2560*screenWidth - 40;
+            float textY = ycoord/1920*screenHeight - 100;
 
             // dynamically reallocating the params
             params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -86,20 +121,33 @@ public class PinPage extends BaseActivity {
             RelativeLayout rl = new RelativeLayout(this);
             // Creating a button
             final Button btn = new Button(this);
+            // Creating a textView for the text floating above pin
+            TextView tx = setText(key, (int)textX, (int)textY);
             // button settings
             btn.setId(i);
-            pinId.put(i,coord);
-            btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
+            btn.setWidth(80);
+            btn.setHeight(80);
+            btn.setBackgroundResource(R.drawable.rsz_pin);
+            //btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
+            // set onclick implementation of onClick
             btn.setOnClickListener(new myOnClickListener(ActivityBridge.getInstance().getfoodPinsNames(key),key,i) {});
+            // set onLongClick implementation of long click
             btn.setOnLongClickListener(new myOnLongClickListener(rm, rl));
-            float w = xcoord/2560*screenWidth;
-            float h = ycoord/1920*screenHeight;
             //System.out.println(pinNumber);
-            params.setMargins((int)w, (int)h,0,0);
+            params.setMargins((int)textX-20, (int)textY+25,0,0);
             btn.setLayoutParams(params);
-
+            Integer [] newcoord = {(int)textX-20, (int)textY+25};
+            // creating a new copy of coordinate : foods
+            pinCoord.put(newcoord, ActivityBridge.getInstance().getfoodPinsNames(key));
+            // mapping the pin id to the coordinate
+            pinId.add(newcoord);
+            // mapping the text id to the coordinate
+            textId.put(i,ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
+            // add the button to views
             rl.addView(btn);
+            rm.addView(tx);
             rm.addView(rl);
+            // increment id
             i++;
             Log.d("ButtonTag",key);
         }
@@ -126,33 +174,49 @@ public class PinPage extends BaseActivity {
                 final int height_c = getWindowManager().getDefaultDisplay().getHeight()/2;
                 // calling the prompt view
                 final Button newpin = new Button(context);
+                // creating a relative view on the main frame
                 LayoutInflater rm = LayoutInflater.from(context);
+                // finding the prompt page to fit into the rm
                 View promptsView = rm.inflate(R.layout.addprompt,null);
+                // calling an alert dialog
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                // use the prompt page as the layout of alert dialog
                 alertDialogBuilder.setView(promptsView);
+                // finding the components in the layout
                 final EditText userInput = (EditText) promptsView.findViewById(R.id.input);
                 alertDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
+                                        // create a relative view on the main frame
                                         final RelativeLayout rm = (RelativeLayout) findViewById(R.id.relativePins);
                                         RelativeLayout.LayoutParams params;
                                         params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                                        // create a frame to adjust the button view
                                         RelativeLayout rl = new RelativeLayout(context);
                                         // initialize the button to center of screen
-                                        params.setMargins(width_c,height_c, 0, 0);
+                                        params.setMargins(width_c, height_c, 0, 0);
+                                        // create data for the internal lists
+                                        Integer[] newPinCoord = {width_c, height_c};
+                                        List<String> newFood = Arrays.asList(userInput.getText().toString(), userInput.getText().toString(), userInput.getText().toString(), userInput.getText().toString(), userInput.getText().toString());
                                         newpin.setId(i);
-                                        newpin.setText(userInput.getText());
+                                        newpin.setBackgroundResource(R.drawable.rsz_pin);
+                                        /* add button functionality to the new buttons*/
+                                        // show floating texts
+                                        TextView tt = setText(userInput.getText().toString(), width_c, height_c);
+                                        //newpin.setText(userInput.getText());
                                         newpin.setLayoutParams(params);
                                         //newpin.setOnTouchListener(new myTouchListener());
                                         rl.addView(newpin);
+                                        rm.addView(tt);
                                         rm.addView(rl);
-                                        // update the tagfile with coordinate
-                                        int x = (width_c+50)*2560/((width_c+50)*2);
-                                        int y = (height_c+80)*1920/((height_c+80)*2);
-                                        String c = Integer.toString(x)+','+Integer.toString(y);
-                                        ActivityBridge.getInstance().addNewPin(userInput.getText().toString(),c);
+                                        // update the internal lists with new data
+                                        pinCoord.put(newPinCoord, newFood);
+                                        pinId.add(newPinCoord);
+                                        textId.put(i, userInput.getText().toString());
+                                        // update the pin id number
+                                        i++;
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -169,6 +233,12 @@ public class PinPage extends BaseActivity {
 	/* 
 	 * Author: Jason Lin
 	 * Created: 12/2/2014
+	 * Modified: 2/25/2015 by Di Pan
+	 * Modification: Added a prompt to ask the user if they want to manually type food when
+	 *               cancels the first prompt.
+	 * Modified: 3/4/2015 by Di Pan
+	 * Modification: Added a editable input block for the user, and passes the result string
+	 *               to Vicky Sun's function which changes the text above the pin
 	 * 
 	 * OnClickListener implementation
 	 * onClick calls the arrayList, constructs the selections base on the values in the array,
@@ -177,6 +247,7 @@ public class PinPage extends BaseActivity {
 	 * Parameters: 	ArrayList<String> items - the list of food associated to the button generating.
 	 * 				Int id					- the id associated to the button
 	 */
+    /* NOTE :: user input should link to food name database, and search according to the inputs*/
 	public class myOnClickListener implements OnClickListener {
         ArrayList<String> items = new ArrayList<String>();
         int id;
@@ -190,26 +261,73 @@ public class PinPage extends BaseActivity {
 
         @Override
         public void onClick(View arg0) {
+            // allocate food items of the button clicked
             CharSequence[] array = {items.get(1), items.get(2), items.get(3), items.get(4)};
+            // create alert dialog for food items choices
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
             alertDialogBuilder.setTitle("Choices of food:");
             alertDialogBuilder
                     .setItems(array, new DialogInterface.OnClickListener() {
                         @Override
+                        // set the food items displayed in alert dialog to be clickable
                         public void onClick(DialogInterface dialog, int which) {
                             Button btn = (Button) findViewById(id);
+                            /* change button's textView*/
                             btn.setText(items.get(which + 1));
+                            /* update the map*/
                             ActivityBridge.getInstance().editPin(items.get(which + 1), c);
+                            // toast a message to show changes
                             Toast toast = Toast.makeText(context, "Changed to " + items.get(which + 1), Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     })
                     .setCancelable(false)
+                    /* Modified by Di Pan
+                     * Modification: add the second prompt to allow the user to manually input the text
+                     */
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
+                            //dialog.cancel();
+                            // no longer cancels the dialog when clicking "cancel"
+                            // building a new prompt
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Do you want to input manually?")
+                                    .setMessage("Sure?")
+                                    .setNegativeButton("no", null)
+                                    // show editable input for the user to type
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                                            builder1.setMessage("Enter type of foods");
+                                            // Set an EditText view to get user input
+                                            final EditText input = new EditText(context);
+                                            // display what user types
+                                            builder1.setView(input);
+                                            // confirms the changes
+                                            builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                    Editable value = input.getText();
+                                                    //setText(value.toString(), top, left);
+                                                    //Do something with value!
+                                                    //Button btn = (Button) findViewById(id1);
+                                                    //btn.setText(value);
+
+                                                }
+                                            });
+                                            // finally cancelling all the dialogs
+                                            builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                    dialog.cancel();
+                                                }
+                                            });
+                                            builder1.show();
+                                        }
+                                    });
+                            builder.show();
+
                         }
                     });
+            // display all the dialogs and sub dialogs
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
         }
@@ -235,9 +353,11 @@ public class PinPage extends BaseActivity {
         }
         @Override
         public boolean onLongClick(View v){
+            // get the original X and Y coordinate when the button is pressed
             final int oldX = (int)v.getX();
             final int oldY = (int)v.getY();
-            Map<Integer,String[]> ss = PinPage.pinId;
+            //Map<Integer,String[]> ss = PinPage.pinId;
+            // convert it to tagfile coordinates
             final float coordX = oldX *2560/screenWidth;
             final float coordY = oldY *1920/screenHeight;
             final String coord = Integer.toString(oldX)+','+Integer.toString(oldY);
@@ -245,21 +365,30 @@ public class PinPage extends BaseActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     switch(event.getActionMasked()) {
+                        // Shadowing finger movement
                         case MotionEvent.ACTION_MOVE:
                             break;
+                        // finalize the updates, and change any necessary data
                         case MotionEvent.ACTION_UP:
+                            // remove the old view
                             rm.removeView(rl);
+                            // get the movement X and Y
                             int newX = (int)event.getX();
                             int newY = (int)event.getY();
+                            // create a new view to update the
                             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+                            // change the coordinate of the view
                             params.setMargins(oldX+newX, oldY+newY,0,0);
                             RelativeLayout rl = new RelativeLayout(context);
                             Button newpin = new Button(context);
                             newpin.setOnLongClickListener(new myOnLongClickListener(rm,rl));
+                            // update the view coordinate
                             newpin.setLayoutParams(params);
+                            // button settings
                             newpin.setId(i);
                            // newpin.setText(ActivityBridge.getInstance().getfoodPinsNames(coord).get(0));
                             newpin.setText("iiii");
+                            // show views
                             rl.addView(newpin);
                             rm.addView(rl);
                             break;
