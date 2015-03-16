@@ -27,6 +27,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
 import edu.purdue.tada.ActivityBridge;
 
 /*
@@ -47,7 +50,7 @@ public class PinPage extends BaseActivity {
     // mapping pins' Id to the coordinates to prevent precision loss
     public static Map<Integer[],List<String>> pinCoord = new HashMap<Integer[], List<String>>();
     // an array of pin coordinates that was created/modified, index is the id number
-    public static List<Integer[]> pinId = new ArrayList<Integer[]>();
+    public static Map<Integer,Integer[]> pinId = new HashMap<Integer, Integer[]>();
     // mapping textViews' Id to the coordinate to follow any changes in the pin
     public static Map<Integer,String> textId = new HashMap<Integer, String>(); //
 	@Override
@@ -70,14 +73,17 @@ public class PinPage extends BaseActivity {
         Author: Vicky Sun
         Created: 3/1/2015
         Initialize TextView's text, only works on initialization or new pin
+        Modified @ 3/12/2015
+        Modification: can resolve both key and manual input now
      */
-    public TextView setText(String key, int w, int h) {
+    public TextView setTextBlock(String key, int w, int h) {
         TextView tt = new TextView(context);
         try {
             tt.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
         } catch (Exception e) {
             tt.setText(key);
         }
+        tt.setId(1000+i);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(w,h,0,0);
         tt.setLayoutParams(params);
@@ -112,8 +118,8 @@ public class PinPage extends BaseActivity {
             float xcoord = Integer.parseInt(coord[0]);
             float ycoord = Integer.parseInt(coord[1]);
             // modified coordinates for the text with offsets
-            float textX = xcoord/2560*screenWidth - 40;
-            float textY = ycoord/1920*screenHeight - 100;
+            float pinX = xcoord/2560*screenWidth;
+            float pinY = ycoord/1920*screenHeight;
 
             // dynamically reallocating the params
             params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -122,7 +128,15 @@ public class PinPage extends BaseActivity {
             // Creating a button
             final Button btn = new Button(this);
             // Creating a textView for the text floating above pin
-            TextView tx = setText(key, (int)textX, (int)textY);
+            TextView tx = setTextBlock(key, (int)pinX-40, (int)pinY-100);
+            // setup the internal lists
+            Integer [] newcoord = {(int)pinX, (int)pinY};
+            // creating a new copy of coordinate : foods
+            pinCoord.put(newcoord, ActivityBridge.getInstance().getfoodPinsNames(key));
+            // mapping the pin id to the coordinate
+            pinId.put(i, newcoord);
+            // mapping the text id to the coordinate
+            textId.put(i,pinCoord.get(newcoord).get(0));
             // button settings
             btn.setId(i);
             btn.setWidth(80);
@@ -130,19 +144,12 @@ public class PinPage extends BaseActivity {
             btn.setBackgroundResource(R.drawable.rsz_pin);
             //btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
             // set onclick implementation of onClick
-            btn.setOnClickListener(new myOnClickListener(ActivityBridge.getInstance().getfoodPinsNames(key),key,i) {});
+            btn.setOnClickListener(new myOnClickListener(i) {});
             // set onLongClick implementation of long click
             btn.setOnLongClickListener(new myOnLongClickListener(rm, rl));
             //System.out.println(pinNumber);
-            params.setMargins((int)textX-20, (int)textY+25,0,0);
+            params.setMargins((int)pinX-20, (int)pinY+25,0,0);
             btn.setLayoutParams(params);
-            Integer [] newcoord = {(int)textX-20, (int)textY+25};
-            // creating a new copy of coordinate : foods
-            pinCoord.put(newcoord, ActivityBridge.getInstance().getfoodPinsNames(key));
-            // mapping the pin id to the coordinate
-            pinId.add(newcoord);
-            // mapping the text id to the coordinate
-            textId.put(i,ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
             // add the button to views
             rl.addView(btn);
             rm.addView(tx);
@@ -196,25 +203,28 @@ public class PinPage extends BaseActivity {
                                         // create a frame to adjust the button view
                                         RelativeLayout rl = new RelativeLayout(context);
                                         // initialize the button to center of screen
-                                        params.setMargins(width_c, height_c, 0, 0);
+                                        params.setMargins(width_c-20, height_c+25, 0, 0);
                                         // create data for the internal lists
                                         Integer[] newPinCoord = {width_c, height_c};
+                                        // update the internal lists with new data
                                         List<String> newFood = Arrays.asList(userInput.getText().toString(), userInput.getText().toString(), userInput.getText().toString(), userInput.getText().toString(), userInput.getText().toString());
+                                        pinCoord.put(newPinCoord, newFood);
+                                        pinId.put(i, newPinCoord);
+                                        textId.put(i, userInput.getText().toString());
+                                        // new button setting
                                         newpin.setId(i);
                                         newpin.setBackgroundResource(R.drawable.rsz_pin);
                                         /* add button functionality to the new buttons*/
+                                        newpin.setOnClickListener(new myOnClickListener(i));
+                                       // newpin.setOnLongClickListener(new myOnLongClickListener(i));
                                         // show floating texts
-                                        TextView tt = setText(userInput.getText().toString(), width_c, height_c);
+                                        TextView tt = setTextBlock(userInput.getText().toString(), width_c, height_c);
                                         //newpin.setText(userInput.getText());
                                         newpin.setLayoutParams(params);
                                         //newpin.setOnTouchListener(new myTouchListener());
                                         rl.addView(newpin);
                                         rm.addView(tt);
                                         rm.addView(rl);
-                                        // update the internal lists with new data
-                                        pinCoord.put(newPinCoord, newFood);
-                                        pinId.add(newPinCoord);
-                                        textId.put(i, userInput.getText().toString());
                                         // update the pin id number
                                         i++;
                                     }
@@ -249,14 +259,14 @@ public class PinPage extends BaseActivity {
 	 */
     /* NOTE :: user input should link to food name database, and search according to the inputs*/
 	public class myOnClickListener implements OnClickListener {
-        ArrayList<String> items = new ArrayList<String>();
+        List<String> items = new ArrayList<String>();
         int id;
-        String c = new String();
+        Integer coord [];
 
-        public myOnClickListener(ArrayList<String> i, String coord, int id) {
-            this.items = i;
+        public myOnClickListener(int id) {
             this.id = id;
-            this.c = coord;
+            this.coord = pinId.get(id);
+            this.items = pinCoord.get(coord);
         }
 
         @Override
@@ -271,11 +281,10 @@ public class PinPage extends BaseActivity {
                         @Override
                         // set the food items displayed in alert dialog to be clickable
                         public void onClick(DialogInterface dialog, int which) {
-                            Button btn = (Button) findViewById(id);
-                            /* change button's textView*/
-                            btn.setText(items.get(which + 1));
                             /* update the map*/
-                            ActivityBridge.getInstance().editPin(items.get(which + 1), c);
+                            textId.put(id,items.get(which+1));
+                            TextView tt = (TextView) findViewById(1000+i);
+                            tt.setText(items.get(which+1));
                             // toast a message to show changes
                             Toast toast = Toast.makeText(context, "Changed to " + items.get(which + 1), Toast.LENGTH_SHORT);
                             toast.show();
