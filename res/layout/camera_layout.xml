@@ -7,57 +7,61 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-	<TextView
-	    android:id="@+id/angleView"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:textColor="#FFFFFFFF"
-	    android:textSize="24sp"/>
-       <SurfaceView
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/angleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFFFF"
+            android:textSize="24sp" />
+
+        <SurfaceView
             android:id="@+id/previewsurface"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent" >
-       </SurfaceView> 
-	<LinearLayout
+            android:layout_height="match_parent" />
+
+
+  	<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom" >
+        android:layout_gravity="bottom"
+        android:background="#FFFFFF">
+		
+		
+       		<Button
+                android:id="@+id/cancelbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1.0"
+                android:background="@drawable/barcode" />
 
-        <Button
-            android:id="@+id/tipbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1.0"
-            android:text="@string/tips" />
 
-        <Button
-            android:id="@+id/takebutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1.0"
-            android:text="@string/take_picture" />
+            <Button
+                android:id="@+id/takebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
 
-        <Button
-            android:id="@+id/cancelbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1.0"
-            android:text="@string/cancel" />
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1.0"
+                android:background="@drawable/camera" />
+
+          	<Button
+                android:id="@+id/tipbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1.0"
+                android:background="@drawable/tip" />
+
         
-
-        
-
     </LinearLayout>
-            
-	
     </FrameLayout>
-
-
 
 </LinearLayout>
