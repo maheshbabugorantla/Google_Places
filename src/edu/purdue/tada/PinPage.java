@@ -128,7 +128,7 @@ public class PinPage extends BaseActivity {
             // Creating a button
             final Button btn = new Button(this);
             // Creating a textView for the text floating above pin
-            TextView tx = setTextBlock(key, (int)pinX-40, (int)pinY-100);
+            TextView tx = setTextBlock(key, (int)pinX, (int)pinY-20);
             // setup the internal lists
             Integer [] newcoord = {(int)pinX, (int)pinY};
             // creating a new copy of coordinate : foods
@@ -146,7 +146,7 @@ public class PinPage extends BaseActivity {
             // set onclick implementation of onClick
             btn.setOnClickListener(new myOnClickListener(i) {});
             // set onLongClick implementation of long click
-            btn.setOnLongClickListener(new myOnLongClickListener(rm, rl));
+            btn.setOnLongClickListener(new myOnLongClickListener(rm, rl,i));
             //System.out.println(pinNumber);
             params.setMargins((int)pinX-20, (int)pinY+25,0,0);
             btn.setLayoutParams(params);
@@ -216,6 +216,7 @@ public class PinPage extends BaseActivity {
                                         newpin.setBackgroundResource(R.drawable.rsz_pin);
                                         /* add button functionality to the new buttons*/
                                         newpin.setOnClickListener(new myOnClickListener(i));
+                                        newpin.setOnLongClickListener(new myOnLongClickListener(rm, rl, i));
                                        // newpin.setOnLongClickListener(new myOnLongClickListener(i));
                                         // show floating texts
                                         TextView tt = setTextBlock(userInput.getText().toString(), width_c, height_c);
@@ -281,9 +282,15 @@ public class PinPage extends BaseActivity {
                         @Override
                         // set the food items displayed in alert dialog to be clickable
                         public void onClick(DialogInterface dialog, int which) {
-                            /* update the map*/
+                            // put the selected item into the textId list according to the id
                             textId.put(id,items.get(which+1));
-                            TextView tt = (TextView) findViewById(1000+i);
+                            // construct a new array in the order of selected item as the first in array
+                            List<String> newItemOrder = Arrays.asList(items.get(which+1),items.get(1),items.get(2),items.get(3),items.get(4));
+                            // re-map the new array to the current coordinate
+                            pinCoord.put(coord, newItemOrder);
+                            // call the textview correspond to this button
+                            TextView tt = (TextView) findViewById(1000+id);
+                            // update the textview's text
                             tt.setText(items.get(which+1));
                             // toast a message to show changes
                             Toast toast = Toast.makeText(context, "Changed to " + items.get(which + 1), Toast.LENGTH_SHORT);
@@ -294,16 +301,16 @@ public class PinPage extends BaseActivity {
                     /* Modified by Di Pan
                      * Modification: add the second prompt to allow the user to manually input the text
                      */
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Insert/Exit", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             //dialog.cancel();
                             // no longer cancels the dialog when clicking "cancel"
                             // building a new prompt
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle("Do you want to input manually?")
-                                    .setMessage("Sure?")
+                            builder.setTitle("Insert food/ Exit prompt")
+                                    .setMessage("Do you want to manually insert food?")
                                     .setNegativeButton("no", null)
-                                    // show editable input for the user to type
+                                            // show editable input for the user to type
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
@@ -316,11 +323,7 @@ public class PinPage extends BaseActivity {
                                             builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int whichButton) {
                                                     Editable value = input.getText();
-                                                    //setText(value.toString(), top, left);
-                                                    //Do something with value!
-                                                    //Button btn = (Button) findViewById(id1);
-                                                    //btn.setText(value);
-
+                                                    /* To Pan Di change the text view text according to my previous code*/
                                                 }
                                             });
                                             // finally cancelling all the dialogs
@@ -354,52 +357,78 @@ public class PinPage extends BaseActivity {
     public class myOnLongClickListener implements View.OnLongClickListener {
         RelativeLayout rm;
         RelativeLayout rl;
+        int id;
         float screenWidth = getWindowManager().getDefaultDisplay().getWidth();
         float screenHeight = getWindowManager().getDefaultDisplay().getHeight();
-        public myOnLongClickListener(RelativeLayout main, RelativeLayout sub) {
+        public myOnLongClickListener(RelativeLayout main, RelativeLayout sub, int i) {
             this.rm = main;
             this.rl = sub;
+            this.id = i;
         }
         @Override
         public boolean onLongClick(View v){
-            // get the original X and Y coordinate when the button is pressed
-            final int oldX = (int)v.getX();
-            final int oldY = (int)v.getY();
-            //Map<Integer,String[]> ss = PinPage.pinId;
-            // convert it to tagfile coordinates
-            final float coordX = oldX *2560/screenWidth;
-            final float coordY = oldY *1920/screenHeight;
-            final String coord = Integer.toString(oldX)+','+Integer.toString(oldY);
+            // find the button's coordinate
+            final Integer [] coord = pinId.get(id);
+            // extract X and Y coordinate
+            final int oldX = coord[0];
+            final int oldY = coord[1];
             v.setOnTouchListener(new View.OnTouchListener(){
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     switch(event.getActionMasked()) {
                         // Shadowing finger movement
                         case MotionEvent.ACTION_MOVE:
+                            /*TextView tt = (TextView) findViewById(1000+id);
+                            rm.removeView(tt);
+                            rm.removeView(rl);
+                            int updateX = (int)event.getX();
+                            int updateY = (int)event.getY();
+                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+                            params.setMargins(oldX+updateX, oldY+updateY,0,0);
+                            RelativeLayout rl = new RelativeLayout(context);
+                            Button shadowPin = new Button(context);
+                            shadowPin.setBackgroundResource(R.drawable.rsz_pin);
+                            shadowPin.setLayoutParams(params);
+                            rl.addView(shadowPin);
+                            myOnLongClickListener.this.rl = rl;
+                            rm.addView(rl);*/
                             break;
                         // finalize the updates, and change any necessary data
                         case MotionEvent.ACTION_UP:
                             // remove the old view
-                            rm.removeView(rl);
+                            TextView newT = (TextView) findViewById(1000+id);
+                            rm.removeView(newT);
+                            rm.removeView(myOnLongClickListener.this.rl);
                             // get the movement X and Y
                             int newX = (int)event.getX();
                             int newY = (int)event.getY();
+                            // update the internal lists
+                            Integer [] newCoord = {oldX+newX, oldY+newY};
+                            // update the pinId
+                            pinId.put(id,newCoord);
+                            // add new coordinate to the pinCoord list, and remove the old one
+                            pinCoord.put(newCoord,pinCoord.get(coord));
+                            pinCoord.remove(coord);
                             // create a new view to update the
-                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+                            RelativeLayout.LayoutParams final_params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
                             // change the coordinate of the view
-                            params.setMargins(oldX+newX, oldY+newY,0,0);
-                            RelativeLayout rl = new RelativeLayout(context);
+                            final_params.setMargins(oldX+newX, oldY+newY,0,0);
+                            RelativeLayout rf = new RelativeLayout(context);
+                            // create a button on the new location
                             Button newpin = new Button(context);
-                            newpin.setOnLongClickListener(new myOnLongClickListener(rm,rl));
+                            newpin.setBackgroundResource(R.drawable.rsz_pin);
+                            // add button functionality
+                            newpin.setOnClickListener(new myOnClickListener(id));
+                            newpin.setOnLongClickListener(new myOnLongClickListener(rm,rf,id));
+                            // create the textView
+                            newT = setTextBlock(pinCoord.get(newCoord).get(0), oldX+newX, oldY+newY-20);
+                            newT.setId(1000+id);
                             // update the view coordinate
-                            newpin.setLayoutParams(params);
-                            // button settings
-                            newpin.setId(i);
-                           // newpin.setText(ActivityBridge.getInstance().getfoodPinsNames(coord).get(0));
-                            newpin.setText("iiii");
-                            // show views
-                            rl.addView(newpin);
-                            rm.addView(rl);
+                            newpin.setLayoutParams(final_params);
+                            // display the views
+                            rf.addView(newpin);
+                            rm.addView(newT);
+                            rm.addView(rf);
                             break;
                     }
                     return true;
