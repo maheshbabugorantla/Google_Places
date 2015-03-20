@@ -12,17 +12,15 @@
         android:layout_marginBottom="5dp"
         android:background="@drawable/title_background"
         android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/change_theme_button0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-            android:background="@drawable/btn_grey"
-            android:padding="5dp"
-            android:text="@string/settings_user"
-            android:textSize="16sp" />
+<TextView
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:gravity="center"
+		    android:layout_gravity="center"
+		    android:padding="6dp"
+		    android:text="Edit Theme"
+		    android:textColor="#FFFFFFFF"
+		    android:textSize="25sp" />
     </FrameLayout>
 
     <LinearLayout

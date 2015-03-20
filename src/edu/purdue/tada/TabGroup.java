@@ -99,7 +99,7 @@ public class TabGroup extends ActivityGroup{
 						container.removeAllViews();
 		                container.addView(getLocalActivityManager().startActivity(
 		                        "Module3",
-		                        new Intent(TabGroup.this, SettingsGroup.class)
+		                        new Intent(TabGroup.this, SettingsActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView());
 		                //set the more button to "pressed" status
