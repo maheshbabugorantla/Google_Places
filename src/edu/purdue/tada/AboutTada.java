@@ -8,7 +8,6 @@ public class AboutTada extends BaseActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about_layout);	
 		
-
 		//rid of unnecessary button - Nicole Missele 3/20/15
 		/* Button titleButton = (Button)findViewById(R.id.settings_button0);
 		titleButton.setOnClickListener(new OnClickListener() {

@@ -1,15 +1,14 @@
 package edu.purdue.tada;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.app.AlertDialog.Builder;
 import android.content.Intent;
@@ -25,18 +24,32 @@ public class SettingsActivity extends BaseActivity{
 		Button btn2 = (Button)findViewById(R.id.settings_button2);
 		Button btn3 = (Button)findViewById(R.id.settings_button3);
 		
-		//set up button one to go to User Settings
-		btn1.setOnClickListener(new OnClickListener() {
+		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
+		btn1.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				// TODO Auto-generated method stub
 				Intent intent = new Intent(SettingsActivity.this, UserSettings.class);
 				startActivity(intent);
-				TabGroup.isSetting = false;
-				
 			}
-		});
 		
+		});
+			
+		//Old code using the SettingsGroup
+			/*@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(SettingsActivity.this, UserSettings.class)
+				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				Window w = SettingsGroup.group.getLocalActivityManager()
+						.startActivity("UserSettings", intent);
+				View view = w.getDecorView();
+				SettingsGroup.group.setContentView(view);*/
+			
+			
+		
+		
+
 		//set up button two to go to Researcher settings - Nicole Missele 2/20/15
 		btn2.setOnClickListener(new OnClickListener(){
 
@@ -86,8 +99,25 @@ public class SettingsActivity extends BaseActivity{
 			};
 		});
 			
-		
-		//set up button three to go to "About" screen
+		//set up button 2 to go to Researcher settings password as own activity without alert dialog Nicole Missele 2/20/2015
+//		btn2.setOnClickListener(new OnClickListener(){
+//
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(SettingsActivity.this, ResearchPassword.class)
+//				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//				Window w = SettingsGroup.group.getLocalActivityManager()
+//						.startActivity("ResearchPassword", intent);
+//				View view = w.getDecorView();
+//				SettingsGroup.group.setContentView(view);
+//					
+//				
+//				
+//			}}
+//			
+//		);
+
+		/*//set up button three to go to "About" screen using Settings Group
 		btn3.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -95,9 +125,26 @@ public class SettingsActivity extends BaseActivity{
 				Intent intent = new Intent(SettingsActivity.this, AboutTada.class);
 				startActivity(intent);
 				TabGroup.isSetting = false;
+=======
+				Intent intent = new Intent(SettingsActivity.this, AboutTada.class)
+				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				Window w = SettingsGroup.group.getLocalActivityManager()
+						.startActivity("AboutTada", intent);
+				View view = w.getDecorView();
+				SettingsGroup.group.setContentView(view);
 			}
-		});	
+		});	*/
+		
+		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
+		btn3.setOnClickListener(new View.OnClickListener() {
+					
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(SettingsActivity.this, AboutTada.class);
+				startActivity(intent);
+			}
+				
+		});
+		
 	}
 }
-	
-	
