@@ -68,4 +68,5 @@
 	<string name="tada_website">http://www.tadaproject.org</string>
 	<string name="copyright">Copyright 2013 The Board of Trustees,\nPurdue University</string>
 	<string name="about_paragraph">Monitoring dietary intake provides some of the most valuable insights for mounting intervention programs for obesity prevention.\nWith the growing concerns about obesity, the need to accurately measure diet becomes imperative.\n\nTADA provides tools that translate to an accurate account of daily food and nutrient intake.</string>
+	<string name="research_login">Log In</string>
 </resources>

@@ -3,7 +3,6 @@ package edu.purdue.tada;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -23,36 +22,33 @@ public class UserSettings extends BaseActivity{
 		checkBox1.setChecked(PreferenceHelper.getTips(this));
 		checkBox2.setChecked(ActivityBridge.getInstance().isChecked2());
 		
-		/* Not needed due to functionality of back button in settings tab 
-		Button btn0 = (Button)findViewById(R.id.user_settings_button0);
-		btn0.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(UserSettings.this, SettingsActivity.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = SettingsGroup.group.getLocalActivityManager()
-						.startActivity("BackToSettings", intent);
-				View view = w.getDecorView();
-				SettingsGroup.group.setContentView(view);
-			}
-		}); */
 		//prepare "theme" button
 		Button themeButton = (Button)findViewById(R.id.theme_button);
-		themeButton.setOnClickListener(new OnClickListener() {
+		themeButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(UserSettings.this, ChangeTheme.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = SettingsGroup.group.getLocalActivityManager()
-						.startActivity("ChangeTheme", intent);
-				View view = w.getDecorView();
-				SettingsGroup.group.setContentView(view);
+				Intent intent = new Intent(UserSettings.this, ChangeTheme.class);
+				startActivity(intent);
 			}
+		
 		});
+			
+		
+			//use SettingsGroup
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				Intent intent = new Intent(UserSettings.this, ChangeTheme.class)
+//				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//				Window w = SettingsGroup.group.getLocalActivityManager()
+//						.startActivity("ChangeTheme", intent);
+//				View view = w.getDecorView();
+//				SettingsGroup.group.setContentView(view);
+//			}
+//		});
+			
+		
 		//prepare the checkbox for "tips" option
 		checkBox1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			

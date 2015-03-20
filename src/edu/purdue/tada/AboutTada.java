@@ -1,11 +1,6 @@
 package edu.purdue.tada;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 public class AboutTada extends BaseActivity{
 	
@@ -14,7 +9,8 @@ public class AboutTada extends BaseActivity{
 		setContentView(R.layout.about_layout);	
 		
 		/* Not needed due to functionality of back button in settings tab
-		Button titleButton = (Button)findViewById(R.id.settings_button0);
+		//rid of unnecessary button - Nicole Missele 3/20/15
+		/* Button titleButton = (Button)findViewById(R.id.settings_button0);
 		titleButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
