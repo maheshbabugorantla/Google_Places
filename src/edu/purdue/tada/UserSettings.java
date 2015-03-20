@@ -45,12 +45,8 @@ public class UserSettings extends BaseActivity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(UserSettings.this, ChangeTheme.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = SettingsGroup.group.getLocalActivityManager()
-						.startActivity("ChangeTheme", intent);
-				View view = w.getDecorView();
-				SettingsGroup.group.setContentView(view);
+				Intent intent = new Intent(UserSettings.this, ChangeTheme.class);
+				startActivity(intent);
 			}
 		});
 		//prepare the checkbox for "tips" option

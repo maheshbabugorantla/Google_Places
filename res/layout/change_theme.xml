@@ -13,17 +13,6 @@
         android:background="@drawable/title_background"
         android:orientation="vertical" >
 
-        <!--  Not needed due to functionality of back button in settings tab 
-        <Button
-            android:id="@+id/change_theme_button0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-            android:background="@drawable/btn_grey"
-            android:padding="5dp"
-            android:text="@string/settings_user"
-            android:textSize="16sp" /> -->
             
             <TextView
 		    android:layout_width="match_parent"
@@ -31,7 +20,7 @@
 		    android:gravity="center"
 		    android:layout_gravity="center"
 		    android:padding="6dp"
-		    android:text="@string/theme"
+		    android:text="Edit Theme"
 		    android:textColor="#FFFFFFFF"
 		    android:textSize="25sp" />
     </FrameLayout>
@@ -41,7 +30,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <!-- 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +37,7 @@
             android:shadowColor="@color/grey"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/theme" /> -->
+            android:text="@string/theme" />
 
         <TableLayout
             android:layout_width="match_parent"
