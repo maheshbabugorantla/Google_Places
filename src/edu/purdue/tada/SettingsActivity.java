@@ -63,7 +63,7 @@ public class SettingsActivity extends BaseActivity{
 						// TODO Auto-generated method stub
 						//sign in user
 						//dialog.dismiss();
-						Intent intent = new Intent(SettingsActivity.this, ResearchPassword.class)
+						Intent intent = new Intent(SettingsActivity.this, ResearchSettings.class)
 						.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						Window w = SettingsGroup.group.getLocalActivityManager()
 								.startActivity("ResearchPassword", intent);
