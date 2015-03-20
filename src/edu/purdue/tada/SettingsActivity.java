@@ -73,17 +73,14 @@ public class SettingsActivity extends BaseActivity{
 				
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						// TODO Auto-generated method stub
 						//sign in user
-						//dialog.dismiss();
-						Intent intent = new Intent(SettingsActivity.this, ResearchSettings.class)
-						.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						Window w = SettingsGroup.group.getLocalActivityManager()
-								.startActivity("ResearchPassword", intent);
-						View view = w.getDecorView();
-						SettingsGroup.group.setContentView(view);
+											
+							Intent intent = new Intent(SettingsActivity.this, ResearchSettings.class);
+							startActivity(intent);
 					}
+						
 				});
+	
 				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				
 					@Override
@@ -94,11 +91,11 @@ public class SettingsActivity extends BaseActivity{
 					}
 				});
 			
+
 				builder.create().show();
 				
 			};
 		});
-			
 		//set up button 2 to go to Researcher settings password as own activity without alert dialog Nicole Missele 2/20/2015
 //		btn2.setOnClickListener(new OnClickListener(){
 //
