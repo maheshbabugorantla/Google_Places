@@ -31,6 +31,18 @@
            	android:layout_gravity="right|center_vertical"
             android:background="@drawable/title_button"
             />
+
+        <Button
+            android:id="@+id/reviewSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+           	android:layout_gravity="left|center_vertical"
+            android:background="@drawable/title_button"
+            android:padding="5dp"
+            android:text="@string/search"
+            android:textColor="@color/white" />
+
     </FrameLayout>
 
 	<com.hb.views.PinnedSectionListView
@@ -38,5 +50,11 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content" >	    
 	</com.hb.views.PinnedSectionListView>
+
+	<Button
+	    android:id="@+id/more_button"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="More Reviews" />
 
 </LinearLayout>

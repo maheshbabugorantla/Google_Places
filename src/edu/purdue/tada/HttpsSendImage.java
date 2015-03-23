@@ -35,7 +35,7 @@ public class HttpsSendImage extends Utils {
 	
 
 	/* Specify server-side filename */
-	private String PHP_FILENAME = PATH + "epics_receive_image.php";
+	private String PHP_FILENAME = PATH + "epics_receive_image_test.php";
 
 	/* Create tag for logcat */
 	private static final String TAG = "YU-HTTPSENDIMAGE";
