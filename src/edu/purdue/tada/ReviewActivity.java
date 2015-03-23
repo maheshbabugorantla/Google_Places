@@ -17,10 +17,7 @@ import java.util.Map;
 
 import com.hb.views.PinnedSectionListView.PinnedSectionListAdapter;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,7 +28,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -65,27 +61,12 @@ public class ReviewActivity extends BaseActivity{
 		
 		ListView lv = (ListView) findViewById(R.id.reviewList);
 		Button bv = (Button) findViewById(R.id.refresh);
-		Button searchButton = (Button) findViewById(R.id.reviewSearch);
+		Button more = (Button)findViewById(R.id.more_button);
 		
 		final ReviewAdapter adapter = generateReviewAdapter(); 
 		
 		if(adapter != null)
 			lv.setAdapter(adapter);
-		
-		// DatePickerDialog setup
-		Calendar c = Calendar.getInstance();		
-		final DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {			
-			public void onDateSet(DatePicker view, int year, int month, int day) {
-				System.out.println(day + " - " + month + " - " + year);
-			}
-		}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-		
-		final LayoutInflater inflater = getLayoutInflater();
-		
-//		View searchDialogLayout = inflater.inflate(R.layout.search_dialog_layout, null);
-//		AlertDialog.Builder builder = new AlertDialog.Builder(ReviewActivity.this);
-//		builder.setView(searchDialogLayout);
-				
 		
 		// onselect
 		lv.setOnItemClickListener(new OnItemClickListener(){
@@ -106,32 +87,34 @@ public class ReviewActivity extends BaseActivity{
 			}
 		});
 		
-		searchButton.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				View searchDialogLayout = inflater.inflate(R.layout.search_dialog_layout, null);
-				final Dialog d = new Dialog(ReviewActivity.this);
-				d.setContentView(searchDialogLayout);
-				d.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-				d.show();
-				
-				Button dateButton = (Button) d.findViewById(R.id.review_search_date);
-
-				dateButton.setOnClickListener(new OnClickListener(){
-					@Override
-					public void onClick(View v) {
-						d.dismiss();
-						dpd.show();
-					}			
-				});				
-			}			
+		//Gets more reviews *Parth Patel 3/10/15*
+		more.setOnClickListener(new OnClickListener(){
+				public void onClick(View v){
+						//code to generate the next 20 reviews
+						generateReviewAdapter();
+				}
 		});
 		
+		// DatePickerDialog setup
+		Calendar c = Calendar.getInstance();		
+		final DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {			
+			public void onDateSet(DatePicker view, int year, int month, int day) {
+				System.out.println(day + " - " + month + " - " + year);
+			}
+		}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+		
+		bv.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				dpd.show();				
+			}			
+		});
 	}
 
 	private ReviewAdapter generateReviewAdapter(){
 		ReviewAdapter adapter = new ReviewAdapter(this);
 		InputStream in = null;
+		int count = 0;
 		ArrayList<String> lines = new ArrayList<String>();
 		
 		try{
@@ -146,8 +129,9 @@ public class ReviewActivity extends BaseActivity{
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 	        String line;
 	        // Each line will be a .rec file
-	        while((line = reader.readLine()) != null) {
+	        while((line = reader.readLine()) != null && count <= 10) {
 	        	lines.add(line);
+	        	count = count + 1; //will limit the reviews to be displayed at 10 lines only
 	        }
 	        
 	        in.close();
