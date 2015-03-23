@@ -141,7 +141,7 @@ public class PinPage extends BaseActivity {
             btn.setId(i);
             btn.setWidth(80);
             btn.setHeight(80);
-//            btn.setBackgroundResource(R.drawable.rsz_pin);
+            btn.setBackgroundResource(R.drawable.rsz_pin);
             //btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
             // set onclick implementation of onClick
             btn.setOnClickListener(new myOnClickListener(i) {});
@@ -213,7 +213,7 @@ public class PinPage extends BaseActivity {
                                         textId.put(i, userInput.getText().toString());
                                         // new button setting
                                         newpin.setId(i);
-//                                        newpin.setBackgroundResource(R.drawable.rsz_pin);
+                                        newpin.setBackgroundResource(R.drawable.rsz_pin);
                                         /* add button functionality to the new buttons*/
                                         newpin.setOnClickListener(new myOnClickListener(i));
                                         newpin.setOnLongClickListener(new myOnLongClickListener(rm, rl, i));
@@ -421,7 +421,7 @@ public class PinPage extends BaseActivity {
                             RelativeLayout rf = new RelativeLayout(context);
                             // create a button on the new location
                             Button newpin = new Button(context);
-//                            newpin.setBackgroundResource(R.drawable.rsz_pin);
+                            newpin.setBackgroundResource(R.drawable.rsz_pin);
                             // add button functionality
                             newpin.setOnClickListener(new myOnClickListener(id));
                             newpin.setOnLongClickListener(new myOnLongClickListener(rm,rf,id));
