@@ -17,13 +17,17 @@ import java.util.Map;
 
 import com.hb.views.PinnedSectionListView.PinnedSectionListAdapter;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,9 +38,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.text.DateFormat; 
@@ -70,13 +76,14 @@ public class ReviewActivity extends BaseActivity{
 		if(adapter != null)
 			lv.setAdapter(adapter);
 		
-		// DatePickerDialog setup
+		// Date search dialog
 		Calendar c = Calendar.getInstance();		
 		final DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {			
 			public void onDateSet(DatePicker view, int year, int month, int day) {
-				System.out.println(day + " - " + month + " - " + year);
+				adapter.filterByDate(day, month, year);
 			}
 		}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+		dpd.setTitle("Select Date");
 		
 		final LayoutInflater inflater = getLayoutInflater();
 		
@@ -106,9 +113,12 @@ public class ReviewActivity extends BaseActivity{
 				final Dialog d = new Dialog(ReviewActivity.this);
 				d.setContentView(searchDialogLayout);
 				d.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+				d.setCanceledOnTouchOutside(true);
 				d.show();
 				
 				Button dateButton = (Button) d.findViewById(R.id.review_search_date);
+				Button foodButton = (Button) d.findViewById(R.id.review_search_food);
+				Button mealButton = (Button) d.findViewById(R.id.review_search_meal);
 
 				dateButton.setOnClickListener(new OnClickListener(){
 					@Override
@@ -116,7 +126,52 @@ public class ReviewActivity extends BaseActivity{
 						d.dismiss();
 						dpd.show();
 					}			
-				});				
+				});
+				
+				foodButton.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						d.dismiss();
+						// Food search dialog
+						// This must be in here for the dialog to be created multiple times
+						// If this is in the onCreate for the activity, app will crash on second open (not an issue for datepickerdialog)
+						final AlertDialog.Builder fd = new AlertDialog.Builder(ReviewActivity.this);
+						final EditText input = new EditText(ReviewActivity.this);
+						input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS); // This prevents a weird non-fatal error about spans with zero length
+						fd.setTitle("Enter Food");
+						fd.setView(input);
+						fd.setPositiveButton("OK", new DialogInterface.OnClickListener() {			
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								adapter.filterByFood(input.getText().toString().trim());
+							}
+						});
+						fd.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();				
+							}
+						});
+						fd.show();
+					}			
+				});
+				
+				mealButton.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						d.dismiss();
+						final AlertDialog.Builder md = new AlertDialog.Builder(ReviewActivity.this);
+						md.setTitle("Select Meal Type");
+						CharSequence[] meals = {"Breakfast", "Lunch", "Dinner"};
+						md.setItems(meals, new DialogInterface.OnClickListener(){	
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								adapter.filterByMeal(which);
+							}
+						});
+						md.show();
+					}
+				});
 			}			
 		});
 		
@@ -293,6 +348,37 @@ public class ReviewActivity extends BaseActivity{
 			this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 		
+		public void filterByMeal(int which) {
+			Context context = getApplicationContext();
+			String text = "List Filtered by Meal Type: ";
+			// Breakfast = 0; Lunch = 1; Dinner = 2; Cannot be other values unless dialog is changed
+			text += (which == 0) ? "Breakfast" : (which == 1) ? "Lunch" : "Dinner";
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
+		}
+
+		public void filterByFood(String trim) {
+			Context context = getApplicationContext();
+			String text = "List Filtered by Food: " + trim;
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
+		}
+
+		public void filterByDate(int day, int month, int year) {
+			Context context = getApplicationContext();
+			// For some reason it adds 1900 to the year so let's get rid of that
+			Date date = new Date(year - 1900, month, day);
+			String text = "List Filtered by Date: " + new SimpleDateFormat("MMMM/dd/yyyy").format(date).toString();
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
+		}
+
 		public void addSection(ReviewContainer rc){
 			list.add(rc);
 		}
