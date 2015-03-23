@@ -122,13 +122,6 @@ public class SettingsActivity extends BaseActivity{
 				Intent intent = new Intent(SettingsActivity.this, AboutTada.class);
 				startActivity(intent);
 				TabGroup.isSetting = false;
-=======
-				Intent intent = new Intent(SettingsActivity.this, AboutTada.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = SettingsGroup.group.getLocalActivityManager()
-						.startActivity("AboutTada", intent);
-				View view = w.getDecorView();
-				SettingsGroup.group.setContentView(view);
 			}
 		});	*/
 		
