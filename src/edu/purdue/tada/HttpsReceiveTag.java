@@ -185,6 +185,8 @@ public class HttpsReceiveTag extends Utils {
 			String tagString = httpsResponseBody.substring(httpsResponseBody.indexOf('\n')+1); // Removes first line of response
 			
 			String[] tokens = tagString.split("\n|\t"); 			// tokenize the input stream by splitting \t and \n
+            String id = tokens[0];
+            ActivityBridge.getInstance().setUserID(id);
 			int size = Integer.parseInt(tokens[1]);						// size is how many food pins tag files provide
 			
 			String [] pinCoord = new String[size];						// a string to catch the pins' coordinates

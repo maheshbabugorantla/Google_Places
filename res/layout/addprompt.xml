@@ -16,9 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="-"
         android:id="@+id/input"
         android:layout_gravity="center_horizontal"
-        android:textColor="#ffffffff" />
+        android:textColor="#ff000000" />
 
 </LinearLayout>

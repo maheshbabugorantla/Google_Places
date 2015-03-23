@@ -6,25 +6,34 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedInputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import com.hb.views.PinnedSectionListView.PinnedSectionListAdapter;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -52,11 +61,24 @@ public class ReviewActivity extends BaseActivity{
 		setContentView(R.layout.review_layout);
 		
 		ListView lv = (ListView) findViewById(R.id.reviewList);
+		Button bv = (Button) findViewById(R.id.refresh);
+		Button more = (Button)findViewById(R.id.more_button);
+		Button searchButton = (Button) findViewById(R.id.reviewSearch);
 		
 		final ReviewAdapter adapter = generateReviewAdapter(); 
 		
 		if(adapter != null)
 			lv.setAdapter(adapter);
+		
+		// DatePickerDialog setup
+		Calendar c = Calendar.getInstance();		
+		final DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {			
+			public void onDateSet(DatePicker view, int year, int month, int day) {
+				System.out.println(day + " - " + month + " - " + year);
+			}
+		}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+		
+		final LayoutInflater inflater = getLayoutInflater();
 		
 		// onselect
 		lv.setOnItemClickListener(new OnItemClickListener(){
@@ -76,11 +98,41 @@ public class ReviewActivity extends BaseActivity{
 				
 			}
 		});
+		
+		searchButton.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				View searchDialogLayout = inflater.inflate(R.layout.search_dialog_layout, null);
+				final Dialog d = new Dialog(ReviewActivity.this);
+				d.setContentView(searchDialogLayout);
+				d.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+				d.show();
+				
+				Button dateButton = (Button) d.findViewById(R.id.review_search_date);
+
+				dateButton.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						d.dismiss();
+						dpd.show();
+					}			
+				});				
+			}			
+		});
+		
+		//Gets more reviews *Parth Patel 3/10/15*
+		more.setOnClickListener(new OnClickListener(){
+				public void onClick(View v){
+						//code to generate the next 20 reviews
+						generateReviewAdapter();
+				}
+		});
 	}
 
 	private ReviewAdapter generateReviewAdapter(){
 		ReviewAdapter adapter = new ReviewAdapter(this);
 		InputStream in = null;
+		int count = 0;
 		ArrayList<String> lines = new ArrayList<String>();
 		
 		try{
@@ -95,8 +147,9 @@ public class ReviewActivity extends BaseActivity{
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 	        String line;
 	        // Each line will be a .rec file
-	        while((line = reader.readLine()) != null) {
+	        while((line = reader.readLine()) != null && count <= 10) {
 	        	lines.add(line);
+	        	count = count + 1; //will limit the reviews to be displayed at 10 lines only
 	        }
 	        
 	        in.close();
@@ -210,6 +263,19 @@ public class ReviewActivity extends BaseActivity{
 		return new ReviewItem(hash, date, image1, image2);
 	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Starts the pin page activity after receiving tag file from server
+		super.onActivityResult(requestCode, resultCode, data);
+		System.out.println("Review gets result: "+resultCode);
+		if (requestCode == TAG_REQUEST) {
+			System.out.println("Successfully requested tag file");
+			Intent intent = new Intent();
+			intent.setClass(ReviewActivity.this, PinPage.class);
+			startActivity(intent);
+		}
+	}
+	
 	/**
 	 * Adapter for the review list. Handles pinned section headers.
 	 * 
@@ -249,7 +315,17 @@ public class ReviewActivity extends BaseActivity{
 			if(viewType == HEADER_TYPE){
 				ReviewContainer rc = (ReviewContainer) getItem(position);
 				TextView tv = (TextView) convertView.findViewById(R.id.list_header_title);
-				tv.setText(rc.getDateString());
+				
+				/*Creates Tabs for Today, Yesterday, and Month Parth Patel*/
+				if(rc.getType() == "today"){   //Gets type from reviewContainer.java
+						tv.setText("Today");  
+				}
+				else if(rc.getType() == "yesterday"){
+						tv.setText("Yesterday");
+				}
+				else{
+					tv.setText(rc.getDateString()); //If it is not today or yesterday
+				}
 			}else{
 				ReviewItem ri = (ReviewItem) getItem(position);
 				ImageView picture = (ImageView) convertView.findViewById(R.id.reviewPicture);
@@ -333,17 +409,136 @@ public class ReviewActivity extends BaseActivity{
 		     return viewType == HEADER_TYPE;
 		 }
 	}
+
+	/**
+	 * Review activity list is split into sections. This class details the contents
+	 * of each section
+	 * 
+	 * @author Ben Klutzke
+	 * 
+	 */
 	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// Starts the pin page activity after receiving tag file from server
-		super.onActivityResult(requestCode, resultCode, data);
-		System.out.println("Review gets result: "+resultCode);
-		if (requestCode == TAG_REQUEST) {
-			System.out.println("Successfully requested tag file");
-			Intent intent = new Intent();
-			intent.setClass(ReviewActivity.this, PinPage.class);
-			startActivity(intent);
+	private class ReviewContainer implements Comparable<ReviewContainer>{
+		private Date date;
+		private ArrayList<ReviewItem> items;
+		private String type;
+		
+		public ReviewContainer(String d, String type){
+			this.type = type;
+			try {
+				if(type.equals("month"))
+					this.date = new SimpleDateFormat("MMMM, yyyy", Locale.ENGLISH).parse(d);
+				else // today or yesterday
+					this.date = new SimpleDateFormat("MMMM/dd/yyyy", Locale.ENGLISH).parse(d);
+					
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				this.date = null;
+			}
+			items = new ArrayList<ReviewItem>();
+		}
+		public String getType(){ //returns private variable "type" Parth Patel
+			return type;
+		}
+		public void addItem(ReviewItem ri){
+			items.add(ri);
+		}
+		public Date getDate(){
+			return date;
+		}	
+		public String getDateString(){
+			return (type.equals("month")) ? new SimpleDateFormat("MMMM, yyyy").format(date).toString() : new SimpleDateFormat("MMMM/dd/yyyy").format(date).toString();
+		}
+		
+		public ArrayList<ReviewItem> getItems(){
+			return items;
+		}
+		
+		public int getItemCount(){
+			return items.size();
+		}
+	
+		@Override
+		public int compareTo(ReviewContainer rc) {
+			return date.compareTo(rc.getDate());
+		}
+	}
+
+
+	/**
+	 * Class detailing the contents of each row for the review activity
+	 * 
+	 * @author Ben Klutzke
+	 * 
+	 */
+	
+	private class ReviewItem implements Comparable<ReviewItem> {
+		private String hash;
+		private Date date;
+		private String image1;
+		private String image2;
+		private String subDate;
+		private String bld;
+		private Bitmap bm;
+		
+		public ReviewItem(String hash, String date, String image1, String image2){
+			this.hash = hash;
+			this.image1 = image1;
+			this.image2 = image2;
+			this.subDate = null;
+			this.bm = null;
+			
+			try {
+				this.date = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.ENGLISH).parse(date);
+				int hr = this.date.getHours();
+				if(hr >= 0 && hr < 10)
+					this.bld = "B";
+				else if(hr >= 10 && hr< 16)
+					this.bld = "L";
+				else
+					this.bld = "D";
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				this.date = null;
+				this.bld = "E";			
+			}
+		}
+		public Bitmap getThumbnail(){
+			return this.bm;
+		}
+		public Bitmap setThumbnail(String s){
+			BitmapFactory.Options o = new BitmapFactory.Options();
+			o.inSampleSize = 20;
+			this.bm = BitmapFactory.decodeFile(s + "/" + image1, o); // scaled to 1/20th image size
+			return this.bm;
+		}
+		public void setSubDate(String s){
+			this.subDate = s;
+		}
+		public String getSubDate(){
+			return this.subDate;
+		}
+	
+		public String getHash(){
+			return this.hash;
+		}
+		public Date getDate(){
+			return this.date;
+		}
+		public String getImage1(){
+			return this.image1;
+		}
+		public String getImage2(){
+			return this.image2;
+		}
+		public String getBLD(){
+			return bld;
+		}
+		@Override
+		public int compareTo(ReviewItem ri) {
+			return date.compareTo(ri.getDate());
 		}
 	}
 }

@@ -13,6 +13,7 @@
 	<!-- Review Tab -->
 	<string name="refresh">refresh</string>
 	<string name="review">Review</string>
+	<string name="search">Search</string>
 	
 	<!-- Scanner Results -->
 	<string name="retake_scan">Retake?</string>
