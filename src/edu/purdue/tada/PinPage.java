@@ -141,7 +141,7 @@ public class PinPage extends BaseActivity {
             btn.setId(i);
             btn.setWidth(80);
             btn.setHeight(80);
-//            btn.setBackgroundResource(R.drawable.rsz_pin);
+            btn.setBackgroundResource(R.drawable.rsz_pin);
             //btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
             // set onclick implementation of onClick
             btn.setOnClickListener(new myOnClickListener(i) {});
@@ -213,7 +213,7 @@ public class PinPage extends BaseActivity {
                                         textId.put(i, userInput.getText().toString());
                                         // new button setting
                                         newpin.setId(i);
-//                                        newpin.setBackgroundResource(R.drawable.rsz_pin);
+                                        newpin.setBackgroundResource(R.drawable.rsz_pin);
                                         /* add button functionality to the new buttons*/
                                         newpin.setOnClickListener(new myOnClickListener(i));
                                         newpin.setOnLongClickListener(new myOnLongClickListener(rm, rl, i));
@@ -323,6 +323,11 @@ public class PinPage extends BaseActivity {
                                             builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int whichButton) {
                                                     Editable value = input.getText();
+                                                    TextView tt = (TextView) findViewById(1000+myOnClickListener.this.id);
+                                                    tt.setText(value.toString());
+                                                    textId.put(myOnClickListener.this.id,value.toString());
+                                                    List<String> newItemOrder = Arrays.asList(value.toString(),items.get(1),items.get(2),items.get(3),items.get(4));
+                                                    pinCoord.put(coord,newItemOrder);
                                                     /* To Pan Di change the text view text according to my previous code*/
                                                 }
                                             });
@@ -416,7 +421,7 @@ public class PinPage extends BaseActivity {
                             RelativeLayout rf = new RelativeLayout(context);
                             // create a button on the new location
                             Button newpin = new Button(context);
-//                            newpin.setBackgroundResource(R.drawable.rsz_pin);
+                            newpin.setBackgroundResource(R.drawable.rsz_pin);
                             // add button functionality
                             newpin.setOnClickListener(new myOnClickListener(id));
                             newpin.setOnLongClickListener(new myOnLongClickListener(rm,rf,id));
