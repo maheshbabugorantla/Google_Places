@@ -38,7 +38,6 @@ public class TabGroup extends ActivityGroup{
         container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
         
-        
         radio0 = (RadioButton)findViewById(R.id.tab_0);
         radio1 = (RadioButton)findViewById(R.id.tab_1);
         radio2 = (RadioButton)findViewById(R.id.tab_2);
@@ -128,6 +127,7 @@ public class TabGroup extends ActivityGroup{
     
     
     
+   /* commented out since removed SettingsGroup Nicole Missele - 3/22/15
     @Override
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
@@ -152,7 +152,7 @@ public class TabGroup extends ActivityGroup{
     	else
     	{
     		finish();
-    	}
+    	} */
     	
     	/*
     	//if users press the back button in the main activity, shows an alert dialog
@@ -171,8 +171,8 @@ public class TabGroup extends ActivityGroup{
 			}
 		});
   	  	builder.create().show();
-  	  	*/
-    }    
+  	  	
+    }   */ 
     @Override
     protected void onResume() {
     	super.onResume();
