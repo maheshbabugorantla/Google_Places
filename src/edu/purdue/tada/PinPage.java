@@ -323,6 +323,11 @@ public class PinPage extends BaseActivity {
                                             builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int whichButton) {
                                                     Editable value = input.getText();
+                                                    TextView tt = (TextView) findViewById(1000+myOnClickListener.this.id);
+                                                    tt.setText(value.toString());
+                                                    textId.put(myOnClickListener.this.id,value.toString());
+                                                    List<String> newItemOrder = Arrays.asList(value.toString(),items.get(1),items.get(2),items.get(3),items.get(4));
+                                                    pinCoord.put(coord,newItemOrder);
                                                     /* To Pan Di change the text view text according to my previous code*/
                                                 }
                                             });
