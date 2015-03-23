@@ -8,15 +8,12 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.ViewFlipper;
 
 
 public class TabGroup extends ActivityGroup{
@@ -27,7 +24,6 @@ public class TabGroup extends ActivityGroup{
     private RadioButton radio0;
     private RadioButton radio1;
     private RadioButton radio2;
-    public static boolean isSetting = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +98,6 @@ public class TabGroup extends ActivityGroup{
 		                ActivityBridge.getInstance().setRadio2(false);
 		                break;
 					case R.id.tab_2:
-						isSetting = true;
 						container.removeAllViews();
 		                container.addView(getLocalActivityManager().startActivity(
 		                        "Module3",
@@ -127,7 +122,7 @@ public class TabGroup extends ActivityGroup{
     }
     
     
-    
+    /*
     @Override
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
@@ -152,7 +147,7 @@ public class TabGroup extends ActivityGroup{
     	else
     	{
     		finish();
-    	}
+    	} */
     	
     	/*
     	//if users press the back button in the main activity, shows an alert dialog
@@ -171,8 +166,8 @@ public class TabGroup extends ActivityGroup{
 			}
 		});
   	  	builder.create().show();
-  	  	*/
-    }    
+  	  	
+    }   */ 
     @Override
     protected void onResume() {
     	super.onResume();
