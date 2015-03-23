@@ -83,7 +83,7 @@ public class UserSettings extends BaseActivity{
 		});
 	}
 	
-	@Override
+	/*@Override
     public void onBackPressed() {   
 		// This should take you back to original more page but doesn't work
 		Intent intent = new Intent(UserSettings.this, SettingsActivity.class)
@@ -91,8 +91,8 @@ public class UserSettings extends BaseActivity{
 		Window w = SettingsGroup.group.getLocalActivityManager()
 				.startActivity("BackToSettings", intent);
 		View view = w.getDecorView();
-		SettingsGroup.group.setContentView(view);
-	}
+		SettingsGroup.group.setContentView(view); 
+}*/
     	/*//if users press the back button in the main activity, shows an alert dialog
         AlertDialog.Builder builder = new Builder(this);
   	  	builder.setTitle("Are you sure to quit TADA ?");
