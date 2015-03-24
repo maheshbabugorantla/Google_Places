@@ -7,61 +7,56 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="9">
-
-        <TextView
-            android:id="@+id/angleView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFFFF"
-            android:textSize="24sp" />
-
-        <SurfaceView
+        android:layout_height="match_parent">
+        
+	<TextView
+	    android:id="@+id/angleView"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textColor="#FFFFFFFF"
+	    android:textSize="24sp"/>
+       <SurfaceView
             android:id="@+id/previewsurface"
             android:layout_width="fill_parent"
             android:layout_height="match_parent" >
-      	</SurfaceView>
-
-	</FrameLayout>
-  	<LinearLayout
-        android:id="@+id/Bottombar"
+       </SurfaceView> 
+       
+	<LinearLayout
+	    android:id="@+id/Bottombar"
 	    android:layout_width="match_parent"
 	    android:layout_height="50dp"
 	    android:layout_gravity="bottom"
-	    android:layout_weight="1"
-	    android:background="@color/black" >
-		
-		
-       		<Button
-                android:id="@+id/cancelbutton"
-		  		android:layout_width="wrap_content"
-		  		android:layout_height="wrap_content"
-		  		android:layout_gravity="bottom"
-		  		android:layout_marginLeft="10dp"
-		  		android:layout_weight="1.0"
-		  		android:background="@drawable/barcode"/>
+	    android:background="@color/transparent" >
+
+	<Button
+	      android:id="@+id/cancelbutton"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_gravity="bottom"
+		  android:layout_marginLeft="10dp"
+		  android:layout_weight="1.0"
+		  android:background="@drawable/barcode"/>
+	
+	  <Button
+	      android:id="@+id/takebutton"
+		  android:layout_width="wrap_content"
+		  android:layout_height="fill_parent"
+		  android:layout_gravity="bottom"
+		  android:layout_marginLeft="50dp"
+		  android:layout_marginRight="50dp"
+		  android:layout_weight="1.0"
+		  android:background="@drawable/camera"/>
+
+	  <Button
+	      android:id="@+id/tipbutton"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_gravity="bottom"
+		  android:layout_weight="1.0"
+		  android:layout_marginRight="10dp"
+		  android:background="@drawable/tip"/>
 
 
-            <Button
-                android:id="@+id/takebutton"
-		  		android:layout_width="wrap_content"
-		  		android:layout_height="fill_parent"
-		  		android:layout_gravity="bottom"
-		  		android:layout_marginLeft="50dp"
-		  		android:layout_marginRight="50dp"
-		  		android:layout_weight="1.0"
-		  		android:background="@drawable/camera" />
-
-          	<Button
-                android:id="@+id/tipbutton"
-		  		android:layout_width="wrap_content"
-		  		android:layout_height="wrap_content"
-		  		android:layout_gravity="bottom"
-		  		android:layout_weight="1.0"
-		  		android:layout_marginRight="10dp"
-		  		android:background="@drawable/tip" />
-
-        
     </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
