@@ -19,9 +19,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -36,7 +39,7 @@ import android.widget.Toast;
  *  // HEY! GO TO https://github.com/DushyanthMaguluru/ZBarScanner TO GET THE ZBAR LIBRARY ON YOUR INDIVIDUAL MACHINE
  */
 
-public class TadaActivity extends BaseActivity
+public class TadaActivity extends Fragment
 {
 	private final String TAG = "TadaActivity";
 	
@@ -54,6 +57,16 @@ public class TadaActivity extends BaseActivity
 	
 	private final String REC_SAVED = "/rec_unsent.txt"; 
 	
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater,
+			ViewGroup container, Bundle savedInstanceState) {
+	       
+		//Inflate the layout for this fragment
+	        
+	    return inflater.inflate(
+	    		R.layout.activity_tada, container, false);
+	}
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -532,6 +545,6 @@ public class TadaActivity extends BaseActivity
 		ActivityBridge.getInstance().setChecked4();
 		Intent intent = new Intent(this, ZBarScannerActivity.class);
 		startActivityForResult(intent, ZBAR_SCANNER_REQUEST);//ZBAR_SCANNER_REQUEST = 0
-	}
+	}*/
 	
 }

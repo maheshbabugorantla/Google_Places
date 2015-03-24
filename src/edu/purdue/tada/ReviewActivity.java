@@ -28,6 +28,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.InputType;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,11 +60,21 @@ import java.text.DateFormat;
  * @author Ben Klutzke, Parth Patel
  * 
  */
-public class ReviewActivity extends BaseActivity{
+public class ReviewActivity extends Fragment{
 	
 	// Note that the refresh button should do adapter.notifyDataSetChanged();
 	
 	protected static final int TAG_REQUEST = 101;
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater,
+			ViewGroup container, Bundle savedInstanceState) {
+	       
+		//Inflate the layout for this fragment
+	        
+	    return inflater.inflate(
+	    		R.layout.review_layout, container, false);
+	}
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);

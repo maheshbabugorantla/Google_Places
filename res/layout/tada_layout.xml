@@ -4,49 +4,48 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <FrameLayout
+    
+      <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.0" 
-        >
-	</FrameLayout>
-	<FrameLayout
+        android:layout_weight="1.0"  >
+	</FrameLayout> 
+    
+
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        >
+        android:layout_height="wrap_content" >
+
         <RadioGroup
             android:id="@+id/tabGroup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:orientation="horizontal"
+            android:background="#40352F"
             android:gravity="center_vertical"
-            android:background="#40352F">
+            android:orientation="horizontal" >
+
             <RadioButton
                 android:id="@+id/tab_0"
-                android:text="@string/record_title"
-				android:drawableTop="@drawable/ic_tab_testicon_unselected" 
-				style="@style/tab_button_bottom"
-				android:checked="true"
-                 />
+                style="@style/tab_button_bottom"
+                android:checked="true"
+                android:drawableTop="@drawable/ic_tab_testicon_unselected"
+                android:text="@string/record_title" />
 
             <RadioButton
                 android:id="@+id/tab_1"
-                android:text="@string/review"
-				android:drawableTop="@drawable/ic_tab_review_unselected" 
-				style="@style/tab_button_bottom"
-				/>
+                style="@style/tab_button_bottom"
+                android:drawableTop="@drawable/ic_tab_review_unselected"
+                android:text="@string/review" />
 
             <RadioButton
                 android:id="@+id/tab_2"
-                android:text="@string/more"
-				android:drawableTop="@drawable/ic_tab_more_unselected" 
-				style="@style/tab_button_bottom"
-                 />
-            
-        </RadioGroup>   
-
+                style="@style/tab_button_bottom"
+                android:drawableTop="@drawable/ic_tab_more_unselected"
+                android:text="@string/more" />
+        </RadioGroup>
     </FrameLayout>
 
 </LinearLayout>

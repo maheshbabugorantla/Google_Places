@@ -8,11 +8,18 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -125,9 +132,10 @@ public class TabGroup extends ActivityGroup{
 					}
 				}
 		}); 
-    }
+    } 
     
-   /* commented out since removed SettingsGroup Nicole Missele - 3/22/15
+    
+    
     @Override
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
@@ -152,7 +160,7 @@ public class TabGroup extends ActivityGroup{
     	else
     	{
     		finish();
-    	} */
+    	}
     	
     	/*
     	//if users press the back button in the main activity, shows an alert dialog
@@ -171,8 +179,8 @@ public class TabGroup extends ActivityGroup{
 			}
 		});
   	  	builder.create().show();
-  	  	
-    }   */ 
+  	  	*/
+    }    
     @Override
     protected void onResume() {
     	super.onResume();
