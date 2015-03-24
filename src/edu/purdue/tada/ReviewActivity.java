@@ -66,7 +66,11 @@ public class ReviewActivity extends BaseFragment{
 	
 	protected static final int TAG_REQUEST = 101;
 	
-	
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setContentView(R.layout.review_layout);
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -266,7 +270,7 @@ public class ReviewActivity extends BaseFragment{
 			String key = month + ", " + year;
 			String type = "month";
 			
-			/*Gets Current Date Parth Patel*/
+			//Gets Current Date Parth Patel
 			DateFormat dateFormat = new SimpleDateFormat("MMMM/dd/yyyy");
 			String date = dateFormat.format(ri.getDate()).toString();
 			Date currentDate = new Date(); 
@@ -276,7 +280,7 @@ public class ReviewActivity extends BaseFragment{
 					type = "today";
 			}
 			
-			/*Gets Yesterday's Date Parth Patel*/
+			//Gets Yesterday's Date Parth Patel
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DATE,-1);
 //			System.out.println(cal.toString());

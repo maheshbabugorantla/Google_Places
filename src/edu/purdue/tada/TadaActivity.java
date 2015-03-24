@@ -58,6 +58,7 @@ public class TadaActivity extends BaseFragment
 	private final String REC_SAVED = "/rec_unsent.txt"; 
 	
 	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class TadaActivity extends BaseFragment
 		View view = inflater.inflate(R.layout.activity_tada, container, false);
 		
 		unsentRec = "" + recSaved + REC_SAVED; // Added By David to fix crash 9/24/2013
-		img_scanner = (Button) view.findViewById(R.id.scan);
+		//img_scanner = (Button) view.findViewById(R.id.scan);
 		unsent = (Button) view.findViewById(R.id.unsent_event);
 		System.out.println("Tada: on create!");
 		// Initialize imgFlag

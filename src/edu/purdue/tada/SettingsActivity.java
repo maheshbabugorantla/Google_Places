@@ -5,6 +5,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +15,19 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
 public class SettingsActivity extends BaseFragment {
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 	       
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.setting_layout, container, false);
-		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
+		
+		Button btn1 = (Button)view.findViewById(R.id.settings_button1);
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
 		btn1.setOnClickListener(new View.OnClickListener() {
 			
@@ -42,7 +44,7 @@ public class SettingsActivity extends BaseFragment {
 		
 		});
 		
-		Button btn2 = (Button) view.findViewById(R.id.settings_button2);
+		Button btn2 = (Button)view.findViewById(R.id.settings_button2);
 		btn2.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -105,5 +107,12 @@ public class SettingsActivity extends BaseFragment {
 			
 		});
 		return view;
+	}
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setContentView(R.layout.setting_layout);
+		System.out.println("in settings activity");
+		
 	}
 }

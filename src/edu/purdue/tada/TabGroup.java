@@ -28,7 +28,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ViewFlipper;
 
 
-public class TabGroup extends ActivityGroup{
+public class TabGroup extends ActivityGroup {
 
 	private final String TAG = "TabGroup";
     static FrameLayout container = null;
@@ -41,15 +41,16 @@ public class TabGroup extends ActivityGroup{
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	
+    	
+    	
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         group = this; // define group for tabs to appear over all activities launched inside app -- Nicole Missele 4/12/15
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.tada_layout);
-        container = (FrameLayout)findViewById(R.id.container);
+        //container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
-        
-         
         radio0 = (RadioButton)findViewById(R.id.tab_0);
         radio1 = (RadioButton)findViewById(R.id.tab_1);
         radio2 = (RadioButton)findViewById(R.id.tab_2);
@@ -69,10 +70,11 @@ public class TabGroup extends ActivityGroup{
         container.removeAllViews();
         container.addView(getLocalActivityManager().startActivity(
                 "Module1",
-                new Intent(TabGroup.this, TadaActivity.class)
+                new Intent(TabGroup.this, ViewPagerContainer.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());
         
+    	          
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -177,7 +179,7 @@ public class TabGroup extends ActivityGroup{
   	  	
     }   */
     @Override
-    protected void onResume() {
+	public void onResume() {
     	super.onResume();
     	//set the tabs to the previous check status 
     	radio0.setChecked(ActivityBridge.getInstance().isRadio0());
