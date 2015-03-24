@@ -88,10 +88,11 @@ private int doNotShowAgain = 0;
        ActivityBridge.getInstance().setChecked1((PreferenceHelper.getTips(this)));
        //set onClickListener on the "Snap it" button 
        buttonTakePicture = (Button)findViewById(R.id.takebutton);
+       
+       //change the background of the camera button by Lechuan
        buttonTakePicture.setBackgroundResource(R.drawable.camera);
        buttonTakePicture.setText(" ");
-       buttonTakePicture.setWidth(100);
-       buttonTakePicture.setHeight(100);
+
        buttonTakePicture.setOnClickListener(new Button.OnClickListener(){
  
     	   @Override
@@ -103,6 +104,8 @@ private int doNotShowAgain = 0;
        
        //set onClickListener on the "cancel" button 
        Button buttonCancel = (Button)findViewById(R.id.cancelbutton);
+       
+       //change the background of the cancel button
        buttonCancel.setBackgroundResource(R.drawable.barcode);
        buttonCancel.setText(" ");
        buttonCancel.setOnClickListener(new Button.OnClickListener(){
@@ -123,6 +126,8 @@ private int doNotShowAgain = 0;
        
        //set onClickListener on the "Tips" button 
        Button buttonTip = (Button)findViewById(R.id.tipbutton);
+       
+       //change the background of the tip button
        buttonTip.setBackgroundResource(R.drawable.tip);
        buttonTip.setText(" ");
        buttonTip.setOnClickListener(new Button.OnClickListener(){
