@@ -18,6 +18,7 @@ import com.hb.views.PinnedSectionListView.PinnedSectionListAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +41,21 @@ import java.text.DateFormat;
  * @author Ben Klutzke, Parth Patel
  * 
  */
-public class ReviewActivity extends BaseActivity{
+public class ReviewActivity extends Fragment{
 	
 	// Note that the refresh button should do adapter.notifyDataSetChanged();
 	
 	protected static final int TAG_REQUEST = 101;
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater,
+			ViewGroup container, Bundle savedInstanceState) {
+	       
+		//Inflate the layout for this fragment
+	        
+	    return inflater.inflate(
+	    		R.layout.review_layout, container, false);
+	}
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -138,7 +149,7 @@ public class ReviewActivity extends BaseActivity{
 			String key = month + ", " + year;
 			String type = "month";
 			
-			/*Gets Current Date Parth Patel*/
+			//Gets Current Date Parth Patel
 			DateFormat dateFormat = new SimpleDateFormat("MMMM/dd/yyyy");
 			String date = dateFormat.format(ri.getDate()).toString();
 			Date currentDate = new Date(); 
@@ -148,7 +159,7 @@ public class ReviewActivity extends BaseActivity{
 					type = "today";
 			}
 			
-			/*Gets Yesterday's Date Parth Patel*/
+			//Gets Yesterday's Date Parth Patel
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DATE,-1);
 //			System.out.println(cal.toString());
@@ -345,5 +356,5 @@ public class ReviewActivity extends BaseActivity{
 			intent.setClass(ReviewActivity.this, PinPage.class);
 			startActivity(intent);
 		}
-	}
-}
+	} */
+} 
