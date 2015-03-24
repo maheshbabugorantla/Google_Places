@@ -88,7 +88,10 @@ private int doNotShowAgain = 0;
        ActivityBridge.getInstance().setChecked1((PreferenceHelper.getTips(this)));
        //set onClickListener on the "Snap it" button 
        buttonTakePicture = (Button)findViewById(R.id.takebutton);
-
+       buttonTakePicture.setBackgroundResource(R.drawable.camera);
+       buttonTakePicture.setText(" ");
+       buttonTakePicture.setWidth(100);
+       buttonTakePicture.setHeight(100);
        buttonTakePicture.setOnClickListener(new Button.OnClickListener(){
  
     	   @Override
@@ -97,29 +100,40 @@ private int doNotShowAgain = 0;
     		   ActivityBridge.getInstance().setAngle1(angleView.getText().toString().substring(0,2));
     		   myCamera.takePicture(null,null,jpegPictureCallback);   
     	   }});
+       
        //set onClickListener on the "cancel" button 
        Button buttonCancel = (Button)findViewById(R.id.cancelbutton);
+       buttonCancel.setBackgroundResource(R.drawable.barcode);
+       buttonCancel.setText(" ");
        buttonCancel.setOnClickListener(new Button.OnClickListener(){
 		@Override
 		public void onClick(View view) {
-			// TODO Auto-generated method stub
-			if (ActivityBridge.getInstance().getImgFlag()==1) {
-				ActivityBridge.getInstance().setImgFlag(0);
-			}else {
-				ActivityBridge.getInstance().setImgFlag(1);
-			}
-			CameraActivity.this.setResult(Activity.RESULT_CANCELED);
+			//TODO Auto-generated method stub  
+			if (ActivityBridge.getInstance().getImgFlag()==1) {  
+				ActivityBridge.getInstance().setImgFlag(0);  
+			}else {  
+				ActivityBridge.getInstance().setImgFlag(1);  
+			}  
+			CameraActivity.this.setResult(Activity.RESULT_CANCELED);  
+			  
 			finish();
+
+
 		}});
+       
        //set onClickListener on the "Tips" button 
        Button buttonTip = (Button)findViewById(R.id.tipbutton);
+       buttonTip.setBackgroundResource(R.drawable.tip);
+       buttonTip.setText(" ");
        buttonTip.setOnClickListener(new Button.OnClickListener(){
-
 		@Override
 		public void onClick(View view) {
 			// TODO Auto-generated method stub
 			dialog();
 		}});
+       
+
+       
        //set onClickListener on the camera view to enable manual focus
        LinearLayout layoutBackground = (LinearLayout)findViewById(R.id.background);
        layoutBackground.setOnClickListener(new LinearLayout.OnClickListener(){
