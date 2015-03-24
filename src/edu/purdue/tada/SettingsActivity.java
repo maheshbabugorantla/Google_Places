@@ -2,8 +2,10 @@ package edu.purdue.tada;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
@@ -13,13 +15,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-public class SettingsActivity extends BaseActivity{
+public class SettingsActivity extends BaseActivity {
+	
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.setting_layout);
-		System.out.println("in settings activity");
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setContentView(R.layout.setting_layout);
+		/*System.out.println("in settings activity");
 		Button btn1 = (Button)findViewById(R.id.settings_button1);
 		Button btn2 = (Button)findViewById(R.id.settings_button2);
 		Button btn3 = (Button)findViewById(R.id.settings_button3);
@@ -56,7 +59,7 @@ public class SettingsActivity extends BaseActivity{
 //				SettingsGroup.group.setContentView(view);
 				
 				// Above code moves to ResearchPassword class, let's try to do it with a dialog
-				instance.makeDiaglog();
+				//instance.makeDiaglog();
 			}
 			
 		});
@@ -77,7 +80,7 @@ public class SettingsActivity extends BaseActivity{
 		});	
 	}
 	
-	protected void makeDiaglog() {
+	/*protected void makeDiaglog() {
 		DialogFragment d = new ResearchDialogFragment(this);
 		d.show(getSupportFragmentManager(), "Reasearch Dialog");
 	}
@@ -108,6 +111,6 @@ public class SettingsActivity extends BaseActivity{
 	           });  
 	        
 	        return builder.create();
-		}
-	}
-}
+		} */
+	} 
+} 

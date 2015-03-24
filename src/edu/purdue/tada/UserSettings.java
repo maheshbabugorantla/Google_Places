@@ -10,7 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.content.Intent;
 
-public class UserSettings extends BaseActivity{
+public class UserSettings extends BaseActivity {
 	private CheckBox checkBox1;
 	private CheckBox checkBox2;
 	public void onCreate(Bundle savedInstanceState){
