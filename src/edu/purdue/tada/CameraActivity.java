@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
- 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -48,6 +48,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -92,6 +93,8 @@ private SensorManager sensorManager;
 private Drawable image;
 private Button buttonTakePicture;
 private TextView angleView;
+private CheckBox doNotShow;
+private int doNotShowAgain = 0;
 private Mat Mat1;
 private Mat Mat2;
 private MatOfDMatch matches;
@@ -141,7 +144,7 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 	  //
 	  //
 	  //Neither the names of the copyright holders nor the names of the contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-	  //This software is provided by the copyright holders and contributors “as is” and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall copyright holders or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of
+	  //This software is provided by the copyright holders and contributors ï¿½as isï¿½ and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall copyright holders or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of
 	  //the use of this software, even if advised of the possibility of such damage.
     @Override
     public void onManagerConnected(int status) {
@@ -219,6 +222,9 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
        ActivityBridge.getInstance().setChecked1((PreferenceHelper.getTips(this)));
        //set onClickListener on the "Snap it" button 
        buttonTakePicture = (Button)findViewById(R.id.takebutton);
+       //change the background of the camera button by Lechuan
+       buttonTakePicture.setBackgroundResource(R.drawable.camera);
+       buttonTakePicture.setText(" ");
        buttonTakePicture.setOnClickListener(new Button.OnClickListener(){
  
     	   @Override
@@ -229,6 +235,9 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
     	   }});
        //set onClickListener on the "cancel" button 
        Button buttonCancel = (Button)findViewById(R.id.cancelbutton);
+       //change the background of the cancel button
+       buttonCancel.setBackgroundResource(R.drawable.barcode);
+       buttonCancel.setText(" ");
        buttonCancel.setOnClickListener(new Button.OnClickListener(){
 		@Override
 		public void onClick(View view) {
@@ -243,6 +252,9 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		}});
        //set onClickListener on the "Tips" button 
        Button buttonTip = (Button)findViewById(R.id.tipbutton);
+       //change the background of the tip button
+       buttonTip.setBackgroundResource(R.drawable.tip);
+       buttonTip.setText(" ");
        buttonTip.setOnClickListener(new Button.OnClickListener(){
 
 		@Override
@@ -437,8 +449,8 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 				   }
 			   }, gSensor, SensorManager.SENSOR_DELAY_NORMAL);
 			   //if "Tips" in user settings is checked, then show tips when camera opens.
-			   if (ActivityBridge.getInstance().isChecked1()) {
-				 dialog();
+			   if (ActivityBridge.getInstance().isChecked1() && ActivityBridge.getInstance().getChecked3()) {
+					 dialog();
 			}
 			  
 		   }catch (IOException e) {
@@ -528,12 +540,19 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
   //show a dialog when users press tips button
   private void dialog() {
 	  AlertDialog.Builder builder = new Builder(CameraActivity.this);
+	  LayoutInflater inflater = LayoutInflater.from(CameraActivity.this);
+	  View layout = inflater.inflate(R.layout.scroll_tips, null);
+	  doNotShow = (CheckBox)layout.findViewById(R.id.DoNotShow);
 	  builder.setTitle("Tips");
-	  builder.setView(LayoutInflater.from(this).inflate(R.layout.scroll_tips,null));
+	  builder.setView(layout);
 	  builder.setPositiveButton("OK", new OnClickListener() {
 		  @Override
 		  public void onClick(DialogInterface arg0, int arg1) {
 			  // TODO Auto-generated method stub
+			  if (doNotShow.isChecked()) {
+				  ActivityBridge.getInstance().setChecked3();
+				  PreferenceHelper.setTips(CameraActivity.this, false);
+			  }
 			  arg0.dismiss();
 		  }});
 	  builder.create().show();
@@ -555,7 +574,7 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
   //
   //
   //Neither the names of the copyright holders nor the names of the contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-  //This software is provided by the copyright holders and contributors “as is” and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall copyright holders or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of
+  //This software is provided by the copyright holders and contributors ï¿½as isï¿½ and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall copyright holders or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of
   //the use of this software, even if advised of the possibility of such damage.
   
   
@@ -601,7 +620,7 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		    fd.detect( Mat1, keypoints_object );
 		    fd.detect( Mat2, keypoints_scene );
 		  
-		    //– Step 2: Calculate descriptors (feature vectors)
+		    //ï¿½ Step 2: Calculate descriptors (feature vectors)
 		    extractor.compute( Mat1, keypoints_object, descriptors_object );
 		    extractor.compute( Mat2, keypoints_scene, descriptors_scene );
 
@@ -628,7 +647,7 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		    matches.release();
 		    matches = null;
 
-		    //– Quick calculation of max and min distances between keypoints
+		    //ï¿½ Quick calculation of max and min distances between keypoints
 		    for( int i = 0; i < descriptors_object.rows(); i++ ){
 		    	Double dist = (double) matchesList.get(i).distance;
 		    	if( dist < min_dist ) min_dist = dist;
@@ -796,5 +815,3 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 	  return bmp;
   }
 }
-
-
