@@ -6,7 +6,7 @@ public class AboutTada extends BaseActivity{
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.about_layout);	
+		setContentView(R.layout.about_layout); 	
 		
 		/* Not needed due to functionality of back button in settings tab
 		//rid of unnecessary button - Nicole Missele 3/20/15
