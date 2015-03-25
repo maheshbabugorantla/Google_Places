@@ -22,6 +22,7 @@ public class UserSettings extends BaseActivity{
 		checkBox1.setChecked(PreferenceHelper.getTips(this));
 		checkBox2.setChecked(ActivityBridge.getInstance().isChecked2());
 		
+
 		//prepare "theme" button
 		Button themeButton = (Button)findViewById(R.id.theme_button);
 		themeButton.setOnClickListener(new View.OnClickListener() {

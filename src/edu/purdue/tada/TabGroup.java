@@ -120,9 +120,7 @@ public class TabGroup extends ActivityGroup{
 				}
 		}); 
     }
-    
-    
-    /*
+   /* commented out since removed SettingsGroup Nicole Missele - 3/22/15
     @Override
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button

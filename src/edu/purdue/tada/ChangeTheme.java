@@ -2,10 +2,8 @@ package edu.purdue.tada;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.content.Intent;
 
 public class ChangeTheme extends BaseActivity{
 	
