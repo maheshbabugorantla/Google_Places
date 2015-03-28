@@ -1,7 +1,7 @@
 package edu.purdue.tada;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +17,11 @@ import android.content.Intent;
 public class SettingsActivity extends BaseActivity {
 	
 	
-	public void onCreate(Bundle savedInstanceState){
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		//setContentView(R.layout.setting_layout);
-		/*System.out.println("in settings activity");
+		System.out.println("in settings activity");
 		Button btn1 = (Button)findViewById(R.id.settings_button1);
 		Button btn2 = (Button)findViewById(R.id.settings_button2);
 		Button btn3 = (Button)findViewById(R.id.settings_button3);
@@ -112,12 +112,7 @@ public class SettingsActivity extends BaseActivity {
 //						.startActivity("ResearchPassword", intent);
 //				View view = w.getDecorView();
 //				SettingsGroup.group.setContentView(view);
-//					
-//				
-//				
-//			}}
-//			
-//		);
+
 		
 		/*//set up button three to go to "About" screen using Settings Group
 		btn3.setOnClickListener(new OnClickListener() {
@@ -146,11 +141,41 @@ public class SettingsActivity extends BaseActivity {
 		
 	}
 	
-	
 
 
-	     
-		
+	/*protected void makeDiaglog() {
+		DialogFragment d = new ResearchDialogFragment(this);
+		d.show(getSupportFragmentManager(), "Reasearch Dialog");
+	}
+
 }
 	
 	
+
+		public ResearchDialogFragment(Context context){
+			super();
+			c = context;
+		}
+		
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+	        LayoutInflater inflater = getActivity().getLayoutInflater();
+	        
+	        builder.setView(inflater.inflate(R.layout.password_layout, null))
+		        .setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
+	               @Override
+	               public void onClick(DialogInterface dialog, int id) {
+	                   System.out.println("test");
+	               }
+	           })
+	           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int id) {
+	            	   ResearchDialogFragment.this.getDialog().cancel();
+	               }
+	           });  
+	        
+	        return builder.create();
+		} */
+	} 
+ 
+

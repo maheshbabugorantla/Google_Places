@@ -13,8 +13,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -38,13 +40,15 @@ public class TabGroup extends FragmentActivity {
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	
+    	
+    	
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         setContentView(R.layout.tada_layout);
         //container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
-        
         
         radio0 = (RadioButton)findViewById(R.id.tab_0);
         radio1 = (RadioButton)findViewById(R.id.tab_1);
@@ -158,7 +162,6 @@ public class TabGroup extends FragmentActivity {
     
     
     
-    @Override
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
     	// it will take you back to original More tab
@@ -182,7 +185,7 @@ public class TabGroup extends FragmentActivity {
     	else
     	{
     		finish();
-    	} */
+    	} 
     	
     	/*
     	//if users press the back button in the main activity, shows an alert dialog
@@ -204,11 +207,13 @@ public class TabGroup extends FragmentActivity {
   	  	*/
     }    
     @Override
-    protected void onResume() {
+	public void onResume() {
     	super.onResume();
     	//set the tabs to the previous check status 
     	radio0.setChecked(ActivityBridge.getInstance().isRadio0());
         radio1.setChecked(ActivityBridge.getInstance().isRadio1());
         radio2.setChecked(ActivityBridge.getInstance().isRadio2());
+
     }
 }
+
