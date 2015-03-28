@@ -1,15 +1,22 @@
 package edu.purdue.tada;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.Window;
 
+<<<<<<< Upstream, based on ui
 public class BaseActivity extends Activity
+=======
+public class BaseActivity extends Fragment
+>>>>>>> 8e7baa0 Rebased off ui branch
 {
 	private final String TAG = "BaseActivity";
 	
@@ -21,25 +28,26 @@ public class BaseActivity extends Activity
 	protected String recSaved;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public void onCreate(Bundle savedInstanceState)
 	{
 		if (savedInstanceState == null)
 		{
-			mTheme = PreferenceHelper.getTheme(this);
+			mTheme = PreferenceHelper.getTheme(getActivity());
 		} else
 		{
 			mTheme = savedInstanceState.getInt("theme");
 		}
-		setTheme(mTheme);
+		// create ContextThemeWrapper from the original Activity Context with the custom theme
+	    final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), mTheme);
+		//setTheme(mTheme);
 		
-		recSaved = getBaseContext().getFilesDir().getPath();
+		recSaved = getActivity().getFilesDir().getPath();
 		Log.d(TAG, "recSaved = \"" + recSaved + "\"");
 		
 		super.onCreate(savedInstanceState);
 	}
 	
-	@Override
-	protected void onResume()
+	public void onResume()
 	{
 		super.onResume();
 		if (mTheme != PreferenceHelper.getTheme(this))
@@ -50,7 +58,7 @@ public class BaseActivity extends Activity
 	}
 	
 	@Override
-	protected void onSaveInstanceState(Bundle outState)
+	public void onSaveInstanceState(Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
 		outState.putInt("theme", mTheme);
