@@ -12,7 +12,8 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.Window;
 
-public class BaseActivity extends Fragment
+
+public class BaseActivity extends Activity
 {
 	private final String TAG = "BaseActivity";
 	
@@ -24,26 +25,24 @@ public class BaseActivity extends Fragment
 	protected String recSaved;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		if (savedInstanceState == null)
 		{
-			mTheme = PreferenceHelper.getTheme(getActivity());
+			mTheme = PreferenceHelper.getTheme(this);
 		} else
 		{
 			mTheme = savedInstanceState.getInt("theme");
 		}
-		// create ContextThemeWrapper from the original Activity Context with the custom theme
-	    final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), mTheme);
-		//setTheme(mTheme);
+		setTheme(mTheme);
 		
-		recSaved = getActivity().getFilesDir().getPath();
+		recSaved = getFilesDir().getPath();
 		Log.d(TAG, "recSaved = \"" + recSaved + "\"");
 		
 		super.onCreate(savedInstanceState);
 	}
 	
-	public void onResume()
+	protected void onResume()
 	{
 		super.onResume();
 		if (mTheme != PreferenceHelper.getTheme(this))
@@ -54,7 +53,7 @@ public class BaseActivity extends Fragment
 	}
 	
 	@Override
-	public void onSaveInstanceState(Bundle outState)
+	protected void onSaveInstanceState(Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
 		outState.putInt("theme", mTheme);
@@ -98,6 +97,7 @@ public class BaseActivity extends Fragment
 		startActivity(refresh);
 		this.finish(); 
 	}
+<<<<<<< Upstream, based on origin/ui
 		*/
 	//attempt 2
 	/*

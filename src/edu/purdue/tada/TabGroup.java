@@ -41,9 +41,6 @@ public class TabGroup extends ActivityGroup {
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	
-    	
-    	
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         group = this; // define group for tabs to appear over all activities launched inside app -- Nicole Missele 4/12/15
@@ -179,7 +176,7 @@ public class TabGroup extends ActivityGroup {
   	  	
     }   */
     @Override
-	public void onResume() {
+    protected void onResume() {
     	super.onResume();
     	//set the tabs to the previous check status 
     	radio0.setChecked(ActivityBridge.getInstance().isRadio0());
