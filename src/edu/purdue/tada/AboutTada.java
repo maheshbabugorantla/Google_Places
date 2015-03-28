@@ -1,12 +1,31 @@
 package edu.purdue.tada;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-public class AboutTada extends BaseActivity{
+public class AboutTada extends BaseFragment{
 	
-	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.about_layout); 	
+	public View onCreateView(LayoutInflater inflater,
+			ViewGroup container, Bundle savedInstanceState) {
+	       
+		//Inflate the layout for this fragment
+		View view = inflater.inflate(R.layout.about_layout, container, false);
+		view.setOnKeyListener( new View.OnKeyListener()
+		{
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		} 
+		);
+		return view;
+	}
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);	
 		
 		//rid of unnecessary button - Nicole Missele 3/20/15
 		/* Button titleButton = (Button)findViewById(R.id.settings_button0);

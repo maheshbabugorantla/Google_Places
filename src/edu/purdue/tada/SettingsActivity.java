@@ -3,6 +3,7 @@ package edu.purdue.tada;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +13,18 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-public class SettingsActivity extends BaseActivity{
+public class SettingsActivity extends BaseFragment {
 	
-	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.setting_layout);
-		System.out.println("in settings activity");
-		Button btn1 = (Button)findViewById(R.id.settings_button1);
-		Button btn2 = (Button)findViewById(R.id.settings_button2);
-		Button btn3 = (Button)findViewById(R.id.settings_button3);
-		
+	@Override
+	public View onCreateView(LayoutInflater inflater,
+			ViewGroup container, Bundle savedInstanceState) {
+	       
+		//Inflate the layout for this fragment
+		View view = inflater.inflate(R.layout.setting_layout, container, false);
+		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
 		btn1.setOnClickListener(new View.OnClickListener() {
 			
@@ -36,28 +34,13 @@ public class SettingsActivity extends BaseActivity{
 				TabGroup.container.removeAllViews();
 				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 						"UserSettings",
-						new Intent(SettingsActivity.this, UserSettings.class)
+						new Intent(getActivity(), UserSettings.class)
 							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 						.getDecorView());
 			}
 		
-		});
-			
-		//Old code using the SettingsGroup
-			/*@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(SettingsActivity.this, UserSettings.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = SettingsGroup.group.getLocalActivityManager()
-						.startActivity("UserSettings", intent);
-				View view = w.getDecorView();
-				SettingsGroup.group.setContentView(view);*/
-			
-			
+		});*/
 		
-		
-
-		//set up button two to go to Researcher settings - Nicole Missele 2/20/15
 		btn2.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -68,8 +51,8 @@ public class SettingsActivity extends BaseActivity{
 			}
 			//using dialog box
 			private void dialog(){
-				AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
-				LayoutInflater inflater = LayoutInflater.from(SettingsActivity.this);
+				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				LayoutInflater inflater = LayoutInflater.from(getActivity());
 				View layout = inflater.inflate(R.layout.password_layout, null);
 				builder.setTitle("Login");			
 				builder.setView(layout);
@@ -83,7 +66,7 @@ public class SettingsActivity extends BaseActivity{
 							TabGroup.container.removeAllViews();
 							TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 							"ResearchSettings",
-							new Intent(SettingsActivity.this, ResearchSettings.class)
+							new Intent(getActivity(), ResearchSettings.class)
 								.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 							.getDecorView());
 					}
@@ -105,6 +88,37 @@ public class SettingsActivity extends BaseActivity{
 				
 			};
 		});
+		Button btn3 = (Button) view.findViewById(R.id.settings_button3);
+		btn3.setOnClickListener(new View.OnClickListener() {
+		
+			@Override
+			public void onClick(View v) {
+				TabGroup.container.removeAllViews();
+				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+						"UserSettings",
+						new Intent(getActivity(), UserSettings.class)
+							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+						.getDecorView());
+			}
+			
+		});
+			
+		//Old code using the SettingsGroup
+			/*@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(SettingsActivity.this, UserSettings.class)
+				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				Window w = SettingsGroup.group.getLocalActivityManager()
+						.startActivity("UserSettings", intent);
+				View view = w.getDecorView();
+				SettingsGroup.group.setContentView(view);*/
+			
+			
+		
+		
+
+		//set up button two to go to Researcher settings - Nicole Missele 2/20/15
+		
 		//set up button 2 to go to Researcher settings password as own activity without alert dialog Nicole Missele 2/20/2015
 //		btn2.setOnClickListener(new OnClickListener(){
 //
@@ -125,19 +139,6 @@ public class SettingsActivity extends BaseActivity{
 		
 		
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
-		btn3.setOnClickListener(new View.OnClickListener() {
-					
-			@Override
-			public void onClick(View v) {
-				TabGroup.container.removeAllViews();
-				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
-						"AboutTada",
-						new Intent(SettingsActivity.this, AboutTada.class)
-							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-						.getDecorView());
-			}
-				
-		});
 		
 	}
 }
