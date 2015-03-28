@@ -1,12 +1,19 @@
 package edu.purdue.tada;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.dm.zbar.android.scanner.ZBarConstants;
+import com.dm.zbar.android.scanner.ZBarScannerActivity;
  
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -42,9 +49,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
  
 /*
@@ -66,6 +75,17 @@ private Button buttonTakePicture;
 private TextView angleView;
 private CheckBox doNotShow;
 private int doNotShowAgain = 0;
+private static final int ZBAR_SCANNER_REQUEST = 0;
+private ImageButton img_before;
+private ImageButton img_after;
+private static final int TAKE_PHOTO = 43;
+private static final int UPLOAD_UNSENT = 59;
+private static final int SCAN_RESULT_REQUEST = 1001;
+private static final int KEEP_RESULT = 99;
+private static final int RETAKE_RESULT = 98;
+private Button img_scanner;
+private Button unsent;
+private String unsentRec; // moved to oncreate.
 
 
    /** Called when the activity is first created. */
@@ -88,26 +108,17 @@ private int doNotShowAgain = 0;
        ActivityBridge.getInstance().setChecked1((PreferenceHelper.getTips(this)));
        //set onClickListener on the "Snap it" button 
        buttonTakePicture = (Button)findViewById(R.id.takebutton);
-       
-       //change the background of the camera button by Lechuan
-       buttonTakePicture.setBackgroundResource(R.drawable.camera);
-       buttonTakePicture.setText(" ");
 
        buttonTakePicture.setOnClickListener(new Button.OnClickListener(){
  
     	   @Override
-    	   public void onClick(View view) {
+    	   public void onClick(View view) { 
     		   // TODO Auto-generated method stub
     		   ActivityBridge.getInstance().setAngle1(angleView.getText().toString().substring(0,2));
     		   myCamera.takePicture(null,null,jpegPictureCallback);   
     	   }});
-       
        //set onClickListener on the "cancel" button 
        Button buttonCancel = (Button)findViewById(R.id.cancelbutton);
-       
-       //change the background of the cancel button
-       buttonCancel.setBackgroundResource(R.drawable.barcode);
-       buttonCancel.setText(" ");
        buttonCancel.setOnClickListener(new Button.OnClickListener(){
 		@Override
 		public void onClick(View view) {
@@ -123,22 +134,15 @@ private int doNotShowAgain = 0;
 
 
 		}});
-       
        //set onClickListener on the "Tips" button 
        Button buttonTip = (Button)findViewById(R.id.tipbutton);
-       
-       //change the background of the tip button
-       buttonTip.setBackgroundResource(R.drawable.tip);
-       buttonTip.setText(" ");
        buttonTip.setOnClickListener(new Button.OnClickListener(){
+
 		@Override
 		public void onClick(View view) {
 			// TODO Auto-generated method stub
 			dialog();
 		}});
-       
-
-       
        //set onClickListener on the camera view to enable manual focus
        LinearLayout layoutBackground = (LinearLayout)findViewById(R.id.background);
        layoutBackground.setOnClickListener(new LinearLayout.OnClickListener(){
@@ -214,6 +218,41 @@ private int doNotShowAgain = 0;
 		   if (requestCode == SHOW_PREVIEW && resultCode == Activity.RESULT_CANCELED) {
 				System.out.println("successfully return to camera");
 			}
+		   
+		   
+			//returns here from barcode scanner
+			if(requestCode == ZBAR_SCANNER_REQUEST){
+				if (resultCode == RESULT_OK){
+					Intent scanIntent = new Intent(this, ScanResult.class);
+					scanIntent.putExtra("SCAN_RESULT", data.getStringExtra(ZBarConstants.SCAN_RESULT));
+					startActivityForResult(scanIntent, SCAN_RESULT_REQUEST);
+					
+					// ---IMPORTANT---
+					// Scan result is available by making a call to data.getStringExtra(ZBarConstants.SCAN_RESULT)
+					// Type of the scan result is available by making a call to data.getStringExtra(ZBarConstants.SCAN_RESULT_TYPE)
+					
+		        
+				} else if(resultCode == RESULT_CANCELED) {
+					Toast.makeText(this, "Picture Cancelled", Toast.LENGTH_SHORT).show();
+				}
+			}
+			
+			//Returns here from ScanResult Activity
+			if(requestCode == SCAN_RESULT_REQUEST)
+			{
+				if(resultCode == KEEP_RESULT){
+					//dont do anything
+				}else if(resultCode == RETAKE_RESULT){
+					//if retake pressed, call the zbar activity again
+					Intent intent = new Intent(this, ZBarScannerActivity.class);
+					startActivityForResult(intent, ZBAR_SCANNER_REQUEST);
+				}
+				
+			}
+		   
+		   
+		   
+		   
 		}
 	   @Override
 		public void onBackPressed() {
@@ -401,5 +440,12 @@ private int doNotShowAgain = 0;
 
 	  builder.create().show();
 	  }
+  
+	public void callBarCode(){
+		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+		startActivityForResult(intent, ZBAR_SCANNER_REQUEST);//ZBAR_SCANNER_REQUEST = 0
+	}
+
+
   
 }
