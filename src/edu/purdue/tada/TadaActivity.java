@@ -67,7 +67,8 @@ public class TadaActivity extends Fragment
 	    return inflater.inflate(
 	    		R.layout.activity_tada, container, false);
 	}
-	@Override
+	
+	/*@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);

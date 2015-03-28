@@ -57,7 +57,7 @@ public class ReviewActivity extends Fragment{
 	    		R.layout.review_layout, container, false);
 	}
 
-	public void onCreate(Bundle savedInstanceState){
+	/*public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.review_layout);
@@ -227,7 +227,7 @@ public class ReviewActivity extends Fragment{
 	 * @author Ben Klutzke
 	 * 
 	 */
-	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter {		
+	/*private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter {		
 		private ArrayList<ReviewContainer> list = new ArrayList<ReviewContainer>();
 		LayoutInflater inflater = null;
 		

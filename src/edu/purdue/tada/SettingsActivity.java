@@ -2,6 +2,7 @@ package edu.purdue.tada;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +16,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-public class SettingsActivity extends BaseActivity {
-	
-	
-	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//setContentView(R.layout.setting_layout);
-		/*System.out.println("in settings activity");
-		Button btn1 = (Button)findViewById(R.id.settings_button1);
-		Button btn2 = (Button)findViewById(R.id.settings_button2);
-		Button btn3 = (Button)findViewById(R.id.settings_button3);
-		
+public class SettingsActivity extends BaseFragment {
+			
+	@Override
+	public View onCreateView(LayoutInflater inflater,
+			ViewGroup container, Bundle savedInstanceState) {
+	       
+		//Inflate the layout for this fragment
+		View view = inflater.inflate(R.layout.setting_layout, container, false);
+		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
 		btn1.setOnClickListener(new View.OnClickListener() {
 			
@@ -37,7 +35,33 @@ public class SettingsActivity extends BaseActivity {
 				startActivity(intent);
 			}
 		
+		});*/
+		
+		Button btn2 = (Button) view.findViewById(R.id.settings_button2);
+		Button btn3 = (Button) view.findViewById(R.id.settings_button3);
+		btn3.setOnClickListener(new View.OnClickListener() {
+		
+			@Override
+			public void onClick(View v) {
+				 Fragment newFragment = new AboutTada();
+				 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+				 transaction.replace(R.id.container, newFragment);
+				 transaction.addToBackStack(null);
+				 transaction.commit();
+			}
+			
 		});
+	    return view;
+	}
+	
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setContentView(R.layout.setting_layout);
+		System.out.println("in settings activity");
+		
+		
+		
 			
 		//Old code using the SettingsGroup
 			/*@Override
@@ -55,7 +79,7 @@ public class SettingsActivity extends BaseActivity {
 		
 //		//set up alert dialog
 //		
-		btn2.setOnClickListener(new OnClickListener(){
+		/*btn2.setOnClickListener(new OnClickListener(){
 		@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -113,14 +137,9 @@ public class SettingsActivity extends BaseActivity {
 //						.startActivity("ResearchPassword", intent);
 //				View view = w.getDecorView();
 //				SettingsGroup.group.setContentView(view);
-//					
-//				
-//				
-//			}}
-//			
-//		);
+
 		
-		/*//set up button three to go to "About" screen using Settings Group
+		//set up button three to go to "About" screen using Settings Group
 		btn3.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -135,23 +154,46 @@ public class SettingsActivity extends BaseActivity {
 		});	*/
 		
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
-		btn3.setOnClickListener(new View.OnClickListener() {
-					
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(SettingsActivity.this, AboutTada.class);
-				startActivity(intent);
-			}
-				
-		});
 		
 	}
 	
 	
 
 
-	     
-		
+	/*protected void makeDiaglog() {
+		DialogFragment d = new ResearchDialogFragment(this);
+		d.show(getSupportFragmentManager(), "Reasearch Dialog");
+	}
+
 }
 	
 	
+
+		public ResearchDialogFragment(Context context){
+			super();
+			c = context;
+		}
+		
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+	        LayoutInflater inflater = getActivity().getLayoutInflater();
+	        
+	        builder.setView(inflater.inflate(R.layout.password_layout, null))
+		        .setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
+	               @Override
+	               public void onClick(DialogInterface dialog, int id) {
+	                   System.out.println("test");
+	               }
+	           })
+	           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int id) {
+	            	   ResearchDialogFragment.this.getDialog().cancel();
+	               }
+	           });  
+	        
+	        return builder.create();
+		} */
+	}
+
+ 
+
