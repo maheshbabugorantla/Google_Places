@@ -12,7 +12,6 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.Window;
 
-
 public class BaseActivity extends Activity
 {
 	private final String TAG = "BaseActivity";
@@ -42,6 +41,7 @@ public class BaseActivity extends Activity
 		super.onCreate(savedInstanceState);
 	}
 	
+	@Override
 	protected void onResume()
 	{
 		super.onResume();
