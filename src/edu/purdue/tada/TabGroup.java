@@ -8,6 +8,10 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -16,7 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 
-public class TabGroup extends ActivityGroup{
+public class TabGroup extends FragmentActivity {
 
 	private final String TAG = "TabGroup";
     private FrameLayout container = null;
@@ -24,6 +28,13 @@ public class TabGroup extends ActivityGroup{
     private RadioButton radio0;
     private RadioButton radio1;
     private RadioButton radio2;
+    public static boolean isSetting = false;
+    private Fragment fr;
+    private FragmentManager fm;
+    FragmentTransaction fragmentTransaction;
+    
+    
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +42,7 @@ public class TabGroup extends ActivityGroup{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         setContentView(R.layout.tada_layout);
-        container = (FrameLayout)findViewById(R.id.container);
+        //container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
         
         
@@ -46,12 +57,20 @@ public class TabGroup extends ActivityGroup{
         radio0.setTextColor(Color.parseColor("#FFFFFF"));
         radio0.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_testicon_selected), null, null);
 		//set the first tab view to TadaActivity
-        container.removeAllViews();
+        /*container.removeAllViews();
         container.addView(getLocalActivityManager().startActivity(
                 "Module1",
                 new Intent(TabGroup.this, TadaActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                .getDecorView());
+                .getDecorView());*/
+        
+    	             fr = new TadaActivity();
+    	
+    		          
+    		         fm = getSupportFragmentManager();
+    		         fragmentTransaction = fm.beginTransaction();
+    		         fragmentTransaction.replace(R.id.container, fr);
+    		         fragmentTransaction.commit();
                 
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
@@ -60,12 +79,17 @@ public class TabGroup extends ActivityGroup{
 				
 					switch (checkedId) {
 					case R.id.tab_0:
-						container.removeAllViews();
+						/*container.removeAllViews();
 		                container.addView(getLocalActivityManager().startActivity(
 		                        "Module1",
 		                        new Intent(TabGroup.this, TadaActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-		                        .getDecorView()); 
+		                        .getDecorView());  */
+						fr = new TadaActivity();
+	    		        fm = getSupportFragmentManager();
+	    		        fragmentTransaction = fm.beginTransaction();
+	    		        fragmentTransaction.replace(R.id.container, fr);
+	    		        fragmentTransaction.commit();
 		                //set the record button to "pressed" status
 		                radio0.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio1.setTextColor(Color.parseColor("#5DD2DC"));
@@ -79,12 +103,17 @@ public class TabGroup extends ActivityGroup{
 		                ActivityBridge.getInstance().setRadio2(false);
 						break;
 					case R.id.tab_1:
-						container.removeAllViews();
+						/*container.removeAllViews();
 		                container.addView(getLocalActivityManager().startActivity(
 		                        "Module2",
 		                        new Intent(TabGroup.this, ReviewActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-		                        .getDecorView());
+		                        .getDecorView()); */
+						fr = new ReviewActivity();
+	    		        fm = getSupportFragmentManager();
+	    		        fragmentTransaction = fm.beginTransaction();
+	    		        fragmentTransaction.replace(R.id.container, fr);
+	    		        fragmentTransaction.commit();
 		                //set the review button to "pressed" status
 		                radio1.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio0.setTextColor(Color.parseColor("#5DD2DC"));
@@ -98,12 +127,18 @@ public class TabGroup extends ActivityGroup{
 		                ActivityBridge.getInstance().setRadio2(false);
 		                break;
 					case R.id.tab_2:
-						container.removeAllViews();
+						isSetting = true;
+						/*container.removeAllViews();
 		                container.addView(getLocalActivityManager().startActivity(
 		                        "Module3",
 		                        new Intent(TabGroup.this, SettingsActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-		                        .getDecorView());
+		                        .getDecorView()); */
+						fr = new SettingsActivity();
+	    		        fm = getSupportFragmentManager();
+	    		        fragmentTransaction = fm.beginTransaction();
+	    		        fragmentTransaction.replace(R.id.container, fr);
+	    		        fragmentTransaction.commit();
 		                //set the more button to "pressed" status
 		                radio2.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio0.setTextColor(Color.parseColor("#5DD2DC"));
@@ -119,8 +154,10 @@ public class TabGroup extends ActivityGroup{
 					}
 				}
 		}); 
-    }
-   /* commented out since removed SettingsGroup Nicole Missele - 3/22/15
+    } 
+    
+    
+    
     @Override
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
@@ -164,8 +201,8 @@ public class TabGroup extends ActivityGroup{
 			}
 		});
   	  	builder.create().show();
-  	  	
-    }   */ 
+  	  	*/
+    }    
     @Override
     protected void onResume() {
     	super.onResume();
