@@ -67,7 +67,7 @@ private TextView angleView;
 private CheckBox doNotShow;
 private int doNotShowAgain = 0;
 
-
+ 
    /** Called when the activity is first created. */
    @Override
    public void onCreate(Bundle savedInstanceState) {
