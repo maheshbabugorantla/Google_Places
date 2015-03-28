@@ -32,7 +32,6 @@ public class TabGroup extends FragmentActivity {
     private RadioButton radio2;
     public static boolean isSetting = false;
     private Fragment fr;
-    private FragmentManager fm;
     FragmentTransaction fragmentTransaction;
     
     
@@ -69,10 +68,7 @@ public class TabGroup extends FragmentActivity {
                 .getDecorView());*/
         
     	             fr = new TadaActivity();
-    	
-    		          
-    		         fm = getSupportFragmentManager();
-    		         fragmentTransaction = fm.beginTransaction();
+    		         fragmentTransaction = getSupportFragmentManager().beginTransaction();
     		         fragmentTransaction.replace(R.id.container, fr);
     		         fragmentTransaction.commit();
                 
@@ -90,8 +86,7 @@ public class TabGroup extends FragmentActivity {
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView());  */
 						fr = new TadaActivity();
-	    		        fm = getSupportFragmentManager();
-	    		        fragmentTransaction = fm.beginTransaction();
+	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
 	    		        fragmentTransaction.replace(R.id.container, fr);
 	    		        fragmentTransaction.commit();
 		                //set the record button to "pressed" status
@@ -114,8 +109,7 @@ public class TabGroup extends FragmentActivity {
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView()); */
 						fr = new ReviewActivity();
-	    		        fm = getSupportFragmentManager();
-	    		        fragmentTransaction = fm.beginTransaction();
+	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
 	    		        fragmentTransaction.replace(R.id.container, fr);
 	    		        fragmentTransaction.commit();
 		                //set the review button to "pressed" status
@@ -139,9 +133,9 @@ public class TabGroup extends FragmentActivity {
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView()); */
 						fr = new SettingsActivity();
-	    		        fm = getSupportFragmentManager();
-	    		        fragmentTransaction = fm.beginTransaction();
+	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
 	    		        fragmentTransaction.replace(R.id.container, fr);
+	    		        fragmentTransaction.addToBackStack(null);
 	    		        fragmentTransaction.commit();
 		                //set the more button to "pressed" status
 		                radio2.setTextColor(Color.parseColor("#FFFFFF"));
