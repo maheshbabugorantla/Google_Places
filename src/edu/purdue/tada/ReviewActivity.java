@@ -388,6 +388,7 @@ public class ReviewActivity extends BaseFragment{
 	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter, Filterable {		
 		private ArrayList<ReviewContainer> originalList = new ArrayList<ReviewContainer>();	
 		private ArrayList<ReviewContainer> filteredList = new ArrayList<ReviewContainer>();
+
 		LayoutInflater inflater = null;
 		private ListFilter filter = new ListFilter();
 		

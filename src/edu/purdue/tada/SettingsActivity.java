@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +21,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 public class SettingsActivity extends BaseFragment {
+			
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 	       
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.setting_layout, container, false);
-		
-		Button btn1 = (Button)view.findViewById(R.id.settings_button1);
+		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
 		btn1.setOnClickListener(new View.OnClickListener() {
 			
@@ -44,10 +45,12 @@ public class SettingsActivity extends BaseFragment {
 		
 		});
 		
-		Button btn2 = (Button)view.findViewById(R.id.settings_button2);
+		Button btn2 = (Button) view.findViewById(R.id.settings_button2);
+		
+//		//set up alert dialog
+//		
 		btn2.setOnClickListener(new OnClickListener(){
-
-			@Override
+		@Override
 			public void onClick(View v) {
 				TabGroup.isSetting = false;
 				// Above code moves to ResearchPassword class, let's try to do it with a dialog
@@ -113,6 +116,9 @@ public class SettingsActivity extends BaseFragment {
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		//setContentView(R.layout.setting_layout);
 		System.out.println("in settings activity");
-		
 	}
 }
+	
+
+
+	

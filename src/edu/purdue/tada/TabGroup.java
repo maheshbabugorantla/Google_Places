@@ -39,6 +39,7 @@ public class TabGroup extends ActivityGroup {
     public static boolean isSetting = false;
     public static ActivityGroup group;
     
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +71,6 @@ public class TabGroup extends ActivityGroup {
                 new Intent(TabGroup.this, ViewPagerContainer.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());
-        
-    	          
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
