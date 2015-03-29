@@ -30,7 +30,6 @@ public class TabGroup extends FragmentActivity {
     private RadioButton radio0;
     private RadioButton radio1;
     private RadioButton radio2;
-    public static boolean isSetting = false;
     private Fragment fr;
     FragmentTransaction fragmentTransaction;
     
@@ -67,10 +66,11 @@ public class TabGroup extends FragmentActivity {
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());*/
         
-    	             fr = new TadaActivity();
-    		         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    		         fragmentTransaction.replace(R.id.container, fr);
-    		         fragmentTransaction.commit();
+        // Put the Record page as the current fragment on the screen
+        fr = new TadaActivity();
+    	fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    	fragmentTransaction.replace(R.id.container, fr);
+    	fragmentTransaction.commit();
                 
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
@@ -85,9 +85,12 @@ public class TabGroup extends FragmentActivity {
 		                        new Intent(TabGroup.this, TadaActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView());  */
+						// Put the Record page as the current fragment on the screen 
+						// and clears the back stack so back button exits app
 						fr = new TadaActivity();
 	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
 	    		        fragmentTransaction.replace(R.id.container, fr);
+	    		        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 	    		        fragmentTransaction.commit();
 		                //set the record button to "pressed" status
 		                radio0.setTextColor(Color.parseColor("#FFFFFF"));
@@ -108,9 +111,12 @@ public class TabGroup extends FragmentActivity {
 		                        new Intent(TabGroup.this, ReviewActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView()); */
+						// Put the Review page as the current fragment on the screen 
+						// and clears the back stack so back button exits app
 						fr = new ReviewActivity();
 	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
 	    		        fragmentTransaction.replace(R.id.container, fr);
+	    		        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 	    		        fragmentTransaction.commit();
 		                //set the review button to "pressed" status
 		                radio1.setTextColor(Color.parseColor("#FFFFFF"));
@@ -125,17 +131,16 @@ public class TabGroup extends FragmentActivity {
 		                ActivityBridge.getInstance().setRadio2(false);
 		                break;
 					case R.id.tab_2:
-						isSetting = true;
 						/*container.removeAllViews();
 		                container.addView(getLocalActivityManager().startActivity(
 		                        "Module3",
 		                        new Intent(TabGroup.this, SettingsActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView()); */
+						// Put the More page as the current fragment on the screen
 						fr = new SettingsActivity();
 	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
 	    		        fragmentTransaction.replace(R.id.container, fr);
-	    		        fragmentTransaction.addToBackStack(null);
 	    		        fragmentTransaction.commit();
 		                //set the more button to "pressed" status
 		                radio2.setTextColor(Color.parseColor("#FFFFFF"));
@@ -156,7 +161,7 @@ public class TabGroup extends FragmentActivity {
     
     
     
-    public void onBackPressed() {  
+    /*public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
     	// it will take you back to original More tab
     	if (ActivityBridge.getInstance().isRadio2() == true)
@@ -198,8 +203,8 @@ public class TabGroup extends FragmentActivity {
 			}
 		});
   	  	builder.create().show();
-  	  	*/
-    }    
+  	  	
+    }   */ 
     @Override
 	public void onResume() {
     	super.onResume();

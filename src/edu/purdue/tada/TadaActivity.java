@@ -39,9 +39,9 @@ import android.widget.Toast;
  *  // HEY! GO TO https://github.com/DushyanthMaguluru/ZBarScanner TO GET THE ZBAR LIBRARY ON YOUR INDIVIDUAL MACHINE
  */
 
-public class TadaActivity extends Fragment
+public class TadaActivity extends BaseFragment
 {
-	private final String TAG = "TadaActivity";
+	final static String TAG = "TadaActivity";
 	
 	private ImageButton img_before;
 	private ImageButton img_after;
@@ -63,9 +63,264 @@ public class TadaActivity extends Fragment
 			ViewGroup container, Bundle savedInstanceState) {
 	       
 		//Inflate the layout for this fragment
-	        
-	    return inflater.inflate(
-	    		R.layout.activity_tada, container, false);
+		View view = inflater.inflate(R.layout.setting_layout, container, false);
+		
+		unsentRec = "" + recSaved + REC_SAVED; // Added By David to fix crash 9/24/2013
+		img_scanner = (Button) view.findViewById(R.id.scan);
+		unsent = (Button) view.findViewById(R.id.unsent_event);
+		System.out.println("Tada: on create!");
+		// Initialize imgFlag
+		// ActivityBridge.getInstance().setImgFlag(ActivityBridge.getInstance().getImgFlag());
+		// flag = 0:imageButton1 is available for taking photos;
+		// flag = 1:imageButton2 is available for taking photos
+		// Set up "unsent event" button
+		try
+		{
+			Log.d(TAG, "unsentRec: " + unsentRec);
+			
+			FileInputStream fis = null;
+			fis = new FileInputStream(unsentRec);
+			BufferedReader buffreader = new BufferedReader(
+					new InputStreamReader(fis));
+			// String data = "";
+			String line = buffreader.readLine();
+			List<String> unsentList = new ArrayList<String>();
+			System.out.println("in the tada::: show TXT");
+			while (line != null)
+			{
+				unsentList.add(line);
+				System.out.println(line);
+				line = buffreader.readLine();
+				// data = data + line;
+			}
+			System.out.println("in the tada::: end of TXT");
+			fis.close();
+			System.out.println("list size::::" + unsentList.size());
+			if ((unsentList.size()) != 0)
+			{
+				unsent.setText(String.format("%d", unsentList.size())
+						+ " unsent event(s)");
+				unsent.setVisibility(View.VISIBLE);
+			} else
+			{
+				unsent.setVisibility(View.INVISIBLE);
+			}
+		} catch (Exception e)
+		{
+			Log.v(TAG, "File not found. Continuing...");
+			//e.printStackTrace();
+			
+		}
+		// set OnClickListener for "unsent event" button
+		unsent.setOnClickListener(new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				// read the data in "rec_unsent" into a list(unsentList)
+				List<String> unsentList = new ArrayList<String>();
+				try
+				{
+					FileInputStream fis = null;
+					fis = new FileInputStream(unsentRec);
+					BufferedReader buffreader = new BufferedReader(
+							new InputStreamReader(fis));
+					String line = buffreader.readLine();
+					while (line != null)
+					{
+						unsentList.add(line);
+						line = buffreader.readLine();
+					}
+					fis.close();
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				
+				String filepath = unsentList.get(0);// save the first line as
+													// "filepath", which will be
+													// deleted later.
+				
+				String gpspath = filepath.substring(0,
+						filepath.lastIndexOf("."))
+						+ ".gps";
+				
+				// open the rec file according to "filepath"
+				File unsentFile = new File(filepath);
+				// open the gps file according to "gpspath"
+				File gpsFile = new File(gpspath);
+				
+				if (unsentFile.exists())
+				{
+					// if the rec file you want to open exists, then
+					if (isNetworkConnected())
+					{
+						// if the Internet is accessible,
+						// read the fourth and fifth lines in the rec file into
+						// singleton.
+						try
+						{
+							FileInputStream fis = null;
+							fis = new FileInputStream(unsentFile);
+							BufferedReader buffreader = new BufferedReader(
+									new InputStreamReader(fis));
+							String[] data = { "", "", "", "", "" };
+							String line = buffreader.readLine();
+							int lineNum = 0;
+							while (line != null)
+							{
+								data[lineNum] = line;
+								line = buffreader.readLine();
+								lineNum++;
+							}
+							fis.close();
+							String imageFolder = recSaved
+									+ "/";// this is the folder
+															// containing meal
+															// images
+							ActivityBridge.getInstance().setFilepath2(
+									imageFolder + data[3]);// this is the file
+															// path to the first
+															// image
+							ActivityBridge.getInstance().setFilepath(
+									imageFolder + data[4]);// this is the file
+															// path to the
+															// second image
+						} catch (Exception e)
+						{
+							e.printStackTrace();
+						}
+						// read the third and fourth lines in the gps file into
+						// singleton.
+						try
+						{
+							FileInputStream fis = null;
+							fis = new FileInputStream(gpsFile);
+							BufferedReader buffreader = new BufferedReader(
+									new InputStreamReader(fis));
+							String[] data = { "", "", "", "" };
+							String line = buffreader.readLine();
+							int lineNum = 0;
+							while (line != null)
+							{
+								data[lineNum] = line;
+								line = buffreader.readLine();
+								lineNum++;
+							}
+							fis.close();
+							// update longitude and latitude of the first image
+							ActivityBridge.getInstance().setLongitude2(
+									data[2].substring(0,
+											data[2].lastIndexOf(",")));
+							ActivityBridge.getInstance()
+									.setLatitude2(
+											data[2].substring(data[2]
+													.lastIndexOf(",") + 1));
+							// update longitude and latitude of the second image
+							ActivityBridge.getInstance().setLongitude1(
+									data[3].substring(0,
+											data[3].lastIndexOf(",")));
+							ActivityBridge.getInstance()
+									.setLatitude1(
+											data[3].substring(data[3]
+													.lastIndexOf(",") + 1));
+							
+						} catch (Exception e)
+						{
+							e.printStackTrace();
+						}
+						// rewrite unsentRec.txt: delete the first line, update
+						// the list
+						try
+						{
+							FileOutputStream fos = null;
+							File unsentRec = new File(recSaved,
+									"rec_unsent.txt");
+							// create a new file called "rec_unsent.txt"
+							if (!unsentRec.exists())
+							{
+								unsentRec.createNewFile();
+							} else
+							{
+								unsentRec.delete();
+								unsentRec.createNewFile();
+							}
+							fos = new FileOutputStream(unsentRec, true);
+							// delete the first item in the list, namely delete
+							// "filepath"
+							unsentList.remove(filepath);
+							// rewrite other items into the new file
+							for (String temp : unsentList)
+							{
+								fos.write((temp + "\n").getBytes());
+							}
+							fos.close();
+							// display a message showing that txt file is
+							// updated
+							Toast.makeText(getActivity().getApplicationContext(),
+									"TXT file is updated!", 1000).show();
+						} catch (Exception e)
+						{
+							e.printStackTrace();
+						}
+						// after everything is saved in singleton, call
+						// httpssendimage to upload images to the server
+						Intent intent = new Intent();
+						intent.setClass(getActivity(), HttpsSendImage.class);
+						startActivityForResult(intent, UPLOAD_UNSENT);
+					} else
+					{
+						Toast.makeText(getActivity().getApplicationContext(), "No Internet!",
+								500).show();
+					}
+				} else
+				{
+					// when the file you try to open does not exist, then
+					// rewrite unsentRec.txt: delete the first line, update the
+					// list
+					try
+					{
+						
+						FileOutputStream fos = null;
+						File unsentRec = new File(recSaved, "rec_unsent.txt");
+						if (!unsentRec.exists())
+						{
+							unsentRec.createNewFile();
+						} else
+						{
+							unsentRec.delete();
+							unsentRec.createNewFile();
+						}
+						fos = new FileOutputStream(unsentRec, true);
+						unsentList.remove(filepath);
+						for (String temp : unsentList)
+						{
+							fos.write(temp.getBytes());
+						}
+						fos.close();
+						if ((unsentList.size()) > 0)
+						{
+							unsent.setText(String.format("%d",
+									unsentList.size())
+									+ " unsent event(s)");
+						} else
+						{
+							unsent.setVisibility(View.INVISIBLE);
+						}
+						Toast.makeText(getActivity().getApplicationContext(),
+								"TXT file is updated!", 1000).show();
+						
+					} catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+	    
+		
+		return view;
 	}
 	
 	/*@Override
@@ -433,13 +688,13 @@ public class TadaActivity extends Fragment
 			}
 		});
 		
-	}
+	}*/
 	
 	@Override
-	protected void onResume()
+	public void onResume()
 	{
 		super.onResume();
-		Button unsent = (Button) findViewById(R.id.unsent_event);
+		Button unsent = (Button) getView().findViewById(R.id.unsent_event);
 		
 		try
 		{
@@ -477,9 +732,10 @@ public class TadaActivity extends Fragment
 	}
 	
 	@Override
+	public
 	//WHAT HAPPENS WHEN AN ACTIVITY RETURNS
 	//BOTH THE 'SCAN' AND 'BEFORE/AFTER' CAMARAS RETURN VALUES THROUGH THIS METHOD
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+ void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 			super.onActivityResult(requestCode, resultCode, data);
 			System.out.println("tada gets result:" + resultCode);
@@ -493,7 +749,7 @@ public class TadaActivity extends Fragment
 			//returns here from barcode scanner
 			if(requestCode == ZBAR_SCANNER_REQUEST){
 				if (resultCode == RESULT_OK){
-					Intent scanIntent = new Intent(this, ScanResult.class);
+					Intent scanIntent = new Intent(getActivity(), ScanResult.class);
 					scanIntent.putExtra("SCAN_RESULT", data.getStringExtra(ZBarConstants.SCAN_RESULT));
 					startActivityForResult(scanIntent, SCAN_RESULT_REQUEST);
 					
@@ -514,22 +770,22 @@ public class TadaActivity extends Fragment
 					//dont do anything
 				}else if(resultCode == RETAKE_RESULT){
 					//if retake pressed, call the zbar activity again
-					Intent intent = new Intent(this, ZBarScannerActivity.class);
+					Intent intent = new Intent(getActivity(), ZBarScannerActivity.class);
 					startActivityForResult(intent, ZBAR_SCANNER_REQUEST);
 				}
 				
 			}
 	}
 	
-	@Override
+	/*@Override
 	public void onBackPressed()
 	{
 		super.onBackPressed();
-	}
+	}*/
 	
 	private boolean isNetworkConnected()
 	{
-		ConnectivityManager conManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager conManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 		return (conManager.getActiveNetworkInfo() != null);
 	}
 	
@@ -537,8 +793,8 @@ public class TadaActivity extends Fragment
 	//Calls bar code scanner
 	// To implement surface overlay on camera, since zbarscanneractivity resides within the jar, will need to pull that code out and modify it.
 	public void callBarCode(){
-		Intent intent = new Intent(this, ZBarScannerActivity.class);
+		Intent intent = new Intent(getActivity(), ZBarScannerActivity.class);
 		startActivityForResult(intent, ZBAR_SCANNER_REQUEST);//ZBAR_SCANNER_REQUEST = 0
-	}*/
+	}
 	
 }
