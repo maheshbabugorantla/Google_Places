@@ -10,8 +10,6 @@ import android.widget.Button;
 
 public class ResearchSettings extends BaseFragment {
 	
-	private String TAG = "ResearchSettings";
-	
 	//open the research settings from the password screen Nicole Missele 2/28/15
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -25,9 +23,10 @@ public class ResearchSettings extends BaseFragment {
 		return view;
 		
 	}
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.research_settings);	
 	}
-	
 }
+			

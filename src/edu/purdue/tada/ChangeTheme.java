@@ -129,5 +129,3 @@ public class ChangeTheme extends BaseFragment {
 		
 	}
 }
-	
-	

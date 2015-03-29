@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,9 +47,6 @@ public class SettingsActivity extends BaseFragment {
 		});
 		
 		Button btn2 = (Button) view.findViewById(R.id.settings_button2);
-		
-//		//set up alert dialog
-//		
 		btn2.setOnClickListener(new OnClickListener(){
 		@Override
 			public void onClick(View v) {

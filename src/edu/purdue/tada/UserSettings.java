@@ -65,7 +65,6 @@ public class UserSettings extends BaseFragment {
 		//prepare "theme" button
 		Button themeButton = (Button)view.findViewById(R.id.theme_button);
 		themeButton.setOnClickListener(new View.OnClickListener() {
-					
 			@Override
 			public void onClick(View v) {
 				TabGroup.container.removeAllViews();
@@ -75,11 +74,7 @@ public class UserSettings extends BaseFragment {
 							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 						.getDecorView());
 			}
-				
 		});
-	
-		
-		
 		return view;
 	}
 	
