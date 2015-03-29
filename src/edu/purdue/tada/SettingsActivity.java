@@ -2,6 +2,7 @@ package edu.purdue.tada;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,23 +31,79 @@ public class SettingsActivity extends BaseFragment {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(SettingsActivity.this, UserSettings.class);
-				startActivity(intent);
+				 // Put the User Settings page as the current fragment on the screen 
+				 // make it so when the back button is clicked, it goes to more page
+				 Fragment newFragment = new UserSettings();
+				 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+				 transaction.replace(R.id.container, newFragment);
+		         transaction.addToBackStack(null);
+				 transaction.commit();
 			}
 		
-		});*/
+		});
 		
 		Button btn2 = (Button) view.findViewById(R.id.settings_button2);
+		btn2.setOnClickListener(new OnClickListener(){
+		@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialog();
+		}
+		//using dialog box
+		private void dialog(){
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			LayoutInflater inflater = LayoutInflater.from(getActivity());
+			View layout = inflater.inflate(R.layout.password_layout, null);
+			builder.setTitle("Login");			
+			builder.setView(layout);
+			
+		//add action buttons
+//			builder.setPositiveButton(R.string.research_login, new DialogInterface.OnClickListener() {
+				builder.setPositiveButton("Login", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					//sign in user
+					// Put the User Settings page as the current fragment on the screen 
+					 // make it so when the back button is clicked, it goes to more page
+					 Fragment newFragment = new ResearchSettings();
+					 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+					 transaction.replace(R.id.container, newFragment);
+			         transaction.addToBackStack(null);
+					 transaction.commit();
+				}
+					
+			});
+	
+	
+		
+				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+					
+				}
+			});
+			
+			
+			
+			builder.create().show();
+			
+		};
+	});
 		Button btn3 = (Button) view.findViewById(R.id.settings_button3);
 		btn3.setOnClickListener(new View.OnClickListener() {
 		
 			@Override
 			public void onClick(View v) {
+				 // Put the About page as the current fragment on the screen 
+				 // make it so when the back button is clicked, it goes to more page
 				 Fragment newFragment = new AboutTada();
 				 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 				 transaction.replace(R.id.container, newFragment);
-				 transaction.addToBackStack(null);
+ 		         transaction.addToBackStack(null);
 				 transaction.commit();
 			}
 			
@@ -79,52 +136,7 @@ public class SettingsActivity extends BaseFragment {
 		
 //		//set up alert dialog
 //		
-		/*btn2.setOnClickListener(new OnClickListener(){
-		@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				dialog();
-		}
-		//using dialog box
-		private void dialog(){
-			AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
-			LayoutInflater inflater = LayoutInflater.from(SettingsActivity.this);
-			View layout = inflater.inflate(R.layout.password_layout, null);
-			builder.setTitle("Login");			
-			builder.setView(layout);
-			
-		//add action buttons
-//			builder.setPositiveButton(R.string.research_login, new DialogInterface.OnClickListener() {
-				builder.setPositiveButton("Login", new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					//sign in user
-										
-						Intent intent = new Intent(SettingsActivity.this, ResearchSettings.class);
-						startActivity(intent);
-				}
-					
-			});
-	
-	
 		
-				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-					
-				}
-			});
-			
-			
-			
-			builder.create().show();
-			
-		};
-	});
 		
 		//set up button 2 to go to Researcher settings password as own activity without alert dialog Nicole Missele 2/20/2015
 //		btn2.setOnClickListener(new OnClickListener(){
@@ -140,7 +152,7 @@ public class SettingsActivity extends BaseFragment {
 
 		
 		//set up button three to go to "About" screen using Settings Group
-		btn3.setOnClickListener(new OnClickListener() {
+		/*btn3.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
