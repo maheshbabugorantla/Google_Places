@@ -13,19 +13,11 @@ public class AboutTada extends BaseFragment{
 	       
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.about_layout, container, false);
-		view.setOnKeyListener( new View.OnKeyListener()
-		{
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		} 
-		);
 		return view;
 	}
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
+	}
 		
 		//rid of unnecessary button - Nicole Missele 3/20/15
 		/* Button titleButton = (Button)findViewById(R.id.settings_button0);
@@ -42,5 +34,4 @@ public class AboutTada extends BaseFragment{
 				SettingsGroup.group.setContentView(view);
 			}
 		}); */
-	}
 }

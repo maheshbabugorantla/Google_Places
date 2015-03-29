@@ -35,15 +35,7 @@ public class TabGroup extends ActivityGroup{
     private RadioButton radio1;
     private RadioButton radio2;
     public static boolean isSetting = false;
-<<<<<<< Upstream, based on origin/ui
     public static ActivityGroup group;
-=======
-    private Fragment fr;
-    FragmentTransaction fragmentTransaction;
-    
-    
-    
->>>>>>> f15f7dc Kinda got about working with fragment but needs back button working
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +63,7 @@ public class TabGroup extends ActivityGroup{
                 "Module1",
                 new Intent(TabGroup.this, TadaActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-<<<<<<< Upstream, based on origin/ui
                 .getDecorView());
-=======
-                .getDecorView());*/
-        
-    	             fr = new TadaActivity();
-    		         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    		         fragmentTransaction.replace(R.id.container, fr);
-    		         fragmentTransaction.commit();
->>>>>>> f15f7dc Kinda got about working with fragment but needs back button working
                 
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
@@ -94,15 +77,7 @@ public class TabGroup extends ActivityGroup{
 		                        "Module1",
 		                        new Intent(TabGroup.this, TadaActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-<<<<<<< Upstream, based on origin/ui
 		                        .getDecorView()); 
-=======
-		                        .getDecorView());  */
-						fr = new TadaActivity();
-	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-	    		        fragmentTransaction.replace(R.id.container, fr);
-	    		        fragmentTransaction.commit();
->>>>>>> f15f7dc Kinda got about working with fragment but needs back button working
 		                //set the record button to "pressed" status
 		                radio0.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio1.setTextColor(Color.parseColor("#5DD2DC"));
@@ -121,15 +96,7 @@ public class TabGroup extends ActivityGroup{
 		                        "Module2",
 		                        new Intent(TabGroup.this, ReviewActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-<<<<<<< Upstream, based on origin/ui
 		                        .getDecorView());
-=======
-		                        .getDecorView()); */
-						fr = new ReviewActivity();
-	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-	    		        fragmentTransaction.replace(R.id.container, fr);
-	    		        fragmentTransaction.commit();
->>>>>>> f15f7dc Kinda got about working with fragment but needs back button working
 		                //set the review button to "pressed" status
 		                radio1.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio0.setTextColor(Color.parseColor("#5DD2DC"));
@@ -149,16 +116,7 @@ public class TabGroup extends ActivityGroup{
 		                        "Module3",
 		                        new Intent(TabGroup.this, SettingsActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-<<<<<<< Upstream, based on origin/ui
 		                        .getDecorView());
-=======
-		                        .getDecorView()); */
-						fr = new SettingsActivity();
-	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-	    		        fragmentTransaction.replace(R.id.container, fr);
-	    		        fragmentTransaction.addToBackStack(null);
-	    		        fragmentTransaction.commit();
->>>>>>> f15f7dc Kinda got about working with fragment but needs back button working
 		                //set the more button to "pressed" status
 		                radio2.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio0.setTextColor(Color.parseColor("#5DD2DC"));
@@ -175,8 +133,6 @@ public class TabGroup extends ActivityGroup{
 				}
 		}); 
     } 
-    
-    
     
     @Override
     public void onBackPressed() {  
@@ -203,6 +159,7 @@ public class TabGroup extends ActivityGroup{
     	{
     		finish();
     	}
+    }
     	
     	/*
     	//if users press the back button in the main activity, shows an alert dialog
@@ -221,8 +178,8 @@ public class TabGroup extends ActivityGroup{
 			}
 		});
   	  	builder.create().show();
-  	  	*/
-    }    
+  	  	
+    }   */ 
     @Override
     protected void onResume() {
     	super.onResume();

@@ -39,7 +39,7 @@ import android.widget.Toast;
  *  // HEY! GO TO https://github.com/DushyanthMaguluru/ZBarScanner TO GET THE ZBAR LIBRARY ON YOUR INDIVIDUAL MACHINE
  */
 
-public class TadaActivity extends Fragment
+public class TadaActivity extends BaseFragment
 {
 	private final String TAG = "TadaActivity";
 	
