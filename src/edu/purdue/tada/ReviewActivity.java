@@ -39,6 +39,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -182,14 +184,14 @@ public class ReviewActivity extends BaseActivity{
 		});
 		
 		//Gets more reviews *Parth Patel 3/10/15*
-		more.setOnClickListener(new View.OnClickListener(){
-				@Override
-				public void onClick(View v){
-						//code to generate the next 20 reviews
-						//generateReviewAdapter();
-						//new loadMorelistView().execute();
-				}
-		});
+//		more.setOnClickListener(new View.OnClickListener(){
+//				@Override
+//				public void onClick(View v){
+//						//code to generate the next 20 reviews
+//						//generateReviewAdapter();
+//						//new loadMorelistView().execute();
+//				}
+//		});
 	}
 	
 	private ReviewAdapter generateReviewAdapter(){
@@ -348,9 +350,11 @@ public class ReviewActivity extends BaseActivity{
 	 * @author Ben Klutzke
 	 * 
 	 */
-	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter {		
-		private ArrayList<ReviewContainer> list = new ArrayList<ReviewContainer>();
+	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter, Filterable {		
+		private ArrayList<ReviewContainer> originalList = new ArrayList<ReviewContainer>();	
+		private ArrayList<ReviewContainer> filteredList = new ArrayList<ReviewContainer>();
 		LayoutInflater inflater = null;
+		private ListFilter filter = new ListFilter();
 		
 		private final int HEADER_TYPE = 0;
 		private final int ITEM_TYPE = 1;
@@ -368,6 +372,7 @@ public class ReviewActivity extends BaseActivity{
 
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
+			filter.filter("today");
 		}
 
 		public void filterByFood(String trim) {
@@ -391,7 +396,8 @@ public class ReviewActivity extends BaseActivity{
 		}
 
 		public void addSection(ReviewContainer rc){
-			list.add(rc);
+			originalList.add(rc);
+			filteredList.add(rc);
 		}
 		
 		// convertView is a previously used view of the same view type supplied by ListView to improve performance
@@ -449,7 +455,7 @@ public class ReviewActivity extends BaseActivity{
 		public int getCount(){
 			int total = 0;
 			
-			for(ReviewContainer rc : list){
+			for(ReviewContainer rc : filteredList){
 				total++; // One for the header
 				total += rc.getItemCount(); // Adds one for each review item
 			}
@@ -460,7 +466,7 @@ public class ReviewActivity extends BaseActivity{
 
 		@Override
 		public Object getItem(int position) {
-			for(ReviewContainer rc : list){
+			for(ReviewContainer rc : filteredList){
 				 int size = rc.getItemCount() + 1;
 				 
 				 // Is position inside this section
@@ -481,7 +487,7 @@ public class ReviewActivity extends BaseActivity{
 		}
 		
 		public int getItemViewType(int position){
-			for(ReviewContainer rc : list){
+			for(ReviewContainer rc : filteredList){
 				 int size = rc.getItemCount() + 1;
 				 
 				 // Is position inside this section
@@ -505,6 +511,43 @@ public class ReviewActivity extends BaseActivity{
 		 public boolean isItemViewTypePinned(int viewType) {
 		     return viewType == HEADER_TYPE;
 		 }
+
+		@Override
+		public Filter getFilter() {
+			return filter;
+		}
+	
+		private class ListFilter extends Filter {
+	
+			@Override
+			protected FilterResults performFiltering(CharSequence contraint) {
+				String filterString = contraint.toString().toLowerCase();
+				
+				FilterResults results = new FilterResults();
+				
+				final ArrayList<ReviewContainer> olist = originalList;
+				final ArrayList<ReviewContainer> nlist = new ArrayList<ReviewContainer>(olist.size());
+				
+				for(ReviewContainer rc : olist){
+					if(rc.getType().equals(filterString)){
+						nlist.add(rc);
+					}
+				}
+				
+				results.values = nlist;
+				results.count = nlist.size();
+				
+				return results;
+			}
+	
+			@SuppressWarnings("unchecked")
+			@Override
+			protected void publishResults(CharSequence constraint, FilterResults results) {
+				filteredList = (ArrayList<ReviewContainer>) results.values;
+				notifyDataSetChanged();
+			}
+			
+		}
 	}
 
 	/**
