@@ -68,12 +68,13 @@ public class ReviewActivity extends BaseActivity{
 		
 		ListView lv = (ListView) findViewById(R.id.reviewList);
 		Button bv = (Button) findViewById(R.id.refresh);
+		Button more = (Button) findViewById(R.id.more_button);
 		Button searchButton = (Button) findViewById(R.id.reviewSearch);
 		
 		//Adding Button to listview at footer Parth Patel 
-		Button more = new Button(this);
-		more.setText("Load More");
-		lv.addFooterView(more);
+		//Button more = new Button(this);
+		//more.setText("Load More");
+		//lv.addFooterView(more);
 		
 		//Getting adapter
 		final ReviewAdapter adapter = generateReviewAdapter(); 
@@ -209,12 +210,12 @@ public class ReviewActivity extends BaseActivity{
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 	        String line;
 	        // Each line will be a .rec file
-	        while((line = reader.readLine()) != null/* && count <= 10*/) {
+	        while((line = reader.readLine()) != null) {
 	        	// Removed count limit:
 	        	// Because the entries of rec_sent.txt are listed with most recent as the last, limiting their display will have to be done differently
 	        	// Using this as a limit will only display the 10 oldest entries and new ones are not shown.
 	        	lines.add(line);
-	        	count = count + 1; //will limit the reviews to be displayed at 10 lines only
+	        	//count = count + 1; //will limit the reviews to be displayed at 10 lines only
 	        }
 	        
 	        in.close();
