@@ -64,7 +64,7 @@ public class TadaActivity extends BaseFragment
 			ViewGroup container, Bundle savedInstanceState) {
 	       
 		//Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.setting_layout, container, false);
+		View view = inflater.inflate(R.layout.activity_tada, container, false);
 		
 		unsentRec = "" + recSaved + REC_SAVED; // Added By David to fix crash 9/24/2013
 		//img_scanner = (Button) view.findViewById(R.id.scan);
@@ -317,6 +317,110 @@ public class TadaActivity extends BaseFragment
 						e.printStackTrace();
 					}
 				}
+			}
+		});
+		
+		img_before = (ImageButton) view.findViewById(R.id.imageButton1);
+		img_after = (ImageButton) view.findViewById(R.id.imageButton2);
+		
+		//WHAT HAPPENS WHEN THE 'SCAN' BUTTON IS CLICKED
+		img_scanner.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				callBarCode();
+				//ZBAR_SCANNER_REQUEST = 0
+				
+			}
+			
+			
+		});
+		//WHAT HAPPENS WHEN THE 'BEFORE' BUTTON IS CLICKED
+		img_before.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				System.out.println("0:::"
+						+ ActivityBridge.getInstance().getImgFlag());
+				if (ActivityBridge.getInstance().getImgFlag() == 0)
+				{
+					ActivityBridge.getInstance().setImgFlag(1);
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), CameraActivity.class);
+					startActivityForResult(intent, TAKE_PHOTO);
+				} else
+				{
+					// create a dialog to warn users if they want to replace the
+					// first image
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							getActivity());
+					//builder.setTitle("You have already taken the first image. Do you want to replace it?");
+					//The setMessage should be used since it allows more characters Nicole Missele 2/8/2014
+					builder.setMessage("You have already taken the first image. Do you want to replace it?");
+					builder.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener()
+							{
+								
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which)
+								{
+									Intent intent = new Intent();
+									intent.setClass(getActivity(),
+											CameraActivity.class);
+									startActivityForResult(intent, TAKE_PHOTO);
+								}
+							});
+					builder.setNegativeButton("No",
+							new DialogInterface.OnClickListener()
+							{
+								
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which)
+								{
+									dialog.dismiss();
+								}
+							});
+					builder.create().show();
+				}
+				
+			}
+		});
+		
+
+		//WHAT HAPPENS AFTER THE 'AFTER' BUTTON IS CLICKED
+		img_after.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				if (ActivityBridge.getInstance().getImgFlag() == 0)
+				{
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							getActivity());
+					builder.setTitle("You have not taken the first image yet");
+					builder.setPositiveButton("OK",
+							new DialogInterface.OnClickListener()
+							{
+								
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which)
+								{
+									dialog.dismiss();
+								}
+							});
+					builder.create().show();
+				} else
+				{
+					ActivityBridge.getInstance().setImgFlag(0);
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), CameraActivity.class);
+					startActivityForResult(intent, TAKE_PHOTO);
+				}
+				
 			}
 		});
 	    

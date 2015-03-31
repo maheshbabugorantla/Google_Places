@@ -39,7 +39,6 @@ public class TabGroup extends ActivityGroup {
     public static boolean isSetting = false;
     public static ActivityGroup group;
     
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	
@@ -50,6 +49,7 @@ public class TabGroup extends ActivityGroup {
         group = this; // define group for tabs to appear over all activities launched inside app -- Nicole Missele 4/12/15
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.tada_layout);
+        
         //container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
         radio0 = (RadioButton)findViewById(R.id.tab_0);

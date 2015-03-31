@@ -66,11 +66,6 @@ public class ReviewActivity extends BaseFragment{
 	
 	protected static final int TAG_REQUEST = 101;
 	
-	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//setContentView(R.layout.review_layout);
-	}
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -115,7 +110,7 @@ public class ReviewActivity extends BaseFragment{
 					System.out.println("Item");
 					ActivityBridge.getInstance().setReviewImagePath(((ReviewItem)adapter.getItem(position)).getImage1());
 					Intent intent = new Intent();
-					intent.setClass(getActivity(),HttpsReceiveTag.class);
+					intent.setClass(getActivity() ,HttpsReceiveTag.class);
 	        		startActivityForResult(intent, TAG_REQUEST);
 				}
 				
@@ -204,7 +199,16 @@ public class ReviewActivity extends BaseFragment{
 //				}
 //		});
 	}
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		System.out.println("In Review Activity");
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setContentView(R.layout.review_layout);
+		
+		
+	}
 	
+
 	private ReviewAdapter generateReviewAdapter(){
 		ReviewAdapter adapter = new ReviewAdapter(getActivity());
 		InputStream in = null;

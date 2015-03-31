@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ViewPagerContainer extends Fragment
+public class ViewPagerContainer extends BaseFragment
 {
 	private PagerAdapter mPagerAdapter;
 	public static ViewPager mViewPager;
@@ -26,7 +26,6 @@ public class ViewPagerContainer extends Fragment
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mViewPager.setAdapter(mPagerAdapter);
         System.out.println("In viewpager");
-
-        return view;
+		return view;
     }
 }

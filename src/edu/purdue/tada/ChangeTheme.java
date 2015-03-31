@@ -9,123 +9,110 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class ChangeTheme extends BaseFragment {
+public class ChangeTheme extends BaseActivity {
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.change_theme);	
-	}
-
+		setContentView(R.layout.change_theme);	
 		
-	public View onCreateView(LayoutInflater inflater,
-			ViewGroup container, Bundle savedInstanceState) {
-	       
-		
-		//Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.change_theme, container, false);
-		
-		Button cornflowerblue = (Button)view.findViewById(R.id.cornflowerblue);
+		Button cornflowerblue = (Button)findViewById(R.id.cornflowerblue);
 		cornflowerblue.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_cornflowerblue);
+				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_cornflowerblue);
                 reload();
 				
 			
 			}
 		});
-		Button skyblue = (Button)view.findViewById(R.id.skyblue);
+		Button skyblue = (Button)findViewById(R.id.skyblue);
 		skyblue.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_skyblue);
+				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_skyblue);
                 reload();
 			}
 		});
-		Button powderblue = (Button)view.findViewById(R.id.powderblue);
+		Button powderblue = (Button)findViewById(R.id.powderblue);
 		powderblue.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_powderblue);
+				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_powderblue);
                 reload();
 				
 			}
 		});
-		Button mediumturquoise = (Button)view.findViewById(R.id.mediumturquoise);
+		Button mediumturquoise = (Button)findViewById(R.id.mediumturquoise);
 		mediumturquoise.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_mediumturquoise);
+				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_mediumturquoise);
                 reload();
 				
 			}
 		});
-		Button white = (Button)view.findViewById(R.id.white);
+		Button white = (Button)findViewById(R.id.white);
 		white.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_white);
+				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_white);
                 reload();
 				
 			}
 		});
-		Button lightpink = (Button)view.findViewById(R.id.lightpink);
+		Button lightpink = (Button)findViewById(R.id.lightpink);
 		lightpink.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_lightpink);
+				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_lightpink);
                 reload();
 				
 			}
 		});
-		Button plum = (Button)view.findViewById(R.id.plum);
+		Button plum = (Button)findViewById(R.id.plum);
 		plum.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_plum);
+				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_plum);
                 reload();
 				
 			}
 		});
-		Button navajowhite = (Button)view.findViewById(R.id.navajowhite);
+		Button navajowhite = (Button)findViewById(R.id.navajowhite);
 		navajowhite.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_navajowhite);
+				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_navajowhite);
                 reload();
 				
 			}
 		});
-		Button lightsalmon = (Button)view.findViewById(R.id.lightsalmon);
+		Button lightsalmon = (Button)findViewById(R.id.lightsalmon);
 		lightsalmon.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_lightsalmon);
+				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_lightsalmon);
                 reload();
 				
 			}
 		});
-		
-		return view;
-		
-		
 	}
 }

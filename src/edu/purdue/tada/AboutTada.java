@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 
 public class AboutTada extends BaseFragment{
@@ -11,10 +12,11 @@ public class AboutTada extends BaseFragment{
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 		// Create the About view and place it on the screen
-		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.about_layout, container, false);
 		return view;
 	}
+	
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
 	}
