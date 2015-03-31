@@ -68,10 +68,9 @@ public class ReviewActivity extends BaseActivity{
 		
 		ListView lv = (ListView) findViewById(R.id.reviewList);
 		Button bv = (Button) findViewById(R.id.refresh);
-		//Button more = (Button)findViewById(R.id.more_button);
 		Button searchButton = (Button) findViewById(R.id.reviewSearch);
 		
-		//Adding Button to listview at footer Parth Patel 3.28.15
+		//Adding Button to listview at footer Parth Patel 
 		Button more = new Button(this);
 		more.setText("Load More");
 		lv.addFooterView(more);
@@ -293,30 +292,6 @@ public class ReviewActivity extends BaseActivity{
 		return list;
 	}
 	
-	/*private class BackgroundThread extends AsyncTask<Void,Void,Void>{
-		@Override
-		protected void onPreExecute(){}
-		protected Void doInBackground(Void... unused){
-			runOnUiThread(new Runnable(){
-				public void run(){}
-			});
-			return(null);
-		}
-		protected void onPostExecute(Void unused){}
-	}
-	*/
-/*	private class loadMoreListView extends AsyncTask<Void,Void,Void>{
-		@Override
-		protected void onPreExecute(){
-			pDialog = new ProgressDialog(
-	                ReviewActivity.this);
-	        pDialog.setMessage("Please wait..");
-	        pDialog.setIndeterminate(true);
-	        pDialog.setCancelable(false);
-	        pDialog.show();
-		}
-		
-	}*/
 	private ReviewItem generateReviewItem(String fileName){
 		InputStream in = null;
 		String hash;
