@@ -280,10 +280,12 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 //				   bitmapPicture = quality(bitmapPicture);
 				   Boolean fm_check = fmHomography(bitmapPicture);
 				   
-				   String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-				   Bitmap combination = quality(bitmapPicture);
+				   //storing the laplace image in gallery
+				   String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()); // temporary
+				   Bitmap combination = quality(bitmapPicture); // temporary
 				   //save in gallery
-				   MediaStore.Images.Media.insertImage(getContentResolver(),combination,"test_"+ timeStamp + ".jpg",timeStamp.toString());
+				   
+				   MediaStore.Images.Media.insertImage(getContentResolver(),combination,"test_"+ timeStamp + ".jpg",timeStamp.toString()); // temporary
 				   
 				   Date date = new Date();
 				   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");//reset date format
