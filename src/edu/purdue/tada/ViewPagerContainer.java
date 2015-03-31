@@ -26,6 +26,5 @@ public class ViewPagerContainer extends BaseFragment
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mViewPager.setAdapter(mPagerAdapter);
         System.out.println("In viewpager");
-		return view;
-    }
+		return view;}
 }

@@ -16,8 +16,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.MotionEvent;import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -183,7 +182,8 @@ public class TabGroup extends ActivityGroup {
     	radio0.setChecked(ActivityBridge.getInstance().isRadio0());
         radio1.setChecked(ActivityBridge.getInstance().isRadio1());
         radio2.setChecked(ActivityBridge.getInstance().isRadio2());
-    }
+
+    } 
     
     @Override
     public void onStart() {
