@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -115,8 +116,6 @@ public class TabGroup extends FragmentActivity {
 		                        new Intent(TabGroup.this, ReviewActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView()); */
-						// Put the Review page as the current fragment on the screen 
-						// and clears the back stack so back button exits app
 						// Slide the page to the Review Screen
 						ViewPagerContainer.mViewPager.setCurrentItem(1, true);
 		                //set the review button to "pressed" status
@@ -154,7 +153,7 @@ public class TabGroup extends FragmentActivity {
 		                break;
 					}
 				}
-		}); 
+		});
     } 
     
     
@@ -210,7 +209,64 @@ public class TabGroup extends FragmentActivity {
     	radio0.setChecked(ActivityBridge.getInstance().isRadio0());
         radio1.setChecked(ActivityBridge.getInstance().isRadio1());
         radio2.setChecked(ActivityBridge.getInstance().isRadio2());
-
+        
+        
+    }
+    
+    @Override
+    public void onStart() {
+    	super.onStart();
+    	// Is put in the onStart instead of onCreate because mViewPager is null in onCreate
+    	// so an error would occur and app would crash
+        ViewPagerContainer.mViewPager.setOnPageChangeListener(new OnPageChangeListener () {
+    		public void onPageScrollStateChanged(int state) {}
+    		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+    		
+    		public void onPageSelected(int position) {
+    			switch (position) {
+    			case 0: // If the user scrolled to the Record page
+    		        //set the record button to "pressed" status
+    		        radio0.setTextColor(Color.parseColor("#FFFFFF"));
+    		        radio1.setTextColor(Color.parseColor("#5DD2DC"));
+    		        radio2.setTextColor(Color.parseColor("#5DD2DC"));
+    		        radio0.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_testicon_selected), null, null);
+    		        radio1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_review_unselected), null, null);
+    		        radio2.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_more_unselected), null, null);
+    		        //save tabs status in singleton
+    		        ActivityBridge.getInstance().setRadio0(true);
+    		        ActivityBridge.getInstance().setRadio1(false);
+    		        ActivityBridge.getInstance().setRadio2(false);
+    				break; 
+    			case 1: // If the user scrolled to the Review page
+    		        //set the review button to "pressed" status
+    		        radio1.setTextColor(Color.parseColor("#FFFFFF"));
+    		        radio0.setTextColor(Color.parseColor("#5DD2DC"));
+    		        radio2.setTextColor(Color.parseColor("#5DD2DC"));
+    		        radio1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_review_selected), null, null);
+    		        radio0.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_testicon_unselected), null, null);
+    		        radio2.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_more_unselected), null, null);
+    		        //save tabs status in singleton
+    		        ActivityBridge.getInstance().setRadio1(true);
+    		        ActivityBridge.getInstance().setRadio0(false);
+    		        ActivityBridge.getInstance().setRadio2(false);
+    		        break;
+    			case 2: // If the user scrolled to the More page
+    		        //set the more button to "pressed" status
+    		        radio2.setTextColor(Color.parseColor("#FFFFFF"));
+    		        radio0.setTextColor(Color.parseColor("#5DD2DC"));
+    		        radio1.setTextColor(Color.parseColor("#5DD2DC"));
+    		        radio2.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_more_selected), null, null);
+    		        radio0.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_testicon_unselected), null, null);
+    		        radio1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_review_unselected), null, null);
+    		        //save tabs status in singleton
+    		        ActivityBridge.getInstance().setRadio2(true);
+    		        ActivityBridge.getInstance().setRadio0(false);
+    		        ActivityBridge.getInstance().setRadio1(false);
+    		        break;
+    			}
+    		}
+    	}); 
+    	
     }
 }
 
