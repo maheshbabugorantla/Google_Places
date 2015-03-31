@@ -70,11 +70,13 @@ public class ReviewActivity extends BaseActivity{
 		
 		ListView lv = (ListView) findViewById(R.id.reviewList);
 		Button bv = (Button) findViewById(R.id.refresh);
-		Button more = (Button)findViewById(R.id.more_button);
+		//Button more = (Button)findViewById(R.id.more_button);
 		Button searchButton = (Button) findViewById(R.id.reviewSearch);
 		
 		//Adding Button to listview at footer Parth Patel 3.28.15
-//		lv.addFooterView(more);
+		//Button more = new Button(this);
+		//more.setText("Load More");
+		//lv.addFooterView(more);
 		
 		//Getting adapter
 		final ReviewAdapter adapter = generateReviewAdapter(); 
