@@ -107,7 +107,7 @@ public class TabGroup extends FragmentActivity {
 		                ActivityBridge.getInstance().setRadio0(true);
 		                ActivityBridge.getInstance().setRadio1(false);
 		                ActivityBridge.getInstance().setRadio2(false);
-						break;
+						break; 
 					case R.id.tab_1:
 						/*container.removeAllViews();
 		                container.addView(getLocalActivityManager().startActivity(
@@ -154,6 +154,7 @@ public class TabGroup extends FragmentActivity {
 				}
 		}); 
     } 
+    
    /* commented out since removed SettingsGroup Nicole Missele - 3/22/15
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
@@ -198,7 +199,7 @@ public class TabGroup extends FragmentActivity {
 		});
   	  	builder.create().show();
   	  	
-    }   */ 
+    }   */
     @Override
 	public void onResume() {
     	super.onResume();
@@ -206,8 +207,7 @@ public class TabGroup extends FragmentActivity {
     	radio0.setChecked(ActivityBridge.getInstance().isRadio0());
         radio1.setChecked(ActivityBridge.getInstance().isRadio1());
         radio2.setChecked(ActivityBridge.getInstance().isRadio2());
-
-    } 
+    }
     
     @Override
     public void onStart() {

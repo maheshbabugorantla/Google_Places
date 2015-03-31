@@ -18,7 +18,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 public class SettingsActivity extends BaseFragment {
-			
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -168,7 +167,6 @@ public class SettingsActivity extends BaseFragment {
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
 		
 	}
-	
 	
 
 
