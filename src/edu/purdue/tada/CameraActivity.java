@@ -39,6 +39,7 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -61,6 +62,8 @@ import org.opencv.calib3d.Calib3d;
 //import org.opencv.core.Core;
 //import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.CvType;
+import org.opencv.core.Core;
 //import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
@@ -113,6 +116,14 @@ private Mat H;
 //private Scalar scale6;
 //private MatOfByte dat;
 
+//quality detection
+private BitmapFactory.Options opt;
+private Mat matImage;
+private Mat matImageGrey;
+private Mat dst2;
+private Mat laplacianImage;
+private Mat laplacianImage8bit;
+
 private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 
 	  //By downloading, copying, installing or using the software you agree to this license.
@@ -164,7 +175,14 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
       		  	fd = FeatureDetector.create(FeatureDetector.GRID_FAST);
       		  	extractor = DescriptorExtractor.create(DescriptorExtractor.OPPONENT_FREAK);
       		  	matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
-                
+      		  	
+      		  	//quality detection
+      		  	opt = new BitmapFactory.Options();
+      		  	matImage = new Mat();
+      		  	matImageGrey = new Mat();
+      		  	dst2 = new Mat();
+      		  	laplacianImage = new Mat();
+      		  	laplacianImage8bit = new Mat();
             } break;
             default:
             {
@@ -258,10 +276,14 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 			   try{
 				   Bitmap bitmapPicture = BitmapFactory.decodeByteArray(data, 0, data.length);//create bitmap to store the captured photo
 				   
+				   Boolean quality_check = quality_detect(bitmapPicture);
+//				   bitmapPicture = quality(bitmapPicture);
 				   Boolean fm_check = fmHomography(bitmapPicture);
 				   
-				   //Bitmap nyc = fmHomography(bitmapPicture);
-				   //bitmapPicture = nyc;
+				   String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+				   Bitmap combination = quality(bitmapPicture);
+				   //save in gallery
+				   MediaStore.Images.Media.insertImage(getContentResolver(),combination,"test_"+ timeStamp + ".jpg",timeStamp.toString());
 				   
 				   Date date = new Date();
 				   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");//reset date format
@@ -294,15 +316,21 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 				   CharSequence text = " ";
 				   int duration = Toast.LENGTH_SHORT;
 				   
-				   if (fm_check)
+				   if(quality_check)
 				   {
-					   text = "FM Detected!" + good_matches.size();
-				   } 
+					   if (fm_check)
+					   {
+						   text = "FM Detected!" ;
+					   } 
+					   else
+					   {
+						   text = "FM not Detected!";
+					   }
+				   }
 				   else
 				   {
-					   text = "FM not Detected!" + good_matches.size();
+					   text = "Image is Blurred, please retake the image";
 				   }
-
 				   Toast toast = Toast.makeText(context, text, duration);
 				   toast.show();
 				   
@@ -707,4 +735,65 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 	  	}	   
 	 
   }
+  
+  public Boolean quality_detect(Bitmap image) {
+	  Bitmap destImage;
+	  Bitmap bmp;
+	  int maxLap = -16777216;
+	  int soglia = -6118750;
+	  int l = CvType.CV_8UC1; //8-bit grey scale image
+	  
+	  opt.inDither = true;
+	  opt.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+	  Utils.bitmapToMat(image, matImage);
+	  Imgproc.cvtColor(matImage, matImageGrey, Imgproc.COLOR_BGR2GRAY);
+
+	  destImage = Bitmap.createBitmap(image);             
+
+	  Utils.bitmapToMat(destImage, dst2);
+	  dst2.convertTo(laplacianImage, l);
+	  Imgproc.Laplacian(matImageGrey, laplacianImage, CvType.CV_8U);
+
+	  laplacianImage.convertTo(laplacianImage8bit, l);
+
+	  bmp = Bitmap.createBitmap(laplacianImage8bit.cols(),laplacianImage8bit.rows(), Bitmap.Config.ARGB_8888);
+	  Utils.matToBitmap(laplacianImage8bit, bmp);
+	  
+	  int[] pixels = new int[bmp.getHeight() * bmp.getWidth()];
+	  bmp.getPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
+
+	  for (int i = 0; i < pixels.length; i++) {
+	  if (pixels[i] > maxLap)
+	      maxLap = pixels[i];
+	  }
+	  
+	  if (maxLap < soglia || maxLap == soglia) {
+	      Log.i(TAG, "blur image");
+	      return false;
+	  }
+	  return true;
+  }
+  
+  public Bitmap quality(Bitmap image) {
+	  Bitmap destImage;
+	  Bitmap bmp;
+	  int l = CvType.CV_8UC1; //8-bit grey scale image
+	  
+	  opt.inDither = true;
+	  opt.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+	  Utils.bitmapToMat(image, matImage);
+	  Imgproc.cvtColor(matImage, matImageGrey, Imgproc.COLOR_BGR2GRAY);
+	  
+	  Imgproc.Laplacian(matImageGrey, laplacianImage, CvType.CV_16S, 3, 1, 0, Imgproc.BORDER_DEFAULT);
+	  Core.convertScaleAbs(laplacianImage,laplacianImage8bit);
+
+	  bmp = Bitmap.createBitmap(laplacianImage8bit.cols(),laplacianImage8bit.rows(), Bitmap.Config.ARGB_8888);
+	  Utils.matToBitmap(laplacianImage8bit, bmp);
+	  
+	  return bmp;
+  }
 }
+
+
