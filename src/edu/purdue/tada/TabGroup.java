@@ -6,6 +6,7 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,7 @@ public class TabGroup extends FragmentActivity {
     private RadioButton radio1;
     private RadioButton radio2;
     private Fragment fr;
-    FragmentTransaction fragmentTransaction;
+    private FragmentTransaction fragmentTransaction;
     
     
     
@@ -43,8 +44,9 @@ public class TabGroup extends FragmentActivity {
     	
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.tada_layout);
+        
         //container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
         
@@ -52,12 +54,17 @@ public class TabGroup extends FragmentActivity {
         radio1 = (RadioButton)findViewById(R.id.tab_1);
         radio2 = (RadioButton)findViewById(R.id.tab_2);
         //By default, the record button is checked when TADA is created
-        radio0.setChecked(true);
-        radio1.setChecked(false);
-        radio2.setChecked(false);
-        //initial the text color and button image for the record button 
+        //set the record button to "pressed" status
         radio0.setTextColor(Color.parseColor("#FFFFFF"));
+        radio1.setTextColor(Color.parseColor("#5DD2DC"));
+        radio2.setTextColor(Color.parseColor("#5DD2DC"));
         radio0.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_testicon_selected), null, null);
+        radio1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_review_unselected), null, null);
+        radio2.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_more_unselected), null, null);
+        //save tabs status in singleton
+        ActivityBridge.getInstance().setRadio0(true);
+        ActivityBridge.getInstance().setRadio1(false);
+        ActivityBridge.getInstance().setRadio2(false);
 		//set the first tab view to TadaActivity
         /*container.removeAllViews();
         container.addView(getLocalActivityManager().startActivity(
@@ -66,11 +73,13 @@ public class TabGroup extends FragmentActivity {
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());*/
         
-    	             fr = new TadaActivity();
-    		         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    		         fragmentTransaction.replace(R.id.container, fr);
-    		         fragmentTransaction.commit();
-                
+        // Start the view pager so that the user can swipe across the to change between
+        // The main pages of the app. The default page is the Record screen
+        fr = new ViewPagerContainer();
+    	fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    	fragmentTransaction.replace(R.id.container, fr);
+    	fragmentTransaction.commit();
+             
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -84,13 +93,8 @@ public class TabGroup extends FragmentActivity {
 		                        new Intent(TabGroup.this, TadaActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView());  */
-						// Put the Record page as the current fragment on the screen 
-						// and clears the back stack so back button exits app
-						fr = new TadaActivity();
-	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-	    		        fragmentTransaction.replace(R.id.container, fr);
-	    		        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-	    		        fragmentTransaction.commit();
+						// Slide the page to the Record screen
+						ViewPagerContainer.mViewPager.setCurrentItem(0, true);
 		                //set the record button to "pressed" status
 		                radio0.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio1.setTextColor(Color.parseColor("#5DD2DC"));
@@ -110,13 +114,8 @@ public class TabGroup extends FragmentActivity {
 		                        new Intent(TabGroup.this, ReviewActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView()); */
-						// Put the Review page as the current fragment on the screen 
-						// and clears the back stack so back button exits app
-						fr = new ReviewActivity();
-	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-	    		        fragmentTransaction.replace(R.id.container, fr);
-	    		        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-	    		        fragmentTransaction.commit();
+						// Slide the page to the Review Screen
+						ViewPagerContainer.mViewPager.setCurrentItem(1, true);
 		                //set the review button to "pressed" status
 		                radio1.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio0.setTextColor(Color.parseColor("#5DD2DC"));
@@ -136,11 +135,8 @@ public class TabGroup extends FragmentActivity {
 		                        new Intent(TabGroup.this, SettingsActivity.class)
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView()); */
-						// Put the More page as the current fragment on the screen
-						fr = new SettingsActivity();
-	    		        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-	    		        fragmentTransaction.replace(R.id.container, fr);
-	    		        fragmentTransaction.commit();
+						// Slide the page to the More Screen
+						ViewPagerContainer.mViewPager.setCurrentItem(2, true);
 		                //set the more button to "pressed" status
 		                radio2.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio0.setTextColor(Color.parseColor("#5DD2DC"));

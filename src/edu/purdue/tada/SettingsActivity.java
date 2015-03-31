@@ -103,7 +103,7 @@ public class SettingsActivity extends BaseFragment {
 				 Fragment newFragment = new AboutTada();
 				 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 				 transaction.replace(R.id.container, newFragment);
- 		         transaction.addToBackStack(null);
+				 transaction.addToBackStack(null);
 				 transaction.commit();
 			}
 			
