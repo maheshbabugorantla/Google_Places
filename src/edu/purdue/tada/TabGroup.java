@@ -6,6 +6,7 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,7 +42,8 @@ public class TabGroup extends ActivityGroup{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        group=this; // define group for tabs to appear over all activities launched inside app -- Nicole Missele 4/12/15
+        group = this; // define group for tabs to appear over all activities launched inside app -- Nicole Missele 4/12/15
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.tada_layout);
         container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
@@ -51,12 +53,17 @@ public class TabGroup extends ActivityGroup{
         radio1 = (RadioButton)findViewById(R.id.tab_1);
         radio2 = (RadioButton)findViewById(R.id.tab_2);
         //By default, the record button is checked when TADA is created
-        radio0.setChecked(true);
-        radio1.setChecked(false);
-        radio2.setChecked(false);
-        //initial the text color and button image for the record button 
+        //set the record button to "pressed" status
         radio0.setTextColor(Color.parseColor("#FFFFFF"));
+        radio1.setTextColor(Color.parseColor("#5DD2DC"));
+        radio2.setTextColor(Color.parseColor("#5DD2DC"));
         radio0.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_testicon_selected), null, null);
+        radio1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_review_unselected), null, null);
+        radio2.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_more_unselected), null, null);
+        //save tabs status in singleton
+        ActivityBridge.getInstance().setRadio0(true);
+        ActivityBridge.getInstance().setRadio1(false);
+        ActivityBridge.getInstance().setRadio2(false);
 		//set the first tab view to TadaActivity
         container.removeAllViews();
         container.addView(getLocalActivityManager().startActivity(
@@ -64,7 +71,7 @@ public class TabGroup extends ActivityGroup{
                 new Intent(TabGroup.this, TadaActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());
-                
+        
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -72,12 +79,8 @@ public class TabGroup extends ActivityGroup{
 				
 					switch (checkedId) {
 					case R.id.tab_0:
-						container.removeAllViews();
-		                container.addView(getLocalActivityManager().startActivity(
-		                        "Module1",
-		                        new Intent(TabGroup.this, TadaActivity.class)
-		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-		                        .getDecorView()); 
+						// Slide the page to the Record screen
+						ViewPagerContainer.mViewPager.setCurrentItem(0, true);
 		                //set the record button to "pressed" status
 		                radio0.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio1.setTextColor(Color.parseColor("#5DD2DC"));
@@ -89,14 +92,10 @@ public class TabGroup extends ActivityGroup{
 		                ActivityBridge.getInstance().setRadio0(true);
 		                ActivityBridge.getInstance().setRadio1(false);
 		                ActivityBridge.getInstance().setRadio2(false);
-						break;
+						break; 
 					case R.id.tab_1:
-						container.removeAllViews();
-		                container.addView(getLocalActivityManager().startActivity(
-		                        "Module2",
-		                        new Intent(TabGroup.this, ReviewActivity.class)
-		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-		                        .getDecorView());
+						// Slide the page to the Review Screen
+						ViewPagerContainer.mViewPager.setCurrentItem(1, true);
 		                //set the review button to "pressed" status
 		                radio1.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio0.setTextColor(Color.parseColor("#5DD2DC"));
@@ -111,12 +110,8 @@ public class TabGroup extends ActivityGroup{
 		                break;
 					case R.id.tab_2:
 						isSetting = true;
-						container.removeAllViews();
-		                container.addView(getLocalActivityManager().startActivity(
-		                        "Module3",
-		                        new Intent(TabGroup.this, SettingsActivity.class)
-		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-		                        .getDecorView());
+						// Slide the page to the More Screen
+						ViewPagerContainer.mViewPager.setCurrentItem(2, true);
 		                //set the more button to "pressed" status
 		                radio2.setTextColor(Color.parseColor("#FFFFFF"));
 		                radio0.setTextColor(Color.parseColor("#5DD2DC"));
@@ -179,7 +174,7 @@ public class TabGroup extends ActivityGroup{
 		});
   	  	builder.create().show();
   	  	
-    }   */ 
+    }   */
     @Override
     protected void onResume() {
     	super.onResume();

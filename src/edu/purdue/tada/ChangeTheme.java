@@ -13,7 +13,8 @@ public class ChangeTheme extends BaseFragment {
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.change_theme);	
+		//setContentView(R.layout.change_theme);	
+	}
 
 		
 	public View onCreateView(LayoutInflater inflater,
@@ -62,7 +63,7 @@ public class ChangeTheme extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getAcitivty(), R.style.AppTheme_mediumturquoise);
+				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_mediumturquoise);
                 reload();
 				
 			}
@@ -95,7 +96,7 @@ public class ChangeTheme extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PreferenceHelper.setTheme(getActivty(), R.style.AppTheme_plum);
+				PreferenceHelper.setTheme(getActivity(), R.style.AppTheme_plum);
                 reload();
 				
 			}
@@ -123,6 +124,10 @@ public class ChangeTheme extends BaseFragment {
 			}
 		});
 		
+		return view;
+		
 		
 	}
 }
+	
+	

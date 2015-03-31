@@ -40,8 +40,9 @@ public class SettingsActivity extends BaseFragment {
 						.getDecorView());
 			}
 		
-		});*/
+		});
 		
+		Button btn2 = (Button) view.findViewById(R.id.settings_button2);
 		btn2.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -103,43 +104,6 @@ public class SettingsActivity extends BaseFragment {
 			}
 			
 		});
-			
-		//Old code using the SettingsGroup
-			/*@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(SettingsActivity.this, UserSettings.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = SettingsGroup.group.getLocalActivityManager()
-						.startActivity("UserSettings", intent);
-				View view = w.getDecorView();
-				SettingsGroup.group.setContentView(view);*/
-			
-			
-		
-		
-
-		//set up button two to go to Researcher settings - Nicole Missele 2/20/15
-		
-		//set up button 2 to go to Researcher settings password as own activity without alert dialog Nicole Missele 2/20/2015
-//		btn2.setOnClickListener(new OnClickListener(){
-//
-//			@Override
-//			public void onClick(View v) {
-//				Intent intent = new Intent(SettingsActivity.this, ResearchPassword.class)
-//				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//				Window w = SettingsGroup.group.getLocalActivityManager()
-//						.startActivity("ResearchPassword", intent);
-//				View view = w.getDecorView();
-//				SettingsGroup.group.setContentView(view);
-//					
-//				
-//				
-//			}}
-//			
-//		);
-		
-		
-		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
-		
+		return view;
 	}
 }

@@ -63,24 +63,12 @@ public class TadaActivity extends BaseFragment
 			ViewGroup container, Bundle savedInstanceState) {
 	       
 		//Inflate the layout for this fragment
-	        
-	    return inflater.inflate(
-	    		R.layout.activity_tada, container, false);
-	}
-	
-	/*@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
+		View view = inflater.inflate(R.layout.activity_tada, container, false);
 		
 		unsentRec = "" + recSaved + REC_SAVED; // Added By David to fix crash 9/24/2013
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		setContentView(R.layout.activity_tada);
-//		img_scanner = (Button) findViewById(R.id.scan);
-		unsent = (Button) findViewById(R.id.unsent_event);
+		img_scanner = (Button) view.findViewById(R.id.scan);
+		unsent = (Button) view.findViewById(R.id.unsent_event);
 		System.out.println("Tada: on create!");
-
 		// Initialize imgFlag
 		// ActivityBridge.getInstance().setImgFlag(ActivityBridge.getInstance().getImgFlag());
 		// flag = 0:imageButton1 is available for taking photos;
@@ -123,7 +111,6 @@ public class TadaActivity extends BaseFragment
 			//e.printStackTrace();
 			
 		}
-
 		// set OnClickListener for "unsent event" button
 		unsent.setOnClickListener(new OnClickListener()
 		{
@@ -271,7 +258,7 @@ public class TadaActivity extends BaseFragment
 							fos.close();
 							// display a message showing that txt file is
 							// updated
-							Toast.makeText(getApplicationContext(),
+							Toast.makeText(getActivity().getApplicationContext(),
 									"TXT file is updated!", 1000).show();
 						} catch (Exception e)
 						{
@@ -280,11 +267,11 @@ public class TadaActivity extends BaseFragment
 						// after everything is saved in singleton, call
 						// httpssendimage to upload images to the server
 						Intent intent = new Intent();
-						intent.setClass(TadaActivity.this, HttpsSendImage.class);
+						intent.setClass(getActivity(), HttpsSendImage.class);
 						startActivityForResult(intent, UPLOAD_UNSENT);
 					} else
 					{
-						Toast.makeText(getApplicationContext(), "No Internet!",
+						Toast.makeText(getActivity().getApplicationContext(), "No Internet!",
 								500).show();
 					}
 				} else
@@ -321,7 +308,7 @@ public class TadaActivity extends BaseFragment
 						{
 							unsent.setVisibility(View.INVISIBLE);
 						}
-						Toast.makeText(getApplicationContext(),
+						Toast.makeText(getActivity().getApplicationContext(),
 								"TXT file is updated!", 1000).show();
 						
 					} catch (Exception e)
@@ -331,21 +318,22 @@ public class TadaActivity extends BaseFragment
 				}
 			}
 		});
-		img_before = (ImageButton) findViewById(R.id.imageButton1);
-		img_after = (ImageButton) findViewById(R.id.imageButton2);
+		
+		img_before = (ImageButton) view.findViewById(R.id.imageButton1);
+		img_after = (ImageButton) view.findViewById(R.id.imageButton2);
 		
 		//WHAT HAPPENS WHEN THE 'SCAN' BUTTON IS CLICKED
-//		img_scanner.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				callBarCode();
+		img_scanner.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				callBarCode();
 				//ZBAR_SCANNER_REQUEST = 0
 				
-//			}
+			}
 			
 			
-//		});
+		});
 		//WHAT HAPPENS WHEN THE 'BEFORE' BUTTON IS CLICKED
 		img_before.setOnClickListener(new View.OnClickListener()
 		{
@@ -358,14 +346,14 @@ public class TadaActivity extends BaseFragment
 				{
 					ActivityBridge.getInstance().setImgFlag(1);
 					Intent intent = new Intent();
-					intent.setClass(TadaActivity.this, CameraActivity.class);
+					intent.setClass(getActivity(), CameraActivity.class);
 					startActivityForResult(intent, TAKE_PHOTO);
 				} else
 				{
 					// create a dialog to warn users if they want to replace the
 					// first image
 					AlertDialog.Builder builder = new AlertDialog.Builder(
-							TadaActivity.this);
+							getActivity());
 					//builder.setTitle("You have already taken the first image. Do you want to replace it?");
 					//The setMessage should be used since it allows more characters Nicole Missele 2/8/2014
 					builder.setMessage("You have already taken the first image. Do you want to replace it?");
@@ -378,7 +366,7 @@ public class TadaActivity extends BaseFragment
 										int which)
 								{
 									Intent intent = new Intent();
-									intent.setClass(TadaActivity.this,
+									intent.setClass(getActivity(),
 											CameraActivity.class);
 									startActivityForResult(intent, TAKE_PHOTO);
 								}
@@ -410,7 +398,7 @@ public class TadaActivity extends BaseFragment
 				if (ActivityBridge.getInstance().getImgFlag() == 0)
 				{
 					AlertDialog.Builder builder = new AlertDialog.Builder(
-							TadaActivity.this);
+							getActivity());
 					builder.setTitle("You have not taken the first image yet");
 					builder.setPositiveButton("OK",
 							new DialogInterface.OnClickListener()
@@ -428,20 +416,28 @@ public class TadaActivity extends BaseFragment
 				{
 					ActivityBridge.getInstance().setImgFlag(0);
 					Intent intent = new Intent();
-					intent.setClass(TadaActivity.this, CameraActivity.class);
+					intent.setClass(getActivity(), CameraActivity.class);
 					startActivityForResult(intent, TAKE_PHOTO);
 				}
 				
 			}
 		});
+	    
 		
+		return view;
 	}
 	
 	@Override
-	protected void onResume()
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
+	public void onResume()
 	{
 		super.onResume();
-		Button unsent = (Button) findViewById(R.id.unsent_event);
+		Button unsent = (Button) getView().findViewById(R.id.unsent_event);
 		
 		try
 		{
@@ -479,9 +475,7 @@ public class TadaActivity extends BaseFragment
 	}
 	
 	@Override
-	//WHAT HAPPENS WHEN AN ACTIVITY RETURNS
-	//BOTH THE 'SCAN' AND 'BEFORE/AFTER' CAMARAS RETURN VALUES THROUGH THIS METHOD
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 			super.onActivityResult(requestCode, resultCode, data);
 			System.out.println("tada gets result:" + resultCode);
@@ -498,8 +492,8 @@ public class TadaActivity extends BaseFragment
 			
 			//returns here from barcode scanner
 			if(requestCode == ZBAR_SCANNER_REQUEST){
-				if (resultCode == RESULT_OK){
-					Intent scanIntent = new Intent(this, ScanResult.class);
+				if (resultCode == getActivity().RESULT_OK){
+					Intent scanIntent = new Intent(getActivity(), ScanResult.class);
 					scanIntent.putExtra("SCAN_RESULT", data.getStringExtra(ZBarConstants.SCAN_RESULT));
 					startActivityForResult(scanIntent, SCAN_RESULT_REQUEST);
 					
@@ -508,8 +502,8 @@ public class TadaActivity extends BaseFragment
 					// Type of the scan result is available by making a call to data.getStringExtra(ZBarConstants.SCAN_RESULT_TYPE)
 					
 		        
-				} else if(resultCode == RESULT_CANCELED) {
-					Toast.makeText(this, "Picture Cancelled", Toast.LENGTH_SHORT).show();
+				} else if(resultCode == getActivity().RESULT_CANCELED) {
+					Toast.makeText(getActivity(), "Picture Cancelled", Toast.LENGTH_SHORT).show();
 				}
 			}
 			
@@ -520,22 +514,16 @@ public class TadaActivity extends BaseFragment
 					//dont do anything
 				}else if(resultCode == RETAKE_RESULT){
 					//if retake pressed, call the zbar activity again
-					Intent intent = new Intent(this, ZBarScannerActivity.class);
+					Intent intent = new Intent(getActivity(), ZBarScannerActivity.class);
 					startActivityForResult(intent, ZBAR_SCANNER_REQUEST);
 				}
 				
 			}
 	}
 	
-	@Override
-	public void onBackPressed()
-	{
-		super.onBackPressed();
-	}
-	
 	private boolean isNetworkConnected()
 	{
-		ConnectivityManager conManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager conManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 		return (conManager.getActiveNetworkInfo() != null);
 	}
 	
@@ -544,8 +532,17 @@ public class TadaActivity extends BaseFragment
 	// To implement surface overlay on camera, since zbarscanneractivity resides within the jar, will need to pull that code out and modify it.
 	public void callBarCode(){
 		ActivityBridge.getInstance().setChecked4();
-		Intent intent = new Intent(this, ZBarScannerActivity.class);
+		Intent intent = new Intent(getActivity(), ZBarScannerActivity.class);
 		startActivityForResult(intent, ZBAR_SCANNER_REQUEST);//ZBAR_SCANNER_REQUEST = 0
-	}*/
+	}
+	
+	// If the fragment is visible, set the orientation to portrait
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+	    super.setUserVisibleHint(isVisibleToUser);
+	    if(isVisibleToUser) {
+	        if(getActivity() != null) getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	    }
+	}
 	
 }

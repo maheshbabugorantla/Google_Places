@@ -60,30 +60,23 @@ import java.text.DateFormat;
  * @author Ben Klutzke, Parth Patel
  * 
  */
-public class ReviewActivity extends Fragment{
+public class ReviewActivity extends BaseFragment{
 	
 	// Note that the refresh button should do adapter.notifyDataSetChanged();
 	
 	protected static final int TAG_REQUEST = 101;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 	       
 		//Inflate the layout for this fragment
-	        
-	    return inflater.inflate(
-	    		R.layout.review_layout, container, false);
-	}
-
-	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.review_layout);
+		View view = inflater.inflate(R.layout.review_layout, container, false);
 		
-		ListView lv = (ListView) findViewById(R.id.reviewList);
-		Button bv = (Button) findViewById(R.id.refresh);
-		Button searchButton = (Button) findViewById(R.id.reviewSearch);
+		ListView lv = (ListView) view.findViewById(R.id.reviewList);
+		Button bv = (Button) view.findViewById(R.id.refresh);
+		Button searchButton = (Button) view.findViewById(R.id.reviewSearch);
 		
 		//Adding Button to listview at footer Parth Patel 3.28.15
 //		lv.addFooterView(more);
@@ -96,7 +89,7 @@ public class ReviewActivity extends Fragment{
 		
 		// Date search dialog
 		Calendar c = Calendar.getInstance();		
-		final DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {			
+		final DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {			
 			public void onDateSet(DatePicker view, int year, int month, int day) {
 				if(adapter != null)
 					adapter.filterByDate(day, month, year);
@@ -104,7 +97,7 @@ public class ReviewActivity extends Fragment{
 		}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
 		dpd.setTitle("Select Date");
 		
-		final LayoutInflater inflater = getLayoutInflater();
+		final LayoutInflater inflater2 = getActivity().getLayoutInflater();
 		
 		// onselect
 		lv.setOnItemClickListener(new OnItemClickListener(){
@@ -118,7 +111,7 @@ public class ReviewActivity extends Fragment{
 					System.out.println("Item");
 					ActivityBridge.getInstance().setReviewImagePath(((ReviewItem)adapter.getItem(position)).getImage1());
 					Intent intent = new Intent();
-					intent.setClass(ReviewActivity.this,HttpsReceiveTag.class);
+					intent.setClass(getActivity(),HttpsReceiveTag.class);
 	        		startActivityForResult(intent, TAG_REQUEST);
 				}
 				
@@ -128,8 +121,8 @@ public class ReviewActivity extends Fragment{
 		searchButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				View searchDialogLayout = inflater.inflate(R.layout.search_dialog_layout, null);
-				final Dialog d = new Dialog(ReviewActivity.this);
+				View searchDialogLayout = inflater2.inflate(R.layout.search_dialog_layout, null);
+				final Dialog d = new Dialog(getActivity());
 				d.setContentView(searchDialogLayout);
 				d.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 				d.setCanceledOnTouchOutside(true);
@@ -154,8 +147,8 @@ public class ReviewActivity extends Fragment{
 						// Food search dialog
 						// This must be in here for the dialog to be created multiple times
 						// If this is in the onCreate for the activity, app will crash on second open (not an issue for datepickerdialog)
-						final AlertDialog.Builder fd = new AlertDialog.Builder(ReviewActivity.this);
-						final EditText input = new EditText(ReviewActivity.this);
+						final AlertDialog.Builder fd = new AlertDialog.Builder(getActivity());
+						final EditText input = new EditText(getActivity());
 						input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS); // This prevents a weird non-fatal error about spans with zero length
 						fd.setTitle("Enter Food");
 						fd.setView(input);
@@ -180,7 +173,7 @@ public class ReviewActivity extends Fragment{
 					@Override
 					public void onClick(View v) {
 						d.dismiss();
-						final AlertDialog.Builder md = new AlertDialog.Builder(ReviewActivity.this);
+						final AlertDialog.Builder md = new AlertDialog.Builder(getActivity());
 						md.setTitle("Select Meal Type");
 						CharSequence[] meals = {"Breakfast", "Lunch", "Dinner"};
 						md.setItems(meals, new DialogInterface.OnClickListener(){	
@@ -195,6 +188,7 @@ public class ReviewActivity extends Fragment{
 				});
 			}			
 		});
+		return view;
 		
 		//Gets more reviews *Parth Patel 3/10/15*
 //		more.setOnClickListener(new View.OnClickListener(){
@@ -208,7 +202,7 @@ public class ReviewActivity extends Fragment{
 	}
 	
 	private ReviewAdapter generateReviewAdapter(){
-		ReviewAdapter adapter = new ReviewAdapter(this);
+		ReviewAdapter adapter = new ReviewAdapter(getActivity());
 		InputStream in = null;
 		int count = 0;
 		ArrayList<String> lines = new ArrayList<String>();
@@ -369,14 +363,14 @@ public class ReviewActivity extends Fragment{
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// Starts the pin page activity after receiving tag file from server
 		super.onActivityResult(requestCode, resultCode, data);
 		System.out.println("Review gets result: "+resultCode);
 		if (requestCode == TAG_REQUEST) {
 			System.out.println("Successfully requested tag file");
 			Intent intent = new Intent();
-			intent.setClass(ReviewActivity.this, PinPage.class);
+			intent.setClass(getActivity(), PinPage.class);
 			startActivity(intent);
 		}
 	}
@@ -401,7 +395,7 @@ public class ReviewActivity extends Fragment{
 		}
 		
 		public void filterByMeal(int which) {
-			Context context = getApplicationContext();
+			Context context = getActivity().getApplicationContext();
 			// Breakfast = 0; Lunch = 1; Dinner = 2; Cannot be other values unless dialog is changed
 			String filterText = (which == 0) ? "Breakfast" : (which == 1) ? "Lunch" : "Dinner";
 			String text = "List Filtered by Meal Type: " + filterText;
@@ -413,7 +407,7 @@ public class ReviewActivity extends Fragment{
 		}
 
 		public void filterByFood(String trim) {
-			Context context = getApplicationContext();
+			Context context = getActivity().getApplicationContext();
 			String text = "List Filtered by Food: " + trim;
 			int duration = Toast.LENGTH_SHORT;
 
@@ -422,7 +416,7 @@ public class ReviewActivity extends Fragment{
 		}
 
 		public void filterByDate(int day, int month, int year) {
-			Context context = getApplicationContext();
+			Context context = getActivity().getApplicationContext();
 			// For some reason it adds 1900 to the year so let's get rid of that
 			Date date = new Date(year - 1900, month, day);
 			String filterText = new SimpleDateFormat("MMMM/dd/yyyy").format(date).toString();
