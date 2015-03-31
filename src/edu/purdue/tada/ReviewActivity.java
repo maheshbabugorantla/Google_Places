@@ -73,7 +73,7 @@ public class ReviewActivity extends BaseActivity{
 		//Adding Button to listview at footer Parth Patel 
 		Button more = new Button(this);
 		more.setText("Load More");
-		lv.addFooterView(more);
+		//lv.addFooterView(more);
 		
 		//Getting adapter
 		final ReviewAdapter adapter = generateReviewAdapter(); 

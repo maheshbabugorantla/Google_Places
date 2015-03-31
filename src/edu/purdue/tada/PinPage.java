@@ -31,6 +31,7 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import edu.purdue.tada.ActivityBridge;
+import edu.purdue.tada.images.TouchImageView;
 
 /*
  * Pin page displays an image and the food tags for the user to change
@@ -60,7 +61,7 @@ public class PinPage extends BaseActivity {
 		
 		// Makes background image
 		String imagePath = ActivityBridge.getInstance().getReviewImagePath();
-		ImageView picture = (ImageView) findViewById(R.id.backgroundPicture);
+		TouchImageView picture = (TouchImageView) findViewById(R.id.backgroundPicture);
 		picture.setImageBitmap(BitmapFactory.decodeFile(recSaved + "/" + imagePath));
 
         // create default buttons base on tag file
