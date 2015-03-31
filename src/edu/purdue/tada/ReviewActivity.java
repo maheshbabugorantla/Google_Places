@@ -41,7 +41,7 @@ import java.text.DateFormat;
  * @author Ben Klutzke, Parth Patel
  * 
  */
-public class ReviewActivity extends Fragment{
+public class ReviewActivity extends BaseFragment{
 	
 	// Note that the refresh button should do adapter.notifyDataSetChanged();
 	
@@ -52,17 +52,9 @@ public class ReviewActivity extends Fragment{
 			ViewGroup container, Bundle savedInstanceState) {
 	       
 		//Inflate the layout for this fragment
-	        
-	    return inflater.inflate(
-	    		R.layout.review_layout, container, false);
-	}
-
-	/*public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.review_layout);
+		View view = inflater.inflate(R.layout.review_layout, container, false);
 		
-		ListView lv = (ListView) findViewById(R.id.reviewList);
+		ListView lv = (ListView) view.findViewById(R.id.reviewList);
 		
 		final ReviewAdapter adapter = generateReviewAdapter(); 
 		
@@ -81,16 +73,28 @@ public class ReviewActivity extends Fragment{
 					System.out.println("Item");
 					ActivityBridge.getInstance().setReviewImagePath(((ReviewItem)adapter.getItem(position)).getImage1());
 					Intent intent = new Intent();
-					intent.setClass(ReviewActivity.this,HttpsReceiveTag.class);
+					intent.setClass(getActivity() ,HttpsReceiveTag.class);
 	        		startActivityForResult(intent, TAG_REQUEST);
 				}
 				
 			}
 		});
+	        
+	    return view;
 	}
 
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		System.out.println("In Review Activity");
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setContentView(R.layout.review_layout);
+		
+		
+	}
+	
+
 	private ReviewAdapter generateReviewAdapter(){
-		ReviewAdapter adapter = new ReviewAdapter(this);
+		ReviewAdapter adapter = new ReviewAdapter(getActivity());
 		InputStream in = null;
 		ArrayList<String> lines = new ArrayList<String>();
 		
@@ -227,7 +231,7 @@ public class ReviewActivity extends Fragment{
 	 * @author Ben Klutzke
 	 * 
 	 */
-	/*private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter {		
+	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter {		
 		private ArrayList<ReviewContainer> list = new ArrayList<ReviewContainer>();
 		LayoutInflater inflater = null;
 		
@@ -346,15 +350,15 @@ public class ReviewActivity extends Fragment{
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// Starts the pin page activity after receiving tag file from server
 		super.onActivityResult(requestCode, resultCode, data);
 		System.out.println("Review gets result: "+resultCode);
 		if (requestCode == TAG_REQUEST) {
 			System.out.println("Successfully requested tag file");
 			Intent intent = new Intent();
-			intent.setClass(ReviewActivity.this, PinPage.class);
+			intent.setClass(getActivity(), PinPage.class);
 			startActivity(intent);
 		}
-	} */
+	} 
 } 

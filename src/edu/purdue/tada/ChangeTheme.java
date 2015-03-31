@@ -76,10 +76,8 @@ public class ChangeTheme extends BaseFragment {
 		return view;
 	}
 	
-	/*public void onCreate(Bundle savedInstanceState){
+	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.change_theme);	
-
-		
-	}*/
+		//setContentView(R.layout.change_theme);
+	}
 }
