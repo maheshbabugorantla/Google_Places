@@ -24,7 +24,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 
-public class TabGroup extends FragmentActivity {
+public class TabGroup extends ActivityGroup {
 
 	private final String TAG = "TabGroup";
     private FrameLayout container = null;
@@ -48,7 +48,7 @@ public class TabGroup extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.tada_layout);
         
-        //container = (FrameLayout)findViewById(R.id.container);
+        container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
         
         radio0 = (RadioButton)findViewById(R.id.tab_0);
@@ -67,19 +67,19 @@ public class TabGroup extends FragmentActivity {
         ActivityBridge.getInstance().setRadio1(false);
         ActivityBridge.getInstance().setRadio2(false);
 		//set the first tab view to TadaActivity
-        /*container.removeAllViews();
+        container.removeAllViews();
         container.addView(getLocalActivityManager().startActivity(
                 "Module1",
-                new Intent(TabGroup.this, TadaActivity.class)
+                new Intent(TabGroup.this, ViewPagerContainer.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                .getDecorView());*/
+                .getDecorView());
         
         // Start the view pager so that the user can swipe across the to change between
         // The main pages of the app. The default page is the Record screen
-        fr = new ViewPagerContainer();
+        /*fr = new ViewPagerContainer();
     	fragmentTransaction = getSupportFragmentManager().beginTransaction();
     	fragmentTransaction.replace(R.id.container, fr);
-    	fragmentTransaction.commit();
+    	fragmentTransaction.commit(); */
              
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
@@ -153,9 +153,14 @@ public class TabGroup extends FragmentActivity {
 					}
 				}
 		}); 
+        
+        if (ViewPagerContainer.getViewPager() == null)
+        {
+        	System.out.println("Viewpager is null");
+        }
     } 
     
-   /* commented out since removed SettingsGroup Nicole Missele - 3/22/15
+    /* //commented out since removed SettingsGroup Nicole Missele - 3/22/15
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
     	// it will take you back to original More tab

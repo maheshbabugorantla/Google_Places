@@ -99,11 +99,14 @@ public class SettingsActivity extends BaseFragment {
 			public void onClick(View v) {
 				 // Put the About page as the current fragment on the screen 
 				 // make it so when the back button is clicked, it goes to more page
+				 /*ViewPagerContainer.getViewPager().setVisibility(View.GONE);
 				 Fragment newFragment = new AboutTada();
 				 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 				 transaction.replace(R.id.container, newFragment);
 				 transaction.addToBackStack(null);
-				 transaction.commit();
+				 transaction.commit(); */
+				Intent intent = new Intent(getActivity(), AboutTada.class);
+				startActivity(intent);
 			}
 			
 		});
