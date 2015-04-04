@@ -19,6 +19,7 @@ public class ChangeTheme extends BaseActivity{
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_cyan);
                 reload();
+				
 			
 			}
 		});
@@ -30,7 +31,6 @@ public class ChangeTheme extends BaseActivity{
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_white);
                 reload();
-			
 			}
 		});
 		Button changeButton3 = (Button)findViewById(R.id.change3);
@@ -41,7 +41,7 @@ public class ChangeTheme extends BaseActivity{
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_orange);
                 reload();
-			
+				
 			}
 		});
 		Button changeButton4 = (Button)findViewById(R.id.change4);
@@ -52,7 +52,7 @@ public class ChangeTheme extends BaseActivity{
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_green);
                 reload();
-			
+				
 			}
 		});
 		Button changeButton5 = (Button)findViewById(R.id.change5);
@@ -63,7 +63,7 @@ public class ChangeTheme extends BaseActivity{
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_magenta);
                 reload();
-			
+				
 			}
 		});
 	}
