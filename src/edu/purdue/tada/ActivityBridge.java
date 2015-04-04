@@ -27,6 +27,7 @@ public class ActivityBridge {
 	private boolean checked1 = true;
 	private boolean checked2 = true;
 	private boolean checked3 = true;
+	private boolean checked4 = false;
 	private boolean radio0 = true;
 	private boolean radio1 = false;
 	private boolean radio2 = false;
@@ -124,6 +125,15 @@ public class ActivityBridge {
 	public boolean getChecked3() {
 		return checked3;
 	}
+	
+	public void setChecked4() {
+		if(checked4){checked4 = false;}
+		else {checked4 = true;}
+	}
+	
+	public boolean getChecked4() {
+		return checked4;
+	}	
 	
 	public boolean isRadio0() {
 		return radio0;

@@ -66,6 +66,7 @@ public class TadaActivity extends BaseActivity
 		img_scanner = (Button) findViewById(R.id.scan);
 		unsent = (Button) findViewById(R.id.unsent_event);
 		System.out.println("Tada: on create!");
+
 		// Initialize imgFlag
 		// ActivityBridge.getInstance().setImgFlag(ActivityBridge.getInstance().getImgFlag());
 		// flag = 0:imageButton1 is available for taking photos;
@@ -108,6 +109,7 @@ public class TadaActivity extends BaseActivity
 			//e.printStackTrace();
 			
 		}
+
 		// set OnClickListener for "unsent event" button
 		unsent.setOnClickListener(new OnClickListener()
 		{
@@ -319,17 +321,17 @@ public class TadaActivity extends BaseActivity
 		img_after = (ImageButton) findViewById(R.id.imageButton2);
 		
 		//WHAT HAPPENS WHEN THE 'SCAN' BUTTON IS CLICKED
-		img_scanner.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				callBarCode();
+//		img_scanner.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				callBarCode();
 				//ZBAR_SCANNER_REQUEST = 0
 				
-			}
+//			}
 			
 			
-		});
+//		});
 		//WHAT HAPPENS WHEN THE 'BEFORE' BUTTON IS CLICKED
 		img_before.setOnClickListener(new View.OnClickListener()
 		{
@@ -475,6 +477,10 @@ public class TadaActivity extends BaseActivity
 			{
 				System.out.println("successfully return to main");
 			}
+			//what happened when 'scan' button is pressed. 
+			if(ActivityBridge.getInstance().getChecked4()) {
+				callBarCode();
+			}
 			
 			//returns here from barcode scanner
 			if(requestCode == ZBAR_SCANNER_REQUEST){
@@ -523,6 +529,7 @@ public class TadaActivity extends BaseActivity
 	//Calls bar code scanner
 	// To implement surface overlay on camera, since zbarscanneractivity resides within the jar, will need to pull that code out and modify it.
 	public void callBarCode(){
+		ActivityBridge.getInstance().setChecked4();
 		Intent intent = new Intent(this, ZBarScannerActivity.class);
 		startActivityForResult(intent, ZBAR_SCANNER_REQUEST);//ZBAR_SCANNER_REQUEST = 0
 	}
