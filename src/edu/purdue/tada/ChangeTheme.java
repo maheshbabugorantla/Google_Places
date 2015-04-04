@@ -21,6 +21,7 @@ public class ChangeTheme extends BaseActivity{
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_cyan);
                 reload();
+				
 			
 			}
 		});
@@ -34,7 +35,6 @@ public class ChangeTheme extends BaseActivity{
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_white);
                 reload();
-			
 			}
 		});
 		
@@ -47,7 +47,7 @@ public class ChangeTheme extends BaseActivity{
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_orange);
                 reload();
-			
+				
 			}
 		});
 		
@@ -60,7 +60,7 @@ public class ChangeTheme extends BaseActivity{
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_green);
                 reload();
-			
+				
 			}
 		});
 		
@@ -73,7 +73,7 @@ public class ChangeTheme extends BaseActivity{
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_magenta);
                 reload();
-			
+				
 			}
 		});
 	}

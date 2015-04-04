@@ -1,13 +1,14 @@
 package edu.purdue.tada;
 
-import android.app.Activity;
+//import android.app.Activity;
+//import android.content.Intent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
+//import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
+//import android.view.View;
+//import android.view.Window;
 
 public class BaseActivity extends FragmentActivity
 {
@@ -56,18 +57,50 @@ public class BaseActivity extends FragmentActivity
 		outState.putInt("theme", mTheme);
 	}
 	
-	protected void reload()
+	/*protected void reload()
 	{
 		Intent intent = getIntent();
 		overridePendingTransition(0, 0);
 		/*
 		 * intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION); finish();
 		 * overridePendingTransition(0, 0); startActivity(intent);
-		 */
-		Window w = SettingsGroup.group.getLocalActivityManager().startActivity(
+		 */   
+	
+		
+		/*Window w = SettingsGroup.group.getLocalActivityManager().startActivity(
 				"ChangeTheme", intent);
 		View view = w.getDecorView();
-		SettingsGroup.group.setContentView(view);
+
+		SettingsGroup.group.setContentView(view);*/
 		
+		//refresh view for the theme to change
+		
+		// Refresh main activity upon close of dialog box
+	
+	//attempt 1
+		//this works but it still needs the app to be closed out since pressing the back button doesn't work.
+	/*
+	protected void reload()
+	{
+		Intent refresh = new Intent(this, ChangeTheme.class);
+		startActivity(refresh);
+		this.finish(); 
 	}
+		*/
+	//attempt 2
+	
+	public void reload() {
+
+	    Intent intent = getIntent();
+	    overridePendingTransition(0, 0);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+	    finish();
+
+	    overridePendingTransition(0, 0);
+	    startActivity(intent);
+	}
+			
+	
+	
+		
 }
