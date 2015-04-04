@@ -40,16 +40,13 @@ public class TabGroup extends ActivityGroup {
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	
-    	
-    	
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         group = this; // define group for tabs to appear over all activities launched inside app -- Nicole Missele 4/12/15
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.tada_layout);
         
-        //container = (FrameLayout)findViewById(R.id.container);
+        container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
         radio0 = (RadioButton)findViewById(R.id.tab_0);
         radio1 = (RadioButton)findViewById(R.id.tab_1);
@@ -73,6 +70,7 @@ public class TabGroup extends ActivityGroup {
                 new Intent(TabGroup.this, ViewPagerContainer.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());
+        
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -128,6 +126,7 @@ public class TabGroup extends ActivityGroup {
 					}
 				}
 		}); 
+        
     } 
     
     @Override

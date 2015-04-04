@@ -1,24 +1,29 @@
 package edu.purdue.tada;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 
-public class AboutTada extends BaseFragment{
+public class AboutTada extends BaseActivity {
 	
-	public View onCreateView(LayoutInflater inflater,
+	/*public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 		// Create the About view and place it on the screen
 		View view = inflater.inflate(R.layout.about_layout, container, false);
 		return view;
-	}
+	} */
 	
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.about_layout);
 	}
 		
 		//rid of unnecessary button - Nicole Missele 3/20/15

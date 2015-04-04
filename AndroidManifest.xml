@@ -39,6 +39,9 @@
             android:name="edu.purdue.tada.TadaActivity" 
             />
         <activity
+            android:name="edu.purdue.tada.ViewPagerContainer"
+            />
+        <activity
             android:name="edu.purdue.tada.ScanResult" 
         	android:screenOrientation="portrait"
             />
