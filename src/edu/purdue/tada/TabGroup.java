@@ -16,7 +16,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;import android.view.View;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -30,7 +31,7 @@ import android.widget.ViewFlipper;
 public class TabGroup extends ActivityGroup {
 
 	private final String TAG = "TabGroup";
-    static FrameLayout container = null;
+    public static FrameLayout container = null;
     private RadioGroup rGroup;
     private RadioButton radio0;
     private RadioButton radio1;
@@ -41,6 +42,7 @@ public class TabGroup extends ActivityGroup {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        group = this;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         group = this; // define group for tabs to appear over all activities launched inside app -- Nicole Missele 4/12/15
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -64,7 +66,6 @@ public class TabGroup extends ActivityGroup {
         ActivityBridge.getInstance().setRadio1(false);
         ActivityBridge.getInstance().setRadio2(false);
 		//set the first tab view to TadaActivity
-        container.removeAllViews();
         container.addView(getLocalActivityManager().startActivity(
                 "Module1",
                 new Intent(TabGroup.this, ViewPagerContainer.class)
