@@ -52,7 +52,7 @@ public class TadaActivity extends BaseActivity
 	private Button unsent;
 	private String unsentRec; // moved to oncreate.
 	
-	private final String REC_SAVED = "/rec_unsent.txt";
+	private final String REC_SAVED = "/rec_unsent.txt"; 
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
