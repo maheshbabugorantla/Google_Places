@@ -419,7 +419,6 @@ public class TadaActivity extends BaseFragment
 					intent.setClass(getActivity(), CameraActivity.class);
 					startActivityForResult(intent, TAKE_PHOTO);
 				}
-				
 			}
 		});
 	    

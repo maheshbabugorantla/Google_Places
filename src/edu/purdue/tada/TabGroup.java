@@ -34,6 +34,7 @@ public class TabGroup extends ActivityGroup {
     private RadioButton radio2;
     private Fragment fr;
     private FragmentTransaction fragmentTransaction;
+    public boolean onSetting = true;
     
     public static ActivityGroup group; 
     
@@ -162,15 +163,15 @@ public class TabGroup extends ActivityGroup {
         }
     } 
     
-    /* //commented out since removed SettingsGroup Nicole Missele - 3/22/15
+    //commented out since removed SettingsGroup Nicole Missele - 3/22/15
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
     	// it will take you back to original More tab
     	if (ActivityBridge.getInstance().isRadio2() == true)
     	{
-    		if (isSetting == false)
+    		if (onSetting == false)
     		{
-    			isSetting = true;
+    			onSetting = true;
 		    	Intent intent = new Intent(TabGroup.this, SettingsActivity.class)
 				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				Window w = SettingsGroup.group.getLocalActivityManager()

@@ -21,7 +21,6 @@ public class SettingsActivity extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
-	       
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.setting_layout, container, false);
 		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
