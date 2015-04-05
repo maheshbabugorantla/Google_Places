@@ -6,130 +6,103 @@
     android:background="?attr/background"
     android:orientation="vertical" >
 
+    <FrameLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="15dp"
+		android:background="@color/white">
+	</FrameLayout>
+	    		
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/title_background"
+        android:background="@color/white"
         android:orientation="vertical" >
-
-            
-       	<TextView
+	<TextView
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
 		    android:gravity="center"
 		    android:layout_gravity="center"
 		    android:padding="6dp"
-		    android:text="@string/theme"
-		    android:textColor="#FFFFFFFF"
+		    android:text="Select a Color"
+		    android:textColor="#87CEFA" 
 		    android:textSize="25sp" />
+    </FrameLayout>
+
+    <FrameLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/lightskyblue">
+        
+    </FrameLayout>
+    
+    <FrameLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+    </FrameLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	
+	            <FrameLayout 
+			        android:layout_width="25dp"
+			        android:layout_height="fill_parent"
+			        android:background="@color/white">
+	    		</FrameLayout>
+	    		
+                <Button
+		            android:id="@+id/change1"
+		            android:layout_width="wrap_content"
+		  			android:layout_height="wrap_content"
+		  			android:layout_margin="5dp"
+		            android:background="@drawable/cyann"/>
+                <Button
+		            android:id="@+id/change2"
+		            android:layout_width="wrap_content"
+		  			android:layout_height="wrap_content"
+		  			android:layout_margin="5dp"
+					android:background="@drawable/wwhite"/>
+                <Button
+		            android:id="@+id/change3"
+		            android:layout_width="wrap_content"
+		  			android:layout_height="wrap_content"
+		  			android:layout_margin="5dp"
+		            android:background="@drawable/orangee" />
+
+    </LinearLayout>
+
+    <FrameLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:background="@color/white">
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:shadowColor="@color/grey"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/theme" />
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" 
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-                <Button
-		            android:id="@+id/change1"
-		            android:layout_width="0dp"
-		            android:layout_weight="1.0"
-		            android:layout_height="wrap_content"
-		            android:background="@drawable/settings_button"
-		            android:layout_gravity="center"
-		            android:padding="8dp"
-		            android:textSize="16sp"
-		            android:gravity="center_vertical"
-		            android:drawableRight="@drawable/cyan"
-		            android:text="@string/cyan" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-                <Button
-		            android:id="@+id/change2"
-		            android:layout_width="0dp"
-		            android:layout_weight="1.0"
-		            android:layout_height="wrap_content"
-		            android:background="@drawable/settings_button3"
-		            android:layout_gravity="center"
-		            android:padding="8dp"
-		            android:textSize="16sp"
-		            android:gravity="center_vertical"
-		            android:drawableRight="@drawable/white"
-		            android:text="@string/white" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-                <Button
-		            android:id="@+id/change3"
-		            android:layout_width="0dp"
-		            android:layout_weight="1.0"
-		            android:layout_height="wrap_content"
-		            android:background="@drawable/settings_button3"
-		            android:layout_gravity="center"
-		            android:padding="8dp"
-		            android:textSize="16sp"
-		            android:gravity="center_vertical"
-		            android:drawableRight="@drawable/orange"
-		            android:text="@string/orange" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+        android:orientation="horizontal" >
+                
+        		<FrameLayout 
+			        android:layout_width="25dp"
+			        android:layout_height="fill_parent"
+			        android:background="@color/white">
+	    		</FrameLayout>
+	    		
                 <Button
 		            android:id="@+id/change4"
-		            android:layout_width="0dp"
-		            android:layout_weight="1.0"
-		            android:layout_height="wrap_content"
-		            android:background="@drawable/settings_button3"
-		            android:layout_gravity="center"
-		            android:padding="8dp"
-		            android:textSize="16sp"
-		            android:gravity="center_vertical"
-		            android:drawableRight="@drawable/green"
-		            android:text="@string/green" />
-            </TableRow>
-            
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+		            android:layout_width="wrap_content"
+		  			android:layout_height="wrap_content"
+		  			android:layout_margin="5dp"
+		            android:background="@drawable/llightgreen" />
                 <Button
             		android:id="@+id/change5"
-            		android:layout_width="0dp"
-		            android:layout_weight="1.0"
-            		android:layout_height="wrap_content"
-            		android:background="@drawable/settings_button2"
-            		android:layout_gravity="center"
-            		android:padding="8dp"
-            		android:textSize="16sp"
-            		android:gravity="center_vertical"
-            		android:drawableRight="@drawable/magenta"
-            		android:text="@string/magenta" />
-            </TableRow>
-        </TableLayout>
-    </LinearLayout>
+            		android:layout_width="wrap_content"
+		  			android:layout_height="wrap_content"
+		  			android:layout_margin="5dp"
+            		android:background="@drawable/plum" />
+	</LinearLayout>
+
 </LinearLayout>
