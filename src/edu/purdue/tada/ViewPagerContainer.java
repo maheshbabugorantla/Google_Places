@@ -11,7 +11,7 @@ import android.view.Window;
 
 public class ViewPagerContainer extends FragmentActivity
 {
-	private PagerAdapter mPagerAdapter;
+	public static ScreenSwipe mPagerAdapter;
 	public static ViewPager mViewPager;
     
     @Override
