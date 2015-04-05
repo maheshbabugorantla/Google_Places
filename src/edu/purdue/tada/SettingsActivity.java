@@ -16,14 +16,28 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.view.ContextThemeWrapper;
 
 public class SettingsActivity extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
+		
+		// create ContextThemeWrapper from the original Activity Context with the custom theme
+	    final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.AppTheme_green);
+
+	    // clone the inflater using the ContextThemeWrapper
+	    LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+	    
+	    
 		//Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.setting_layout, container, false);
+		View view = localInflater.inflate(R.layout.setting_layout, container, false);
+		
+		
+		
 		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
+		view.setBackgroundColor(R.style.AppTheme_green);
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
 		btn1.setOnClickListener(new View.OnClickListener() {
 			
@@ -31,11 +45,17 @@ public class SettingsActivity extends BaseFragment {
 			public void onClick(View v) {
 				 // Put the User Settings page as the current fragment on the screen 
 				 // make it so when the back button is clicked, it goes to more page
-				 Fragment newFragment = new UserSettings();
+				 /*Fragment newFragment = new UserSettings();
 				 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 				 transaction.replace(R.id.container, newFragment);
 		         transaction.addToBackStack(null);
-				 transaction.commit();
+				 transaction.commit();*/
+				TabGroup.container.removeAllViews();
+				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+		                "UserSettings",
+		                new Intent(getActivity(), UserSettings.class)
+		                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+		                .getDecorView());
 			}
 		
 		});
@@ -69,7 +89,7 @@ public class SettingsActivity extends BaseFragment {
 					 transaction.replace(R.id.container, newFragment);
 			         transaction.addToBackStack(null);
 					 transaction.commit(); */
-					
+					TabGroup.container.removeAllViews();
 					TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 			                "Module1",
 			                new Intent(getActivity(), ResearchSettings.class)
@@ -110,9 +130,9 @@ public class SettingsActivity extends BaseFragment {
 				transaction.replace(R.id.container, newFragment);
 				transaction.addToBackStack(null);
 				transaction.commit(); */
-				
+				TabGroup.container.removeAllViews();
 				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
-		                "Module1",
+		                "About",
 		                new Intent(getActivity(), AboutTada.class)
 		                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                .getDecorView());

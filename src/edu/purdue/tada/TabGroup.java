@@ -34,7 +34,7 @@ public class TabGroup extends ActivityGroup {
     private RadioButton radio2;
     private Fragment fr;
     private FragmentTransaction fragmentTransaction;
-    public boolean onSetting = true;
+    public static boolean onSetting = true;
     
     public static ActivityGroup group; 
     
@@ -98,6 +98,7 @@ public class TabGroup extends ActivityGroup {
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView());  */
 						// Slide the page to the Record screen
+						onSetting = false;
 						ViewPagerContainer.mViewPager.setCurrentItem(0, true);
 		                //set the record button to "pressed" status
 		                radio0.setTextColor(Color.parseColor("#FFFFFF"));
@@ -119,6 +120,7 @@ public class TabGroup extends ActivityGroup {
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView()); */
 						// Slide the page to the Review Screen
+						onSetting = false;
 						ViewPagerContainer.mViewPager.setCurrentItem(1, true);
 		                //set the review button to "pressed" status
 		                radio1.setTextColor(Color.parseColor("#FFFFFF"));
@@ -140,6 +142,7 @@ public class TabGroup extends ActivityGroup {
 		                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                        .getDecorView()); */
 						// Slide the page to the More Screen
+						onSetting = true;
 						ViewPagerContainer.mViewPager.setCurrentItem(2, true);
 		                //set the more button to "pressed" status
 		                radio2.setTextColor(Color.parseColor("#FFFFFF"));
@@ -172,12 +175,13 @@ public class TabGroup extends ActivityGroup {
     		if (onSetting == false)
     		{
     			onSetting = true;
-		    	Intent intent = new Intent(TabGroup.this, SettingsActivity.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = SettingsGroup.group.getLocalActivityManager()
-						.startActivity("BackToSettings", intent);
-				View view = w.getDecorView();
-				SettingsGroup.group.setContentView(view);
+    			container.removeAllViews();
+    			container.addView(getLocalActivityManager().startActivity(
+    	                "Module1",
+    	                new Intent(TabGroup.this, ViewPagerContainer.class)
+    	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+    	                .getDecorView());
+    			ViewPagerContainer.mViewPager.setCurrentItem(2, true);
     		}
     		else
     		{
@@ -206,8 +210,8 @@ public class TabGroup extends ActivityGroup {
 			}
 		});
   	  	builder.create().show();
-  	  	
-    }   */
+  	  	*/
+    }   
     @Override
 	public void onResume() {
     	super.onResume();
@@ -256,6 +260,7 @@ public class TabGroup extends ActivityGroup {
     		        break;
     			case 2: // If the user scrolled to the More page
     		        //set the more button to "pressed" status
+    				onSetting = true;
     		        radio2.setTextColor(Color.parseColor("#FFFFFF"));
     		        radio0.setTextColor(Color.parseColor("#5DD2DC"));
     		        radio1.setTextColor(Color.parseColor("#5DD2DC"));

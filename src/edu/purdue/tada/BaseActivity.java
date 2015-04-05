@@ -67,10 +67,14 @@ public class BaseActivity extends Activity
 		 * intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION); finish();
 		 * overridePendingTransition(0, 0); startActivity(intent);
 		 */
-		Window w = SettingsGroup.group.getLocalActivityManager().startActivity(
-				"ChangeTheme", intent);
-		View view = w.getDecorView();
-		SettingsGroup.group.setContentView(view);
+		ViewPagerContainer.mPagerAdapter.notifyDataSetChanged();
+		TabGroup.container.removeAllViews();
+		TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+                "UserSettings",
+                new Intent(this, ChangeTheme.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                .getDecorView());
+		
 		
 	}
 }

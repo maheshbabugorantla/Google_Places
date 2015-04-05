@@ -21,7 +21,7 @@ public class AboutTada extends BaseActivity {
 	
 	
 	public void onCreate(Bundle savedInstanceState) {
-		onSetting = false;
+		TabGroup.onSetting = false;
 		super.onCreate(savedInstanceState);	
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

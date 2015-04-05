@@ -14,6 +14,7 @@ public class ResearchSettings extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.research_settings);
+		TabGroup.onSetting = false;
 		//Button alarm1 = (Button)findViewById(R.id.research_button1);
 		
 		//set up alarm 1
