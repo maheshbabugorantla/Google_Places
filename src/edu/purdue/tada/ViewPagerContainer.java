@@ -21,9 +21,8 @@ public class ViewPagerContainer extends FragmentActivity
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.viewpager_container);
         
-     // Set the viewPager up with the three fragments that we want to swipe through
-        Fragment[] frs = {new TadaActivity(), new ReviewActivity(), new SettingsActivity()};
-        mPagerAdapter = new ScreenSwipe(getSupportFragmentManager(), frs);
+     // Set the viewPager up with the three fragments that we want to swipe through;
+        mPagerAdapter = new ScreenSwipe(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(mPagerAdapter);
         System.out.println("In viewpager");
