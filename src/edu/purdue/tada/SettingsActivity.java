@@ -9,14 +9,18 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.view.ContextThemeWrapper;
 
 public class SettingsActivity extends BaseFragment {
 			
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
+	    
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.setting_layout, container, false);
+		
 		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
 		btn1.setOnClickListener(new View.OnClickListener() {
@@ -29,8 +33,7 @@ public class SettingsActivity extends BaseFragment {
 						"UserSettings",
 						new Intent(getActivity(), UserSettings.class)
 							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-						.getDecorView());
-			}
+						.getDecorView());}
 		
 		});
 		
@@ -38,7 +41,6 @@ public class SettingsActivity extends BaseFragment {
 		btn2.setOnClickListener(new OnClickListener(){
 		@Override
 			public void onClick(View v) {
-				TabGroup.isSetting = false;
 				// Above code moves to ResearchPassword class, let's try to do it with a dialog
 				dialog();
 			}
@@ -65,7 +67,6 @@ public class SettingsActivity extends BaseFragment {
 					}
 						
 				});
-	
 				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				
 					@Override
@@ -85,15 +86,13 @@ public class SettingsActivity extends BaseFragment {
 		btn3.setOnClickListener(new View.OnClickListener() {
 		
 			@Override
-			public void onClick(View v) {
-				TabGroup.container.removeAllViews();
+			public void onClick(View v) {TabGroup.container.removeAllViews();
 				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
-						"UserSettings",
-						new Intent(getActivity(), UserSettings.class)
-							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-						.getDecorView());
-			}
-			
+		                "About",
+		                new Intent(getActivity(), AboutTada.class)
+		                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+		                .getDecorView());
+				}
 		});
 		return view;
 	}

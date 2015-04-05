@@ -139,13 +139,13 @@ public class TabGroup extends ActivityGroup {
     		if (isSetting == false)
     		{
     			isSetting = true;
-		    	Intent intent = new Intent(TabGroup.this, SettingsActivity.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = SettingsGroup.group.getLocalActivityManager()
-						.startActivity("BackToSettings", intent);
-				View view = w.getDecorView();
-				SettingsGroup.group.setContentView(view);
-    		}
+    			container.removeAllViews();
+    			container.addView(getLocalActivityManager().startActivity(
+    	                "Module1",
+    	                new Intent(TabGroup.this, ViewPagerContainer.class)
+    	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+    	                .getDecorView());
+    			ViewPagerContainer.mViewPager.setCurrentItem(2, true);}
     		else
     		{
     			finish();
@@ -224,6 +224,7 @@ public class TabGroup extends ActivityGroup {
     		        break;
     			case 2: // If the user scrolled to the More page
     		        //set the more button to "pressed" status
+    				isSetting = true;
     		        radio2.setTextColor(Color.parseColor("#FFFFFF"));
     		        radio0.setTextColor(Color.parseColor("#5DD2DC"));
     		        radio1.setTextColor(Color.parseColor("#5DD2DC"));

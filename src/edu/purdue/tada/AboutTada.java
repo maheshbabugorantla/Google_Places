@@ -1,13 +1,7 @@
 package edu.purdue.tada;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Window;
-import android.view.View.OnKeyListener;
-import android.view.ViewGroup;
 
 public class AboutTada extends BaseActivity {
 	

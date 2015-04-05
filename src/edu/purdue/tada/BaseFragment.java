@@ -35,7 +35,6 @@ public class BaseFragment extends Fragment
 			mTheme = savedInstanceState.getInt("theme");
 		}
 		//setTheme(mTheme);
-		
 		recSaved = getActivity().getBaseContext().getFilesDir().getPath();
 		Log.d(TAG, "recSaved = \"" + recSaved + "\"");
 		

@@ -1,11 +1,7 @@
 package edu.purdue.tada;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
@@ -13,6 +9,7 @@ public class ChangeTheme extends BaseActivity {
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		TabGroup.isSetting = false;
 		setContentView(R.layout.change_theme);	
 		
 		Button cornflowerblue = (Button)findViewById(R.id.cornflowerblue);
@@ -111,7 +108,6 @@ public class ChangeTheme extends BaseActivity {
 				// TODO Auto-generated method stub
 				PreferenceHelper.setTheme(ChangeTheme.this, R.style.AppTheme_lightsalmon);
                 reload();
-				
 			}
 		});
 	}
