@@ -89,7 +89,7 @@ public class TadaActivity extends BaseActivity
 				unsentList.add(line);
 				System.out.println(line);
 				line = buffreader.readLine();
-				// data = data + line;
+				// data = data + + line;
 			}
 			System.out.println("in the tada::: end of TXT");
 			fis.close();
