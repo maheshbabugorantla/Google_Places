@@ -27,13 +27,15 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 public class TabGroup extends ActivityGroup {
 
 	private final String TAG = "TabGroup";
-    private FrameLayout container = null;
+    public static FrameLayout container = null;
     private RadioGroup rGroup;
     private RadioButton radio0;
     private RadioButton radio1;
     private RadioButton radio2;
     private Fragment fr;
     private FragmentTransaction fragmentTransaction;
+    
+    public static ActivityGroup group; 
     
     
     
@@ -44,6 +46,7 @@ public class TabGroup extends ActivityGroup {
     	
     	
         super.onCreate(savedInstanceState);
+        group = this;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.tada_layout);
@@ -67,7 +70,6 @@ public class TabGroup extends ActivityGroup {
         ActivityBridge.getInstance().setRadio1(false);
         ActivityBridge.getInstance().setRadio2(false);
 		//set the first tab view to TadaActivity
-        container.removeAllViews();
         container.addView(getLocalActivityManager().startActivity(
                 "Module1",
                 new Intent(TabGroup.this, ViewPagerContainer.class)

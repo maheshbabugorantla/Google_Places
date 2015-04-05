@@ -97,16 +97,21 @@ public class SettingsActivity extends BaseFragment {
 		
 			@Override
 			public void onClick(View v) {
-				 // Put the About page as the current fragment on the screen 
-				 // make it so when the back button is clicked, it goes to more page
-				 /*ViewPagerContainer.getViewPager().setVisibility(View.GONE);
-				 Fragment newFragment = new AboutTada();
-				 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-				 transaction.replace(R.id.container, newFragment);
-				 transaction.addToBackStack(null);
-				 transaction.commit(); */
-				Intent intent = new Intent(getActivity(), AboutTada.class);
-				startActivity(intent);
+				// Put the About page as the current fragment on the screen 
+				// make it so when the back button is clicked, it goes to more page
+				/*ViewPagerContainer.getViewPager().setVisibility(View.GONE);
+				Fragment newFragment = new AboutTada();
+				FragmentTransaction transaction = getFragmentManager().beginTransaction();
+				transaction.replace(R.id.container, newFragment);
+				transaction.addToBackStack(null);
+				transaction.commit(); */
+				
+				Intent intent = new Intent(getActivity(), AboutTada.class)
+				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				Window w = TabGroup.group.getLocalActivityManager()
+						.startActivity("AboutTada", intent);
+				View view = w.getDecorView();
+				TabGroup.group.setContentView(view);
 			}
 			
 		});
