@@ -63,7 +63,7 @@ public class TadaActivity extends BaseActivity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_tada);
-		img_scanner = (Button) findViewById(R.id.scan);
+//		img_scanner = (Button) findViewById(R.id.scan);
 		unsent = (Button) findViewById(R.id.unsent_event);
 		System.out.println("Tada: on create!");
 
