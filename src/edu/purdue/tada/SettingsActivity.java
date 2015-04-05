@@ -106,12 +106,11 @@ public class SettingsActivity extends BaseFragment {
 				transaction.addToBackStack(null);
 				transaction.commit(); */
 				
-				Intent intent = new Intent(getActivity(), AboutTada.class)
-				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Window w = TabGroup.group.getLocalActivityManager()
-						.startActivity("AboutTada", intent);
-				View view = w.getDecorView();
-				TabGroup.group.setContentView(view);
+				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+		                "Module1",
+		                new Intent(getActivity(), AboutTada.class)
+		                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+		                .getDecorView());
 			}
 			
 		});
