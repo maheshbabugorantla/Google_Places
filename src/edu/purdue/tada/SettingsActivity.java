@@ -65,11 +65,17 @@ public class SettingsActivity extends BaseFragment {
 					//sign in user
 					// Put the User Settings page as the current fragment on the screen 
 					 // make it so when the back button is clicked, it goes to more page
-					 Fragment newFragment = new ResearchSettings();
+					 /*Fragment newFragment = new ResearchSettings();
 					 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 					 transaction.replace(R.id.container, newFragment);
 			         transaction.addToBackStack(null);
-					 transaction.commit();
+					 transaction.commit(); */
+					
+					TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+			                "Module1",
+			                new Intent(getActivity(), ResearchSettings.class)
+			                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+			                .getDecorView());
 				}
 					
 			});
