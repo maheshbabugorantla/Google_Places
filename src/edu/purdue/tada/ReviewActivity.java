@@ -47,6 +47,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.text.DateFormat; 
 
 /**
@@ -70,7 +72,6 @@ public class ReviewActivity extends BaseActivity{
 		
 		ListView lv = (ListView) findViewById(R.id.reviewList);
 		Button bv = (Button) findViewById(R.id.refresh);
-		Button more = (Button)findViewById(R.id.more_button);
 		Button searchButton = (Button) findViewById(R.id.reviewSearch);
 		
 		//Adding Button to listview at footer Parth Patel 3.28.15
@@ -86,7 +87,8 @@ public class ReviewActivity extends BaseActivity{
 		Calendar c = Calendar.getInstance();		
 		final DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {			
 			public void onDateSet(DatePicker view, int year, int month, int day) {
-				adapter.filterByDate(day, month, year);
+				if(adapter != null)
+					adapter.filterByDate(day, month, year);
 			}
 		}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
 		dpd.setTitle("Select Date");
@@ -149,7 +151,8 @@ public class ReviewActivity extends BaseActivity{
 						fd.setPositiveButton("OK", new DialogInterface.OnClickListener() {			
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								adapter.filterByFood(input.getText().toString().trim());
+								if(adapter != null)
+									adapter.filterByFood(input.getText().toString().trim());
 							}
 						});
 						fd.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -172,7 +175,8 @@ public class ReviewActivity extends BaseActivity{
 						md.setItems(meals, new DialogInterface.OnClickListener(){	
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								adapter.filterByMeal(which);
+								if(adapter != null)
+									adapter.filterByMeal(which);
 							}
 						});
 						md.show();
@@ -387,14 +391,14 @@ public class ReviewActivity extends BaseActivity{
 		
 		public void filterByMeal(int which) {
 			Context context = getApplicationContext();
-			String text = "List Filtered by Meal Type: ";
 			// Breakfast = 0; Lunch = 1; Dinner = 2; Cannot be other values unless dialog is changed
-			text += (which == 0) ? "Breakfast" : (which == 1) ? "Lunch" : "Dinner";
+			String filterText = (which == 0) ? "Breakfast" : (which == 1) ? "Lunch" : "Dinner";
+			String text = "List Filtered by Meal Type: " + filterText;
 			int duration = Toast.LENGTH_SHORT;
 
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
-			filter.filter("today");
+			filter.filter(filterText);
 		}
 
 		public void filterByFood(String trim) {
@@ -410,11 +414,13 @@ public class ReviewActivity extends BaseActivity{
 			Context context = getApplicationContext();
 			// For some reason it adds 1900 to the year so let's get rid of that
 			Date date = new Date(year - 1900, month, day);
-			String text = "List Filtered by Date: " + new SimpleDateFormat("MMMM/dd/yyyy").format(date).toString();
+			String filterText = new SimpleDateFormat("MMMM/dd/yyyy").format(date).toString();
+			String text = "List Filtered by Date: " + filterText;
 			int duration = Toast.LENGTH_SHORT;
 
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
+			filter.filter(filterText);
 		}
 
 		public void addSection(ReviewContainer rc){
@@ -538,6 +544,13 @@ public class ReviewActivity extends BaseActivity{
 		public Filter getFilter() {
 			return filter;
 		}
+		
+		public void clearFilter() {
+			filteredList = originalList;
+			notifyDataSetChanged();
+		}
+		
+		// Lets Filter this List - Ben Klutzke 03/30/15
 	
 		private class ListFilter extends Filter {
 	
@@ -551,8 +564,18 @@ public class ReviewActivity extends BaseActivity{
 				final ArrayList<ReviewContainer> nlist = new ArrayList<ReviewContainer>(olist.size());
 				
 				for(ReviewContainer rc : olist){
-					if(rc.getType().equals(filterString)){
-						nlist.add(rc);
+					// Check if the review container has any items matching the filter
+					if(rc.filter(filterString)){
+						// If it does, get the list of matching items
+						ArrayList<ReviewItem> filteredList = rc.getFilteredList();
+						// Create a new Review container
+						ReviewContainer filteredRC = new ReviewContainer(rc.getDateString(), rc.getType());
+						// Add the items matching the filter to this review container
+						for(ReviewItem ri : filteredList){
+							filteredRC.addItem(ri);
+						}
+						// Add the review container to what will be displayed
+						nlist.add(filteredRC);
 					}
 				}
 				
@@ -583,6 +606,7 @@ public class ReviewActivity extends BaseActivity{
 	private class ReviewContainer implements Comparable<ReviewContainer>{
 		private Date date;
 		private ArrayList<ReviewItem> items;
+		private ArrayList<ReviewItem> filteredItems;
 		private String type;
 		
 		public ReviewContainer(String d, String type){
@@ -599,6 +623,7 @@ public class ReviewActivity extends BaseActivity{
 				this.date = null;
 			}
 			items = new ArrayList<ReviewItem>();
+			filteredItems = new ArrayList<ReviewItem>();
 		}
 		public String getType(){ //returns private variable "type" Parth Patel
 			return type;
@@ -620,6 +645,25 @@ public class ReviewActivity extends BaseActivity{
 		public int getItemCount(){
 			return items.size();
 		}
+		
+		public boolean filter(String text){
+			// Returns whether any of the review items match the text
+			// Also will set up the filtered list accordingly
+			int count = 0;
+			filteredItems.clear();
+			for(ReviewItem ri : items){
+				if(ri.filter(text)){
+					count++;
+					filteredItems.add(ri);
+				}
+			}
+			
+			return count != 0;
+		}
+		
+		public ArrayList<ReviewItem> getFilteredList(){
+			return filteredItems;
+		}
 	
 		@Override
 		public int compareTo(ReviewContainer rc) {
@@ -636,7 +680,7 @@ public class ReviewActivity extends BaseActivity{
 	 */
 	
 	private class ReviewItem implements Comparable<ReviewItem> {
-		private String hash;
+		private String hash; // Note that this is not actually a hash, may be a phone id
 		private Date date;
 		private String image1;
 		private String image2;
@@ -698,6 +742,32 @@ public class ReviewActivity extends BaseActivity{
 		public String getBLD(){
 			return bld;
 		}
+		
+		public boolean filter(String text){
+			// Returns whether this review item matches the filter text
+			// First we gotta see what kind of filter we are dealing with
+			if(text.equals("breakfast") || text.equals("lunch") || text.equals("dinner")){
+				// Easy Money, variable bld is either 'B', 'L', or 'D' so simple compare
+				return text.substring(0,1).equals(bld.toLowerCase());				
+			}
+			// So that was the easy one, now we'll check if it's a date
+			// To do that, I suppose some regex would work, we know that the filter text will be
+			// MMMM/dd/yyyy so any month name '/' two digits for day '/' four digits for year
+			String pattern = "([a-zA-Z]+)/(\\d{2})/(\\d{4})";
+			Pattern r = Pattern.compile(pattern);
+			Matcher m = r.matcher(text);
+			if(m.find()){
+				// From here we can assume that text is a date string!
+				// Format them to the same string to compare
+				SimpleDateFormat fmt = new SimpleDateFormat("MMMM/dd/yyyy", Locale.ENGLISH);
+				return fmt.format(this.date).toLowerCase().equals(text);
+			}
+			
+			// Not BLD or date, we can assume that the user is searching for food
+			// TODO: Implement that!			
+			return false;
+		}
+		
 		@Override
 		public int compareTo(ReviewItem ri) {
 			return date.compareTo(ri.getDate());
