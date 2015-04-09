@@ -88,15 +88,15 @@
     
     <style name="AppTheme_orange" parent="AppBaseTheme">
         <item name="background">@color/sandybrown</item>
-    </style>
+	</style>
     
     <style name="AppTheme_green" parent="AppBaseTheme">
         <item name="background">@color/lightgreen</item>
-    </style>
+	</style>
     
     <style name="AppTheme_magenta" parent="AppBaseTheme">
         <item name="background">@color/mediumpurple</item>
-    </style>
+	</style>
 	
     <style name="AppTheme_plum" parent="AppBaseTheme">
         <item name="background">@color/plum</item>

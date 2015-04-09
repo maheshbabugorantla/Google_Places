@@ -8,21 +8,13 @@
 
     <FrameLayout 
 		android:layout_width="fill_parent"
-<<<<<<< Upstream, based on origin/ui
 		android:layout_height="5dp"
-=======
-		android:layout_height="15dp"
->>>>>>> 9cffadd fix the blank layout things
 		android:background="?attr/background">
 	</FrameLayout>
 	    		
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-<<<<<<< Upstream, based on origin/ui
-=======
-        android:layout_marginBottom="5dp"
->>>>>>> 9cffadd fix the blank layout things
         android:background="?attr/background"
         android:orientation="vertical"                                           >
 	<TextView
@@ -53,11 +45,7 @@
     <FrameLayout 
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-<<<<<<< Upstream, based on origin/ui
         >
-=======
-        android:background="?attr/background">
->>>>>>> 9cffadd fix the blank layout things
     </FrameLayout>
     
     <LinearLayout
@@ -174,6 +162,5 @@
                     android:background="@drawable/lightsalmon" />
 
 	</LinearLayout>
-
 
 </LinearLayout>
