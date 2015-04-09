@@ -66,20 +66,35 @@
         <item name="background">@color/white</item>
     </style>
     
-    <style name="AppTheme_cyan" parent="AppBaseTheme">
-        <item name="background">@color/cyan</item>
+    <style name="AppTheme_cornflowerblue" parent="AppBaseTheme">
+        <item name="background">@color/cornflowerblue</item>
     </style>
     
-    <style name="AppTheme_orange" parent="AppBaseTheme">
-        <item name="background">@color/orange</item>
+    <style name="AppTheme_skyblue" parent="AppBaseTheme">
+        <item name="background">@color/skyblue</item>
     </style>
     
-    <style name="AppTheme_green" parent="AppBaseTheme">
-        <item name="background">@color/green</item>
+    <style name="AppTheme_powderblue" parent="AppBaseTheme">
+        <item name="background">@color/powderblue</item>
     </style>
     
-    <style name="AppTheme_magenta" parent="AppBaseTheme">
-        <item name="background">@color/magenta</item>
+    <style name="AppTheme_mediumturquoise" parent="AppBaseTheme">
+        <item name="background">@color/mediumturquoise</item>
     </style>
 	
+    <style name="AppTheme_plum" parent="AppBaseTheme">
+        <item name="background">@color/plum</item>
+    </style>
+    
+    <style name="AppTheme_lightpink" parent="AppBaseTheme">
+        <item name="background">@color/lightpink</item>
+    </style>
+    
+    <style name="AppTheme_navajowhite" parent="AppBaseTheme">
+        <item name="background">@color/navajowhite</item>
+    </style>
+    
+    <style name="AppTheme_lightsalmon" parent="AppBaseTheme">
+        <item name="background">@color/lightsalmon</item>
+    </style>
 </resources>
