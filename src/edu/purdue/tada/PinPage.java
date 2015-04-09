@@ -1,5 +1,8 @@
 package edu.purdue.tada;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,6 +15,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,6 +25,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,7 +58,10 @@ public class PinPage extends BaseActivity {
     // an array of pin coordinates that was created/modified, index is the id number
     public static Map<Integer,Integer[]> pinId = new HashMap<Integer, Integer[]>();
     // mapping textViews' Id to the coordinate to follow any changes in the pin
-    public static Map<Integer,String> textId = new HashMap<Integer, String>(); //
+    public static Map<Integer,String> textId = new HashMap<Integer, String>();
+    // global adapter for the autocompletetextview
+    public static ArrayAdapter<String> databaseAdapter;
+    //public static ArrayList<String> foodDatabase = new ArrayList<String>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,12 +72,40 @@ public class PinPage extends BaseActivity {
 		ImageView picture = (ImageView) findViewById(R.id.backgroundPicture);
 		picture.setImageBitmap(BitmapFactory.decodeFile(recSaved + "/" + imagePath));
 
+        // constructs food database from the .dat food DNSF file
+        constructAdapter();
         // create default buttons base on tag file
         createButtons();
         // create UI buttons
         layoutButtons();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	}
+    /*
+        Author: Jason Lin
+        Created: 4/8/2015
+        Creates an array list of foods base on the .dat file provided by the course
+     */
+    public void constructAdapter() {
+        ArrayList<String> foodDatabase = new ArrayList<String>();
+        BufferedReader reader;
+        try {
+            final InputStream is = getAssets().open("food.dat");
+            reader = new BufferedReader((new InputStreamReader(is)));
+            String line;
+            do {
+                line = reader.readLine();
+                String sp [] = line.split("\t");
+                // remove this if using food description
+                if(!foodDatabase.contains(sp[1])) {
+                    foodDatabase.add(sp[1]);
+                }
+            } while (line != null);
+            databaseAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, foodDatabase);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     /*
         Author: Vicky Sun
         Created: 3/1/2015
@@ -300,6 +337,8 @@ public class PinPage extends BaseActivity {
                     .setCancelable(false)
                     /* Modified by Di Pan
                      * Modification: add the second prompt to allow the user to manually input the text
+                     * Modified by Jason Lin @ 4/8/2015
+                     * Modification: change the Editable textview to AutoCompleteTextView for database searching
                      */
                     .setNegativeButton("Insert/Exit", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -316,18 +355,20 @@ public class PinPage extends BaseActivity {
                                             AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                                             builder1.setMessage("Enter type of foods");
                                             // Set an EditText view to get user input
-                                            final EditText input = new EditText(context);
+                                            //final EditText input = new EditText(context);
+                                            final AutoCompleteTextView input = new AutoCompleteTextView(context);
+                                            input.setAdapter(databaseAdapter);
                                             // display what user types
                                             builder1.setView(input);
                                             // confirms the changes
                                             builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int whichButton) {
                                                     Editable value = input.getText();
-                                                    TextView tt = (TextView) findViewById(1000+myOnClickListener.this.id);
+                                                    TextView tt = (TextView) findViewById(1000 + myOnClickListener.this.id);
                                                     tt.setText(value.toString());
-                                                    textId.put(myOnClickListener.this.id,value.toString());
-                                                    List<String> newItemOrder = Arrays.asList(value.toString(),items.get(1),items.get(2),items.get(3),items.get(4));
-                                                    pinCoord.put(coord,newItemOrder);
+                                                    textId.put(myOnClickListener.this.id, value.toString());
+                                                    List<String> newItemOrder = Arrays.asList(value.toString(), items.get(1), items.get(2), items.get(3), items.get(4));
+                                                    pinCoord.put(coord, newItemOrder);
                                                     /* To Pan Di change the text view text according to my previous code*/
                                                 }
                                             });
@@ -383,6 +424,7 @@ public class PinPage extends BaseActivity {
                     switch(event.getActionMasked()) {
                         // Shadowing finger movement
                         case MotionEvent.ACTION_MOVE:
+                            // Temporarily removed because shadowing causing too much bugs
                             /*TextView tt = (TextView) findViewById(1000+id);
                             rm.removeView(tt);
                             rm.removeView(rl);
