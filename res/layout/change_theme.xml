@@ -47,31 +47,32 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 	
-	            <FrameLayout 
-			        android:layout_width="25dp"
+        	    <FrameLayout 
+			        android:layout_width="50dp"
 			        android:layout_height="fill_parent"
 			        android:background="?attr/background">
 	    		</FrameLayout>
 	    		
                 <Button
-		            android:id="@+id/change1"
-		            android:layout_width="wrap_content"
-		  			android:layout_height="wrap_content"
-		  			android:layout_margin="5dp"
-		  			
-		            android:background="@drawable/cyann"/>
+                    android:id="@+id/cornflowerblue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/cornflowerblue" />
+
                 <Button
-		            android:id="@+id/change2"
-		            android:layout_width="wrap_content"
-		  			android:layout_height="wrap_content"
-		  			android:layout_margin="5dp"
-					android:background="@drawable/wwhite"/>
+                    android:id="@+id/skyblue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/skyblue" />
+
                 <Button
-		            android:id="@+id/change3"
-		            android:layout_width="wrap_content"
-		  			android:layout_height="wrap_content"
-		  			android:layout_margin="5dp"
-		            android:background="@drawable/orangee" />
+                    android:id="@+id/powderblue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/powderblue" />
 
     </LinearLayout>
 
@@ -87,23 +88,74 @@
         android:orientation="horizontal" >
                 
         		<FrameLayout 
-			        android:layout_width="25dp"
+			        android:layout_width="50dp"
 			        android:layout_height="fill_parent"
 			        android:background="?attr/background">
 	    		</FrameLayout>
 	    		
                 <Button
-		            android:id="@+id/change4"
-		            android:layout_width="wrap_content"
-		  			android:layout_height="wrap_content"
-		  			android:layout_margin="5dp"
-		            android:background="@drawable/llightgreen" />
+                    android:id="@+id/mediumturquoise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/mediumturquoise" />
+
                 <Button
-            		android:id="@+id/change5"
-            		android:layout_width="wrap_content"
-		  			android:layout_height="wrap_content"
-		  			android:layout_margin="5dp"
-            		android:background="@drawable/plum" />
+                    android:id="@+id/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/wwhite" />
+
+                <Button
+                    android:id="@+id/lightpink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/lightpink" />
+
 	</LinearLayout>
+	
+    <FrameLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:background="?attr/background">
+    </FrameLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+                
+        		<FrameLayout 
+			        android:layout_width="50dp"
+			        android:layout_height="fill_parent"
+			        android:background="?attr/background">
+	    		</FrameLayout>
+	    		
+                <Button
+                    android:id="@+id/plum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/plum" />
+
+                <Button
+                    android:id="@+id/navajowhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/navajowhite" />
+
+                <Button
+                    android:id="@+id/lightsalmon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/lightsalmon" />
+
+	</LinearLayout>
+
 
 </LinearLayout>

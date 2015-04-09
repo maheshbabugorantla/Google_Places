@@ -70,6 +70,22 @@
         <item name="background">@color/paleturquoise</item>
     </style>
     
+    <style name="AppTheme_cornflowerblue" parent="AppBaseTheme">
+        <item name="background">@color/cornflowerblue</item>
+    </style>
+    
+    <style name="AppTheme_skyblue" parent="AppBaseTheme">
+        <item name="background">@color/skyblue</item>
+    </style>
+    
+    <style name="AppTheme_powderblue" parent="AppBaseTheme">
+        <item name="background">@color/powderblue</item>
+    </style>
+    
+    <style name="AppTheme_mediumturquoise" parent="AppBaseTheme">
+        <item name="background">@color/mediumturquoise</item>
+    </style>
+    
     <style name="AppTheme_orange" parent="AppBaseTheme">
         <item name="background">@color/sandybrown</item>
     </style>
@@ -82,4 +98,19 @@
         <item name="background">@color/mediumpurple</item>
     </style>
 	
+    <style name="AppTheme_plum" parent="AppBaseTheme">
+        <item name="background">@color/plum</item>
+    </style>
+    
+    <style name="AppTheme_lightpink" parent="AppBaseTheme">
+        <item name="background">@color/lightpink</item>
+    </style>
+    
+    <style name="AppTheme_navajowhite" parent="AppBaseTheme">
+        <item name="background">@color/navajowhite</item>
+    </style>
+    
+    <style name="AppTheme_lightsalmon" parent="AppBaseTheme">
+        <item name="background">@color/lightsalmon</item>
+    </style>
 </resources>
