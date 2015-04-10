@@ -1,0 +1,306 @@
+63101000	apple	apple, raw
+63105010	avocado	avocado, raw
+22600100	bacon	bacon, ns as to type of meat, cooked
+22600200	bacon	pork bacon, ns as to fresh/smoked/cured, cooked
+51180010	bagel	bagel
+63107010	banana	banana, raw
+41104010	beans	pinto, calico/red/mex bean, dry, cooked, fat added
+41104020	beans	pinto, calico/red/mex bean, dry, cooked, no fat
+21000100	beef	beef, ns as to cut, cooked, ns as to fat
+93101000	beer	beer (include ale)
+93102000	beer	beer, lite
+52102040	biscuit	biscuit, bak powder or buttermilk, from refrg dough
+52103000	biscuit	biscuit, baking powder/buttermilk type, commercially baked
+25220410	bologna	bologna, nfs
+51107010	bread	bread, french or vienna
+51121010	bread	bread, garlic
+51109010	bread	bread, italian, grecian, armenian
+51601020	bread	bread, multigrain
+51301010	bread	bread, wheat or cracked wheat
+51301020	bread	bread, wheat or cracked wheat, toasted
+51101000	bread	bread, white
+51101010	bread	bread, white, toasted
+51300110	bread	bread, whole wheat, ns as to 100%
+51300120	bread	bread, whole wheat, ns as to 100%, toasted
+72201211	broccoli	broccoli, cooked, from fresh, no fat added
+72201100	broccoli	broccoli, raw
+53204010	brownie	cookie, brownie, w/o icing
+81100500	butter	butter, nfs
+81101000	butter	butter, stick, salted
+81101010	butter	butter, whipped, tub, salted
+75105000	cabbage	cabbage, red, raw
+53108200	cake	cake, cupcake, chocolate, w/ icing or filling
+53120260	cake	cake, white, w/ icing, homemade
+53105260	cake	cake,choc,devil's food/fudge,w/icing, homemade
+63109010	cantaloupe	cantaloupe (muskmelon), raw (include melon, nfs)
+73101010	carrot	carrots, raw
+75109000	celery	celery, raw (include celery, nfs)
+57123000	cereal	cheerios
+57135000	cereal	corn flakes, kellogg's
+57241000	cereal	honey nut cheerios
+14106200	cheese	cheese, monterey
+14107010	cheese	cheese, mozzarella, nfs (include pizza cheese)
+14107030	cheese	cheese, mozzarella, part skim (incl "lowfat")
+14104010	cheese	cheese, natural, cheddar or american type
+14010000	cheese	cheese, nfs
+14108010	cheese	cheese, parmesan, dry, grated (include romano)
+14410200	cheese	cheese, processed, american/cheddar  type
+14108400	cheese	cheese, provolone
+14109010	cheese	cheese, swiss
+14010100	cheese	cheese,cheddar/american type,ns natural or processed
+14133000	cheese	queso fresco (hispanic-style farmer cheese)
+27510310	cheeseburger	cheeseburger w/ tomato & or catsup, on bun
+27146000	chicken	chicken or turkey w/ bbq sauce, skin eaten
+24122120	chicken	chicken, breast, roasted/broiled/baked, w/o skin
+24127110	chicken	chicken, breast,coated,bkd/frd,ppd w/ skin, skin eaten
+24100000	chicken	chicken, ns as to part, ns method, skin
+24147210	chicken	chicken,drumstick,coated,bkd/frd,ppd w/skin, skin eat
+24157210	chicken	chicken,thigh,coated,bkd/frd,ppd w/skin, skin eaten
+24167110	chicken	chicken,wing,coated,bkd/frd,ppd w/skin, skin eaten
+24198740	chicken nuggets	chicken nuggets
+24198700	chicken strips	chicken patty/fillet/tenders, breaded, cooked
+75121000	chili pepper	pepper, hot chili, raw (include jalapeno)
+27111410	chili w/ beans	chili con carne w/ beans
+54401020	chips	salty snacks, corn or cornmeal, corn chips, cheese
+54401050	chips	salty snacks, corn or cornmeal, corn puffs, twists
+54401080	chips	salty snacks, corn or cornmeal, tortilla chips
+71201010	chips	white potato, chips
+91705010	chocolate	milk chocolate candy, plain
+75109550	cilantro	cilantro, raw
+92101500	coffee	coffee, brewed, equal parts reg & decaffeinated
+92111010	coffee	coffee, decaffeinated, made from ground
+92114000	coffee	coffee, decaffeinated, made from powdered instant
+92101000	coffee	coffee, made from ground, regular
+92103000	coffee	coffee, made from powdered instant, regular
+92100500	coffee	coffee, regular, ns ground/instant
+92410310	coke	soft drink, cola-type
+92410340	coke	soft drink, cola-type, decaffeinated
+75141000	coleslaw	cabbage salad or coleslaw, w/ dressing
+53241500	cookie	cookie, butter or sugar
+53206020	cookie	cookie, choc chip, homemade or purchased at bakery
+53209000	cookie	cookie, choc,choc sandwich/chocolate-coated/striped
+53206000	cookie	cookie, chocolate chip
+75109600	corn	corn, raw
+57134000	corn flakes	corn flakes, nfs (include store brands)
+52202060	cornbread	cornbread, homemade
+52201000	cornbread	cornbread, prepared from mix
+54301000	cracker	cracker, snack
+54328100	cracker	cracker,sandwich-type,peanut butter filled
+54304000	cracker	crackers, cheese
+54325000	cracker	crackers, saltines
+54338000	cracker	crackers, wheat
+92530510	cranberry drink	cranberry juice drink or cocktail, w/ high vit c
+12210410	cream	cream subst, light, powdered (incl coffee mate, cre
+12210210	cream	cream substitute, flavored, liquid
+12210250	cream	cream substitute, light, liquid
+12210200	cream	cream substitute, liquid (include coffee whitner)
+12210400	cream	cream substitute, powdered
+12120100	cream	cream, half & half
+14301010	cream cheese	cheese, cream
+51166000	croissant	croissant
+51185000	croutons	croutons
+75111000	cucumber	cucumber, raw (include cucumber, nfs)
+92410350	diet coke	soft drink, cola-type, decaffeinated, sugar-free
+92410320	diet coke	soft drink, cola-type, sugar-free
+53520110	doughnut	doughnut, cake type
+53521110	doughnut	doughnut, raised / yeast
+92410360	dr. pepper	soft drink, pepper-type (incl dr. pepper, mr. pibb)
+92410370	dr. pepper	soft drink, pepper-type, sugar-free
+83101000	dressing	blue or roquefort cheese dressing
+83102000	dressing	caesar dressing
+83112500	dressing	creamy dressing, w/sour cream/buttermilk & oil
+83104000	dressing	french dresssing
+83106000	dressing	italian dressing, w/ vinegar & oil
+83110000	dressing	mayonnaise-type salad dressing
+83100100	dressing	salad dressing, nfs, for salads
+31103000	egg	eggs, whole, boiled
+31105000	egg	eggs, whole, fried (incl scrambled, no milk added)
+91707000	fondant	fondant candy
+24124120	fried chicken	chicken, breast, fried, no coating, w/o skin
+71401030	fries	white potato, french fries, from frozen, deep-fried
+71401000	fries	white potato, french fries, ns as to from fresh/frz
+71403000	fries	white potato, home fries
+92511010	fruit drink	fruit flavored drink (formerly lemonade)
+92530410	fruit drink	fruit flavored drink, with high vitamin c
+92560000	fruit drink	fruit-flavored thirst quencher beverage
+92541010	fruit juice	fruit flavored drink, made from powdered mix
+92531030	fruit juice	fruit juice drink, w/ vit b1 & vit c
+92530610	fruit juice	fruit juice drink, with high vitamin c
+92560100	gatorade	gatorade thirst quencher sports drink
+92410610	ginger ale	ginger ale
+53542100	granola bar	granola bar w/ oats, sugar, raisins, coconut
+63123000	grape	grapes, raw, ns as to type
+28500040	gravy	gravy, beef/meat (incl gravy,nfs;brown gravy;swiss steak grv
+75205023	green beans	beans, string, green, cooked, from canned, fat not added
+75122100	green pepper	pepper, sweet, green, raw
+21500100	ground beef	ground beef or patty, ns as to %lean
+21501200	ground beef	ground beef, 80% - 84% lean, cooked
+21501000	ground beef	ground beef, less than 80% lean, cooked
+63409010	guacamole	guacamole, nfs
+91800100	gum	chewing gum, nfs
+91745010	gumdrops	gumdrops
+22311020	ham	ham, smoked or cured, cooked, lean only
+22311000	ham	ham, smoked or cured, cooked, ns as to fat
+25230210	ham lunch meat	ham, sliced, prepackaged or deli, luncheon meat
+91745020	hard candy	hard candy
+71405000	hash brown	white potato, hash brown
+71405020	hash brown	white potato, hash brown, from frozen
+91302010	honey	honey (include pear honey, raw honey)
+25210210	hot dog	frankfurter or hot dog, beef
+25210110	hot dog	frankfurter, wiener or hot dog, nfs
+13110100	ice cream	ice cream, regular, not chocolate
+91402000	jam	jam, preserves, all flavors
+91501010	jello	gelatin dessert
+91401000	jelly	jelly, all flavors
+64104010	juice	apple juice
+92510610	juice	fruit juice drink
+64116020	juice	grape juice
+61204010	juice	lemon juice, fresh
+61204000	juice	lemon juice, ns as to form
+61210220	juice	orange juice, canned, bottled or in a carton
+61210620	juice	orange juice, frozen (reconstituted with water)
+61210000	juice	orange juice, nfs
+61210250	juice	orange juice, w/ calcium, can/bottled/carton
+64100110	juice blend	fruit juice blend, 100% juice
+74401010	ketchup	tomato catsup
+61113010	lemon	lemon, raw
+72116000	lettuce	endive, chicory, escarole or romaine lettuce, raw
+75113000	lettuce	lettuce, raw (include lettuce, nfs)
+25231110	lunch meat	beef, sliced, prepackaged/deli, luncheon meat
+25230310	lunch meat	chicken/turkey loaf, prepack/deli, luncheon meat
+91746100	m&m's	m&m's milk chocolate candies
+58145110	mac and cheese	macaroni or noodles w/ cheese
+58145114	mac and cheese	macaroni/noodles w/ cheese, made from dry mix
+81104010	margarine	margarine-like spread, red cal, 40% fat, tub, salted
+81103080	margarine	margarine-like spread, tub, salted
+81102000	margarine	margarine, nfs
+81102010	margarine	margarine, stick, salted
+81102020	margarine	margarine, tub, salted
+71501020	mashed potatoes	white potato, fresh, mashed, made w/ milk & fat
+71501000	mashed potatoes	white potato, mashed, nfs
+83204000	mayonnaise	mayonnaise, low calorie or diet
+83107000	mayonnaise	mayonnaise, regular
+27214110	meat loaf	meat loaf w/ beef, w/ tomato sauce
+11112210	milk	milk, cow's, fluid, 1% fat
+11112110	milk	milk, cow's, fluid, 2% fat
+11113000	milk	milk, cow's, fluid, skim or nonfat
+11111000	milk	milk, cow's, fluid, whole
+11100000	milk	milk, nfs
+11320000	milk	milk, soy, ready-to-drink, not baby
+42110000	mixed nuts	mixed nuts, nfs
+52302010	muffin	muffin, fruit and/or nuts
+75506010	mustard	mustard (incl horseradish mustard, chinese mustard)
+56203030	oatmeal	oatmeal, cooked, instant, no fat added in cooking
+56203010	oatmeal	oatmeal, cooked, regular, no fat added
+75510000	olives	olives, nfs
+75221020	onions	onions, mature, cooked, ns as to form, fat added
+75117020	onions	onions, mature, raw (include red onions, nfs)
+61119010	orange	orange, raw
+55101000	pancake	pancakes, plain (include pancakes, nfs)
+63135010	peach	peach, raw
+42202000	peanut butter	peanut butter
+42111000	peanuts	peanuts, nfs
+63137010	pear	pear, raw
+75224022	peas	peas, green, cooked, from froz, fat not added
+75122000	pepper	pepper, raw, nfs
+75503010	pickles	cucumber pickles, dill
+63141010	pineapple	pineapple, raw
+58106730	pizza	pizza w/ meat & vegetables, thick crust
+58106720	pizza	pizza w/ meat & vegetables, thin crust
+58106530	pizza	pizza w/ meat, thick crust
+58106520	pizza	pizza w/ meat, thin crust
+58106220	pizza	pizza, cheese, thin crust
+63143010	plum	plum, raw
+54403020	popcorn	popcorn, popped in oil, buttered
+54403000	popcorn	popcorn, popped in oil, unbuttered
+26319140	popcorn shrimp	shrimp, breaded or battered, fried
+22000100	pork	pork, ns as to cut, cooked, ns as to fat eaten
+22101120	pork chop	pork chop, broiled or baked, lean only
+71101000	potato	white potato, baked, peel not eaten
+71000100	potato	white potato, nfs
+71603010	potato salad	potato salad
+71601010	potato salad	potato salad w/ egg
+54408010	pretzel	pretzels, hard
+75125000	radish	radish, raw
+62125100	raisin	raisins (include cinnamon-coated raisins)
+91734100	reese's	reese's peanut butter cups
+41205010	refried beans	refried beans
+75503020	relish	cucumber pickles, relish
+56205000	rice	rice, cooked, ns as to type
+58150110	rice	rice, fried, meatless
+58163410	rice	spanish rice
+21401120	roast	beef, roast, roasted, lean only
+51157000	roll	roll, hoagie, submarine,
+51160110	roll	roll, sweet, cinnamon bun, frosted
+51161250	roll	roll, sweet, no topping, mexican (pan dulce)
+51161270	roll	roll, sweet, sugar topping, mexican  (pan dulce)
+51153000	roll	roll, white, hard
+51150000	roll	roll, white, soft
+92410710	root beer	root beer
+75114000	salad mix	mixed salad greens, raw
+25221500	salami	salami, nfs
+74402350	salsa	green tomato-chile sauce, cooked
+74402100	salsa	salsa, nfs
+74402150	salsa	salsa, red, ckd, not hom (incl taco, creole, picante sauces)
+74402200	salsa	salsa, red, cooked, homemade (incl de chile rojo)
+74402110	salsa	salsa, red, uncooked (incl pico de gallo)
+74406010	sauce	barbecue sauce
+75511010	sauce	hot pepper sauce
+74404010	sauce	spaghetti sauce, meatless
+81302050	sauce	tartar sauce
+25221420	sausage	pork sausage, brown & serve, cooked
+25221410	sausage	pork sausage, fresh, bulk, patty or link, cooked
+32105000	scrambled egg	egg omelet or scrambled egg, fat added
+32104950	scrambled egg	egg omelet or scrambled egg, no fat added
+32104900	scrambled egg	egg omelet or scrambled egg, ns as to added fat
+32105010	scrambled egg	egg omelet or scrambled egg, w/ cheese
+91715100	snickers	snickers candy bar
+92410520	soda	soft drink, fruit-flav, sugar-free, caffeine free
+92410510	soda	soft drink, fruit-flavored, caffeine free
+92410550	soda	soft drink, fruit-flavored, w/ caffeine
+92410560	soda	soft drink, fruit-flavored, w/ caffeine, sugar-free
+58407030	soup	soup, mostly noodles(incl spaghetti soup,top ramen)
+12310100	sour cream	sour cream (incl w/ chives)
+12350000	sour cream dip	dip, sour cream base (include buttermilk-type dip)
+41420300	soy sauce	soy sauce
+58132110	spaghetti	spaghetti w/ tomato sauce, meatless
+58132310	spaghetti	spaghetti w/tomat sauce & meat sauce
+72125100	spinach	spinach, raw
+21101120	steak	beef steak, broiled or baked, lean & fat
+21101130	steak	beef steak, broiled or baked, lean only
+21102130	steak	beef steak, fried, lean only
+63223020	strawberry	strawberries, raw
+91101010	sugar	sugar, white, granulated or lump
+91107000	sweetener	sucralose-based sweetener, sugar substitute
+91201010	sweetener	sugar substitute, aspartame-based, dry powder
+91200040	sweetener	sugar substitute, saccharin-based, dry powder and tablets
+91301250	syrup	maple & corn  &/or  cane pancake syrup blends
+52215300	taco shell	taco shell, corn
+92302500	tea	tea, decaffeinated, unsweetened
+92306000	tea	tea, herbal (include sassafras,licorice)
+92302200	tea	tea, leaf, presweetened w/ sugar
+92302000	tea	tea, leaf, unsweetened
+92305040	tea	tea, made from powdered instant,presweetend w/sugar
+92301060	tea	tea, ns as to type, presweetened w/ sugar
+92301130	tea	tea, ns as to type, presweetened, ns as to sweetner
+92301000	tea	tea, ns as to type, unsweetened
+92301080	tea	tea, presweetened w/ low calorie sweetener
+74301100	tomato juice	tomato juice
+74101000	tomatoes	tomatoes, raw
+52215100	tortilla	tortilla, corn
+52215200	tortilla	tortilla, flour (wheat)
+27450060	tuna salad	tuna salad
+93505000	vodka	vodka
+55201000	waffle	waffle, plain
+92410210	water	carbonated water, unsweetened (incl club soda)
+94100100	water	water, bottled, unsweetened
+94000100	water	water, tap
+63149010	watermelon	watermelon, raw
+93502000	whiskey sour	whiskey (include bourbon, scotch, rye)
+56205420	white rice	rice, white, cooked, regular, fat added in cooking
+56205010	white rice	rice, white, cooked, regular, no fat add in cooking
+56204990	white rice	rice,white,cooked, reg, ns as to fat added
+93401010	wine	wine, table, red
+93401020	wine	wine, table, white
+58200200	wrap	wrap sandwich, w/ vegetables & rice
+11432000	yogurt	yogurt, fruit variety, lowfat milk
