@@ -12,6 +12,7 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
@@ -127,6 +128,32 @@ public class PinPage extends BaseActivity {
         return tt;
     }
     /*
+     *  Author: Pan Di
+     *  Created: 4/1/2015
+     *  Delete selected button by finding id and text
+     *  Modified @ 4/11/2015 by Jason Lin
+     *  Modification: remove corresponding items in the hashmaps.
+     */
+    public void deleteButton(int i, RelativeLayout rl) {
+        // find the button by id
+        Button btn = (Button) findViewById(i);
+        // find the text by id
+        TextView tt = (TextView) findViewById(i+1000);
+        // find the pin coordinate by id
+        Integer [] coord = pinId.get(i);
+        // remove the button from the layout
+        rl.removeView(btn);
+        // clear out the textview
+        tt.setText("");
+        // remove the pinCoord content
+        pinCoord.remove(coord);
+        // remove the text in the hashmap
+        textId.remove(i);
+        // remove the coordinate mapping to button id
+        pinId.remove(i);
+
+    }
+    /*
         Author: Jason Lin
         Created: 12/2/2014
         createButtons function, creates default buttons on the page base on the tag file retrieved
@@ -181,7 +208,7 @@ public class PinPage extends BaseActivity {
             btn.setBackgroundResource(R.drawable.rsz_pin);
             //btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
             // set onclick implementation of onClick
-            btn.setOnClickListener(new myOnClickListener(i) {});
+            btn.setOnClickListener(new myOnClickListener(i, rl) {});
             // set onLongClick implementation of long click
             btn.setOnLongClickListener(new myOnLongClickListener(rm, rl,i));
             //System.out.println(pinNumber);
@@ -252,7 +279,7 @@ public class PinPage extends BaseActivity {
                                         newpin.setId(i);
                                         newpin.setBackgroundResource(R.drawable.rsz_pin);
                                         /* add button functionality to the new buttons*/
-                                        newpin.setOnClickListener(new myOnClickListener(i));
+                                        newpin.setOnClickListener(new myOnClickListener(i, rl));
                                         newpin.setOnLongClickListener(new myOnLongClickListener(rm, rl, i));
                                        // newpin.setOnLongClickListener(new myOnLongClickListener(i));
                                         // show floating texts
@@ -287,6 +314,8 @@ public class PinPage extends BaseActivity {
 	 * Modified: 3/4/2015 by Di Pan
 	 * Modification: Added a editable input block for the user, and passes the result string
 	 *               to Vicky Sun's function which changes the text above the pin
+	 * Modified : 4/11/2015 by Jason Lin & Pan Di
+	 * Modification: Added delete button functionality, removed redundant confirmation dialog
 	 * 
 	 * OnClickListener implementation
 	 * onClick calls the arrayList, constructs the selections base on the values in the array,
@@ -294,15 +323,18 @@ public class PinPage extends BaseActivity {
 	 *
 	 * Parameters: 	ArrayList<String> items - the list of food associated to the button generating.
 	 * 				Int id					- the id associated to the button
+	 * 			    RelativeLayout rl       - the child view that holds the button
 	 */
     /* NOTE :: user input should link to food name database, and search according to the inputs*/
 	public class myOnClickListener implements OnClickListener {
         List<String> items = new ArrayList<String>();
         int id;
         Integer coord [];
+        RelativeLayout rl;
 
-        public myOnClickListener(int id) {
+        public myOnClickListener(int id, RelativeLayout r) {
             this.id = id;
+            this.rl = r;
             this.coord = pinId.get(id);
             this.items = pinCoord.get(coord);
         }
@@ -334,56 +366,42 @@ public class PinPage extends BaseActivity {
                             toast.show();
                         }
                     })
-                    .setCancelable(false)
+                    // can use back key to cancel the dialog
+                    .setCancelable(true)
                     /* Modified by Di Pan
                      * Modification: add the second prompt to allow the user to manually input the text
                      * Modified by Jason Lin @ 4/8/2015
                      * Modification: change the Editable textview to AutoCompleteTextView for database searching
                      */
-                    .setNegativeButton("Insert/Exit", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Insert", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             //dialog.cancel();
                             // no longer cancels the dialog when clicking "cancel"
                             // building a new prompt
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle("Insert food/ Exit prompt")
-                                    .setMessage("Do you want to manually insert food?")
-                                    .setNegativeButton("no", null)
-                                            // show editable input for the user to type
-                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-                                            builder1.setMessage("Enter type of foods");
-                                            // Set an EditText view to get user input
-                                            //final EditText input = new EditText(context);
-                                            final AutoCompleteTextView input = new AutoCompleteTextView(context);
-                                            input.setAdapter(databaseAdapter);
-                                            // display what user types
-                                            builder1.setView(input);
-                                            // confirms the changes
-                                            builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int whichButton) {
-                                                    Editable value = input.getText();
-                                                    TextView tt = (TextView) findViewById(1000 + myOnClickListener.this.id);
-                                                    tt.setText(value.toString());
-                                                    textId.put(myOnClickListener.this.id, value.toString());
-                                                    List<String> newItemOrder = Arrays.asList(value.toString(), items.get(1), items.get(2), items.get(3), items.get(4));
-                                                    pinCoord.put(coord, newItemOrder);
-                                                    /* To Pan Di change the text view text according to my previous code*/
-                                                }
-                                            });
-                                            // finally cancelling all the dialogs
-                                            builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int whichButton) {
-                                                    dialog.cancel();
-                                                }
-                                            });
-                                            builder1.show();
-                                        }
-                                    });
+                            builder.setTitle("Insert Food");
+                            final AutoCompleteTextView input = new AutoCompleteTextView(context);
+                            input.setAdapter(databaseAdapter);
+                            // display what user types
+                            builder.setView(input);
+                            // confirms the changes
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    String value = input.getText().toString();
+                                    TextView tt = (TextView) findViewById(1000 + myOnClickListener.this.id);
+                                    tt.setText(value);
+                                    textId.put(myOnClickListener.this.id, value.toString());
+                                    List<String> newItemOrder = Arrays.asList(value.toString(), items.get(1), items.get(2), items.get(3), items.get(4));
+                                    pinCoord.put(coord, newItemOrder);
+                                }
+                            });
                             builder.show();
-
                         }
+                    })
+                    .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface dialog, int id) {
+                           deleteButton(myOnClickListener.this.id, myOnClickListener.this.rl);
+                       }
                     });
             // display all the dialogs and sub dialogs
             AlertDialog alertDialog = alertDialogBuilder.create();
@@ -465,7 +483,7 @@ public class PinPage extends BaseActivity {
                             Button newpin = new Button(context);
                             newpin.setBackgroundResource(R.drawable.rsz_pin);
                             // add button functionality
-                            newpin.setOnClickListener(new myOnClickListener(id));
+                            newpin.setOnClickListener(new myOnClickListener(id, rl));
                             newpin.setOnLongClickListener(new myOnLongClickListener(rm,rf,id));
                             // create the textView
                             newT = setTextBlock(pinCoord.get(newCoord).get(0), oldX+newX, oldY+newY-20);
@@ -481,10 +499,8 @@ public class PinPage extends BaseActivity {
                     return true;
                 }
             });
-
             return false;
         }
 
     }
-
 }
