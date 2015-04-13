@@ -9,12 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
+    
+    <FrameLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="5dp"
+		android:background="?attr/background">
+	</FrameLayout>
     <FrameLayout
 	    android:layout_width="fill_parent"
 	    android:layout_height="match_parent"
 	    android:orientation="vertical"
-	    android:background="@drawable/title_background" >
-
+	    android:background="?attr/background" >
 		<TextView
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
@@ -23,10 +28,20 @@
 		    android:padding="6dp"
 		    android:text="@string/about_title"
 		    android:textColor="#FFFFFFFF"
-		    android:textSize="25sp" />
-	    
+		    android:textSize="25sp" />    
 	</FrameLayout>
-
+	<FrameLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="5dp"
+		android:background="?attr/background">
+	</FrameLayout>
+	<FrameLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/white">
+   	</FrameLayout>  
+   	<!-- From line 13 to 42, it is the top bar format.-->
+   	
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

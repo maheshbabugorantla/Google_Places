@@ -8,21 +8,13 @@
 
     <FrameLayout 
 		android:layout_width="fill_parent"
-<<<<<<< Upstream, based on origin/ui
 		android:layout_height="5dp"
-=======
-		android:layout_height="15dp"
->>>>>>> 9cffadd fix the blank layout things
 		android:background="?attr/background">
 	</FrameLayout>
 	    		
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-<<<<<<< Upstream, based on origin/ui
-=======
-        android:layout_marginBottom="5dp"
->>>>>>> 9cffadd fix the blank layout things
         android:background="?attr/background"
         android:orientation="vertical"                                           >
 	<TextView
@@ -53,11 +45,7 @@
     <FrameLayout 
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-<<<<<<< Upstream, based on origin/ui
         >
-=======
-        android:background="?attr/background">
->>>>>>> 9cffadd fix the blank layout things
     </FrameLayout>
     
     <LinearLayout
@@ -132,50 +120,6 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/lightpink" />
 
-<<<<<<< Upstream, based on origin/ui
-	</LinearLayout>
-	
-    <FrameLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="10dp"
-        android:background="?attr/background">
-    </FrameLayout>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-                
-        		<FrameLayout 
-			        android:layout_width="50dp"
-			        android:layout_height="fill_parent"
-			        android:background="?attr/background">
-	    		</FrameLayout>
-	    		
-                <Button
-                    android:id="@+id/plum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/plum" />
-
-                <Button
-                    android:id="@+id/navajowhite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/navajowhite" />
-
-                <Button
-                    android:id="@+id/lightsalmon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/lightsalmon" />
-
-=======
->>>>>>> 6684c65 Add more theme color and match the button with the color
 	</LinearLayout>
 	
     <FrameLayout 
@@ -218,7 +162,6 @@
                     android:background="@drawable/lightsalmon" />
 
 	</LinearLayout>
-
 
 
 </LinearLayout>
