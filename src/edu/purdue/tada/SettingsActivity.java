@@ -23,21 +23,14 @@ public class SettingsActivity extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
-		
-		// create ContextThemeWrapper from the original Activity Context with the custom theme
-	    final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.AppTheme_green);
-
-	    // clone the inflater using the ContextThemeWrapper
-	    LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-	    
 	    
 		//Inflate the layout for this fragment
-		View view = localInflater.inflate(R.layout.setting_layout, container, false);
+		View view = inflater.inflate(R.layout.setting_layout, container, false);
+		//view.setBackgroundColor(Color.GREEN);
 		
 		
 		
 		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
-		view.setBackgroundColor(R.style.AppTheme_green);
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
 		btn1.setOnClickListener(new View.OnClickListener() {
 			

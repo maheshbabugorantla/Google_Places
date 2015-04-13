@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -91,6 +92,7 @@ public class TabGroup extends ActivityGroup {
 				
 					switch (checkedId) {
 					case R.id.tab_0:
+						Log.v("TabGroup", "Pressed first button");
 						/*container.removeAllViews();
 		                container.addView(getLocalActivityManager().startActivity(
 		                        "Module1",
@@ -164,6 +166,7 @@ public class TabGroup extends ActivityGroup {
         {
         	System.out.println("Viewpager is null");
         }
+        startViewPagerListener();
     } 
     
     //commented out since removed SettingsGroup Nicole Missele - 3/22/15
@@ -182,6 +185,7 @@ public class TabGroup extends ActivityGroup {
     	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
     	                .getDecorView());
     			ViewPagerContainer.mViewPager.setCurrentItem(2, true);
+    			startViewPagerListener();
     		}
     		else
     		{
@@ -221,12 +225,9 @@ public class TabGroup extends ActivityGroup {
         radio2.setChecked(ActivityBridge.getInstance().isRadio2());
     }
     
-    @Override
-    public void onStart() {
-    	super.onStart();
-    	// Is put in the onStart instead of onCreate because mViewPager is null in onCreate
-    	// so an error would occur and app would crash
-        ViewPagerContainer.mViewPager.setOnPageChangeListener(new OnPageChangeListener () {
+    public void startViewPagerListener()
+    {
+    	ViewPagerContainer.mViewPager.setOnPageChangeListener(new OnPageChangeListener () {
     		public void onPageScrollStateChanged(int state) {}
     		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
     		
@@ -275,7 +276,6 @@ public class TabGroup extends ActivityGroup {
     			}
     		}
     	}); 
-    	
     }
 }
 
