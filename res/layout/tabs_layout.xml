@@ -35,7 +35,7 @@
 				style="@style/tab_button_bottom"
 				android:checked="true"
                  />
-
+            
             <RadioButton
                 android:id="@+id/radio_btn1"
                 android:text="Review"
@@ -49,6 +49,7 @@
 				android:drawableTop="@drawable/ic_tab_more_unselected" 
 				style="@style/tab_button_bottom"
                  />
+              
             
         </RadioGroup>
     </LinearLayout>
