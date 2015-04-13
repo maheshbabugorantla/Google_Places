@@ -3,7 +3,7 @@
     <corners android:radius="8dp"/>
     <solid android:color="@color/whitesmoke"/>
     <stroke
-        android:color="#FFFFFFFF"
+        android:color="@color/transparent"
         android:width="1dp"
     />
 </shape>

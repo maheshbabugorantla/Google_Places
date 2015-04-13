@@ -4,9 +4,15 @@
     android:background="?attr/background"
     android:orientation="vertical" >
 
+    <FrameLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="5dp"
+		android:background="?attr/background">
+	</FrameLayout>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="?attr/background" >
 
         <TextView 
             android:layout_width="match_parent"
@@ -14,11 +20,12 @@
         	android:textSize="25sp"
         	android:padding="6dp"
         	android:textColor="#FFFFFF"
-        	android:background="@drawable/title_background"
         	android:gravity="center"
         	android:layout_gravity="center_horizontal"
-        	android:text="@string/record_title"
-            />
+        	android:text="@string/record_title"/>
+        <!--  android:background="@drawable/title_background"-->
+        <!-- no longer using the code above since the new top bar design -->
+        
         <Button 
             android:id="@+id/unsent_event"
             android:layout_width="wrap_content"
@@ -45,7 +52,18 @@
             />
 -->
     </FrameLayout>
-
+	<FrameLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="5dp"
+		android:background="?attr/background">
+	</FrameLayout>
+	<FrameLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/white">
+   	</FrameLayout>  
+   	<!-- From line 7 to 64, it is the top bar format.-->
+   	
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

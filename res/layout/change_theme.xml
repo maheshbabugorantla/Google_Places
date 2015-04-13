@@ -8,14 +8,13 @@
 
     <FrameLayout 
 		android:layout_width="fill_parent"
-		android:layout_height="15dp"
+		android:layout_height="5dp"
 		android:background="?attr/background">
 	</FrameLayout>
 	    		
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:background="?attr/background"
         android:orientation="vertical"                                           >
 	<TextView
@@ -25,21 +24,28 @@
 		    android:layout_gravity="center"
 		    android:padding="6dp"
 		    android:text="Select a Color"
-		    android:textColor="#87CEFA" 
+		    android:textColor="#FFFFFF" 
 		    android:textSize="25sp" />
     </FrameLayout>
 
     <FrameLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="5dp"
+		android:background="?attr/background">
+	</FrameLayout>
+    
+    <FrameLayout 
         android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="@color/lightskyblue">
-        
+        android:layout_height="0.5dp"
+        android:background="@color/white">
     </FrameLayout>
+    
+    <!-- From line 9 to 41, it is the top bar format. Made by Lechuan-->
     
     <FrameLayout 
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="?attr/background">
+        >
     </FrameLayout>
     
     <LinearLayout
