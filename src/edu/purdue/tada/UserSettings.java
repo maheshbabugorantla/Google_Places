@@ -37,7 +37,7 @@ public class UserSettings extends BaseActivity{
 							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 						.getDecorView());
 			}
-		
+		 
 		});
 			
 		
