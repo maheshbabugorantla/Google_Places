@@ -34,7 +34,7 @@ public class TabGroup extends ActivityGroup{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        group=this;
+        group=this; // define group for tabs to appear over all activities launched inside app -- Nicole Missele 4/12/15
         setContentView(R.layout.tada_layout);
         container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);

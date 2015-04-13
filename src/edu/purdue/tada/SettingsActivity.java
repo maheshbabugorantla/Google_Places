@@ -10,7 +10,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.app.AlertDialog.Builder;
 import android.content.Intent;
 
 public class SettingsActivity extends BaseActivity{
