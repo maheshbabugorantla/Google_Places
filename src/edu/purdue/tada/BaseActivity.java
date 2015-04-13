@@ -57,7 +57,7 @@ public class BaseActivity extends FragmentActivity
 		outState.putInt("theme", mTheme);
 	}
 	
-	/*protected void reload()
+	protected void reload()
 	{
 		Intent intent = getIntent();
 		overridePendingTransition(0, 0);
@@ -66,6 +66,15 @@ public class BaseActivity extends FragmentActivity
 		 * overridePendingTransition(0, 0); startActivity(intent);
 		 */   
 	
+		TabGroup.container.removeAllViews();
+		TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+				"ChangeTheme",
+				new Intent(this, ChangeTheme.class)
+					.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+				.getDecorView());
+	}
+}
+		
 		
 		/*Window w = SettingsGroup.group.getLocalActivityManager().startActivity(
 				"ChangeTheme", intent);
@@ -88,7 +97,7 @@ public class BaseActivity extends FragmentActivity
 	}
 		*/
 	//attempt 2
-	
+	/*
 	public void reload() {
 
 	    Intent intent = getIntent();
@@ -99,9 +108,9 @@ public class BaseActivity extends FragmentActivity
 	    overridePendingTransition(0, 0);
 	    startActivity(intent);
 	}
-			
+			*/
 	
 	
 	
 		
-}
+

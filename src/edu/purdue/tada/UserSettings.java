@@ -28,8 +28,12 @@ public class UserSettings extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(UserSettings.this, ChangeTheme.class);
-				startActivity(intent);
+				TabGroup.container.removeAllViews();
+				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+						"ChangeTheme",
+						new Intent(UserSettings.this, ChangeTheme.class)
+							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+						.getDecorView());
 			}
 		
 		});
