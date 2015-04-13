@@ -4,22 +4,29 @@
     android:layout_height="match_parent"
     android:background="?attr/background"
     android:orientation="vertical" >
+    
+    <FrameLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="5dp"
+		android:background="?attr/background">
+	</FrameLayout>
 	<FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-       >
+        android:background="?attr/background">
         <TextView 
             android:layout_width="match_parent"
         	android:layout_height="wrap_content"
         	android:textSize="25sp"
         	android:textColor="#FFFFFF"
         	android:padding="6dp"
-        	android:background="@drawable/title_background"
         	android:gravity="center"
         	android:layout_gravity="center_horizontal"
-        	android:text="@string/review"
-            />
+        	android:text="@string/review"/>
+        	<!--  android:background="@drawable/title_background"-->
+        	<!-- no longer using the code above since the new top bar design -->
+        	        
         <Button 
             android:id="@+id/refresh"
             android:layout_width="wrap_content"
@@ -43,7 +50,18 @@
             android:text="@string/search"
             android:textColor="@color/white" />
     </FrameLayout>
-
+	<FrameLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="5dp"
+		android:background="?attr/background">
+	</FrameLayout>
+	<FrameLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/white">
+   	</FrameLayout>  
+   	<!-- From line 8 to 51, it is the top bar format.-->
+   	  
 	<com.hb.views.PinnedSectionListView
 	    android:id="@+id/reviewList"
 	    android:layout_width="fill_parent"
