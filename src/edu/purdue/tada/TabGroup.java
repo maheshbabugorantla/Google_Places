@@ -28,9 +28,7 @@ public class TabGroup extends ActivityGroup{
     private RadioButton radio1;
     private RadioButton radio2;
     public static boolean isSetting = false;
-    
-    
-    public static ActivityGroup group;
+   	public static ActivityGroup group;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
