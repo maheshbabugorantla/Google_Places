@@ -65,7 +65,7 @@ public class BaseActivity extends FragmentActivity
 		 * intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION); finish();
 		 * overridePendingTransition(0, 0); startActivity(intent);
 		 */   
-	
+	//prepare for changing theme Nicole Missele 4/12/2015
 		TabGroup.container.removeAllViews();
 		TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 				"ChangeTheme",

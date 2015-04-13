@@ -29,6 +29,7 @@ public class SettingsActivity extends BaseActivity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				// below code refreshed the background color when the theme is changed - Nicole Missele 4/12/15	
 				TabGroup.container.removeAllViews();
 				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 						"UserSettings",
@@ -75,8 +76,8 @@ public class SettingsActivity extends BaseActivity{
 				
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
-					//sign in user
-										
+					//button signs in user
+					// below code refreshed the background color when the theme is changed - Nicole Missele 4/12/15					
 					TabGroup.container.removeAllViews();
 					TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 							"ResearchSettings",
@@ -143,6 +144,7 @@ public class SettingsActivity extends BaseActivity{
 					
 			@Override
 			public void onClick(View v) {
+				// below code refreshed the background color when the theme is changed - Nicole Missele 4/12/15	
 				TabGroup.container.removeAllViews();
 				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 						"AboutTada",
