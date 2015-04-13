@@ -29,8 +29,12 @@ public class SettingsActivity extends BaseActivity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(SettingsActivity.this, UserSettings.class);
-				startActivity(intent);
+				TabGroup.container.removeAllViews();
+				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+						"UserSettings",
+						new Intent(SettingsActivity.this, UserSettings.class)
+							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+						.getDecorView());
 			}
 		
 		});
@@ -73,8 +77,12 @@ public class SettingsActivity extends BaseActivity{
 				public void onClick(DialogInterface dialog, int id) {
 					//sign in user
 										
-						Intent intent = new Intent(SettingsActivity.this, ResearchSettings.class);
-						startActivity(intent);
+					TabGroup.container.removeAllViews();
+					TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+							"ResearchSettings",
+							new Intent(SettingsActivity.this, ResearchSettings.class)
+								.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+							.getDecorView());
 				}
 					
 			});
@@ -135,8 +143,12 @@ public class SettingsActivity extends BaseActivity{
 					
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(SettingsActivity.this, AboutTada.class);
-				startActivity(intent);
+				TabGroup.container.removeAllViews();
+				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+						"AboutTada",
+						new Intent(SettingsActivity.this, AboutTada.class)
+							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+						.getDecorView());
 			}
 				
 		});

@@ -19,17 +19,19 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 public class TabGroup extends ActivityGroup{
 
 	private final String TAG = "TabGroup";
-    private FrameLayout container = null;
+    static FrameLayout container = null;
     private RadioGroup rGroup;
     private RadioButton radio0;
     private RadioButton radio1;
     private RadioButton radio2;
     
+    public static ActivityGroup group;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
+        group=this;
         setContentView(R.layout.tada_layout);
         container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
