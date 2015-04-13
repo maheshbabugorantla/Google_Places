@@ -36,7 +36,7 @@ public class TabGroup extends ActivityGroup{
         container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
         
-        
+         
         radio0 = (RadioButton)findViewById(R.id.tab_0);
         radio1 = (RadioButton)findViewById(R.id.tab_1);
         radio2 = (RadioButton)findViewById(R.id.tab_2);
