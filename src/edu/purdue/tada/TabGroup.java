@@ -128,6 +128,7 @@ public class TabGroup extends ActivityGroup {
 				}
 		}); 
         
+        startViewPagerListener();
     } 
     
     @Override
@@ -145,7 +146,9 @@ public class TabGroup extends ActivityGroup {
     	                new Intent(TabGroup.this, ViewPagerContainer.class)
     	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
     	                .getDecorView());
-    			ViewPagerContainer.mViewPager.setCurrentItem(2, true);}
+    			ViewPagerContainer.mViewPager.setCurrentItem(2, true);
+    			startViewPagerListener();
+    		}
     		else
     		{
     			finish();
@@ -185,12 +188,9 @@ public class TabGroup extends ActivityGroup {
 
     } 
     
-    @Override
-    public void onStart() {
-    	super.onStart();
-    	// Is put in the onStart instead of onCreate because mViewPager is null in onCreate
-    	// so an error would occur and app would crash
-        ViewPagerContainer.mViewPager.setOnPageChangeListener(new OnPageChangeListener () {
+    public void startViewPagerListener()
+    {
+    	ViewPagerContainer.mViewPager.setOnPageChangeListener(new OnPageChangeListener () {
     		public void onPageScrollStateChanged(int state) {}
     		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
     		
@@ -239,7 +239,6 @@ public class TabGroup extends ActivityGroup {
     			}
     		}
     	}); 
-    	
     }
 }
 
