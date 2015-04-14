@@ -74,10 +74,8 @@ public class ReviewActivity extends BaseActivity{
 		Button bv = (Button) findViewById(R.id.refresh);
 		Button searchButton = (Button) findViewById(R.id.reviewSearch);
 		
-		//Adding Button to listview at footer Parth Patel 
-		//Button more = new Button(this);
-		//more.setText("Load More");
-		//lv.addFooterView(more);
+		//Adding Button to listview at footer Parth Patel 3.28.15
+//		lv.addFooterView(more);
 		
 		//Getting adapter
 		final ReviewAdapter adapter = generateReviewAdapter(); 
@@ -216,12 +214,12 @@ public class ReviewActivity extends BaseActivity{
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 	        String line;
 	        // Each line will be a .rec file
-	        while((line = reader.readLine()) != null) {
+	        while((line = reader.readLine()) != null/* && count <= 10*/) {
 	        	// Removed count limit:
 	        	// Because the entries of rec_sent.txt are listed with most recent as the last, limiting their display will have to be done differently
 	        	// Using this as a limit will only display the 10 oldest entries and new ones are not shown.
 	        	lines.add(line);
-	        	//count = count + 1; //will limit the reviews to be displayed at 10 lines only
+	        	count = count + 1; //will limit the reviews to be displayed at 10 lines only
 	        }
 	        
 	        in.close();
@@ -299,6 +297,30 @@ public class ReviewActivity extends BaseActivity{
 		return list;
 	}
 	
+	/*private class BackgroundThread extends AsyncTask<Void,Void,Void>{
+		@Override
+		protected void onPreExecute(){}
+		protected Void doInBackground(Void... unused){
+			runOnUiThread(new Runnable(){
+				public void run(){}
+			});
+			return(null);
+		}
+		protected void onPostExecute(Void unused){}
+	}
+	*/
+/*	private class loadMoreListView extends AsyncTask<Void,Void,Void>{
+		@Override
+		protected void onPreExecute(){
+			pDialog = new ProgressDialog(
+	                ReviewActivity.this);
+	        pDialog.setMessage("Please wait..");
+	        pDialog.setIndeterminate(true);
+	        pDialog.setCancelable(false);
+	        pDialog.show();
+		}
+		
+	}*/
 	private ReviewItem generateReviewItem(String fileName){
 		InputStream in = null;
 		String hash;
