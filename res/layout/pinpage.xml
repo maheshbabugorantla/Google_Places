@@ -12,7 +12,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" >
 
-        <edu.purdue.tada.TouchImageView
+        <edu.purdue.tada.images.TouchImageView
             android:id="@+id/backgroundPicture"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -47,13 +47,6 @@
 	<com.hb.views.PinnedSectionListView
 	    android:id="@+id/reviewList"
 	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content" >	    
+	    android:layout_height="wrap_content" >
 	</com.hb.views.PinnedSectionListView>
-
-	<Button
-	    android:id="@+id/more_button"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:text="More Reviews" />
-
 </LinearLayout>
