@@ -12,7 +12,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" >
 
-        <ImageView
+        <edu.purdue.tada.TouchImageView
             android:id="@+id/backgroundPicture"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -21,12 +21,21 @@
             android:src="@drawable/white" />
 
         <Button
+            android:id="@+id/addpin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"
-            android:id="@+id/addpin"
+            android:layout_alignLeft="@+id/save"
+            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true" />
+            android:text="Add" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/addpin"
+            android:text="Save" />
 
     </RelativeLayout>
 
