@@ -1,6 +1,10 @@
 package edu.purdue.tada;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +13,7 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources.Theme;
 import android.graphics.Color;
 import android.view.ContextThemeWrapper;
 
@@ -20,6 +25,8 @@ public class SettingsActivity extends BaseFragment {
 	    
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.setting_layout, container, false);
+		// Apply the color to the fragment's background
+		view.setBackgroundColor(backGroundColor);
 		
 		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
@@ -86,7 +93,8 @@ public class SettingsActivity extends BaseFragment {
 		btn3.setOnClickListener(new View.OnClickListener() {
 		
 			@Override
-			public void onClick(View v) {TabGroup.container.removeAllViews();
+			public void onClick(View v) {
+				TabGroup.container.removeAllViews();
 				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 		                "About",
 		                new Intent(getActivity(), AboutTada.class)

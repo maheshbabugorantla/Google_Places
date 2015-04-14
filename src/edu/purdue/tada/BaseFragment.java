@@ -3,12 +3,14 @@ package edu.purdue.tada;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources.Theme;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +20,7 @@ public class BaseFragment extends Fragment
 	private final String TAG = "BaseActivity";
 	
 	protected int mTheme = R.style.AppBaseTheme;
+	int backGroundColor;
 	// no longer need to use this, use
 	// activitybridge.getInstance().getRecSaved()
 	// final String recSaved = getBaseContext().getFilesDir().getPath();
@@ -35,6 +38,11 @@ public class BaseFragment extends Fragment
 			mTheme = savedInstanceState.getInt("theme");
 		}
 		//setTheme(mTheme);
+		// Get the color of the theme
+		TypedValue typedValue = new TypedValue();
+		Theme theme = getActivity().getTheme();
+		theme.resolveAttribute(R.attr.background, typedValue, true);
+		backGroundColor = typedValue.data;
 		recSaved = getActivity().getBaseContext().getFilesDir().getPath();
 		Log.d(TAG, "recSaved = \"" + recSaved + "\"");
 		

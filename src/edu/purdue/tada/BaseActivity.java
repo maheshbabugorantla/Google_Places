@@ -63,7 +63,7 @@ public class BaseActivity extends FragmentActivity
 		ViewPagerContainer.mPagerAdapter.notifyDataSetChanged();
 		TabGroup.container.removeAllViews();
 		TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
-                "UserSettings",
+                "ChangeTheme",
                 new Intent(this, ChangeTheme.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());

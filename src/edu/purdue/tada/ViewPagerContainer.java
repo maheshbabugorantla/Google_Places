@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Window;
 
 
-public class ViewPagerContainer extends FragmentActivity
+public class ViewPagerContainer extends BaseActivity
 {
 	public static ScreenSwipe mPagerAdapter;
 	public static ViewPager mViewPager;

@@ -26,9 +26,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.content.res.Resources.Theme;
 import android.os.Bundle;
 import android.text.InputType;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -72,6 +74,8 @@ public class ReviewActivity extends BaseFragment{
 	       
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.review_layout, container, false);
+		// Apply the color to the fragment's background
+		view.setBackgroundColor(backGroundColor);
 		
 		ListView lv = (ListView) view.findViewById(R.id.reviewList);
 		Button bv = (Button) view.findViewById(R.id.refresh);
@@ -116,6 +120,16 @@ public class ReviewActivity extends BaseFragment{
 				
 			}
 		});
+		Button refreshButton = (Button) view.findViewById(R.id.refresh);
+		refreshButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				System.out.println("updating viewPager");
+				ViewPagerContainer.mPagerAdapter.notifyDataSetChanged();
+			}
+		
+		});
 		
 		searchButton.setOnClickListener(new OnClickListener(){
 			@Override
@@ -130,6 +144,7 @@ public class ReviewActivity extends BaseFragment{
 				Button dateButton = (Button) d.findViewById(R.id.review_search_date);
 				Button foodButton = (Button) d.findViewById(R.id.review_search_food);
 				Button mealButton = (Button) d.findViewById(R.id.review_search_meal);
+
 
 				dateButton.setOnClickListener(new OnClickListener(){
 					@Override

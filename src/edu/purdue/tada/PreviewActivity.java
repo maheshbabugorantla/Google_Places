@@ -167,6 +167,7 @@ public class PreviewActivity extends BaseActivity {
 									// TODO: handle exception
 									e.printStackTrace();
 								}
+				        		ViewPagerContainer.mPagerAdapter.notifyDataSetChanged();
 								//end placeholder block
 				        	}else {
 				        		//if not, list the unsent event in "rec_unsent.txt"

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -31,7 +32,7 @@ import android.widget.ViewFlipper;
 public class TabGroup extends ActivityGroup {
 
 	private final String TAG = "TabGroup";
-    public static FrameLayout container = null;
+    static FrameLayout container = null;
     private RadioGroup rGroup;
     private RadioButton radio0;
     private RadioButton radio1;
@@ -73,10 +74,9 @@ public class TabGroup extends ActivityGroup {
                 .getDecorView());
         
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				
+				System.out.println("Check changed");
 					switch (checkedId) {
 					case R.id.tab_0:
 						// Slide the page to the Record screen
@@ -126,8 +126,7 @@ public class TabGroup extends ActivityGroup {
 		                break;
 					}
 				}
-		}); 
-        
+		});
         startViewPagerListener();
     } 
     

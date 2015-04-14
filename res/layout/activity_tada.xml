@@ -3,7 +3,6 @@
     android:layout_height="match_parent" 
     android:orientation="vertical" 
     android:background="@color/white">
-     <!--   android:background="?attr/background"  > -->
 
     <FrameLayout 
 		android:layout_width="fill_parent"
