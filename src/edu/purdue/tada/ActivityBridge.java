@@ -1,7 +1,11 @@
 package edu.purdue.tada;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -222,6 +226,39 @@ public class ActivityBridge {
 	public String getReviewImagePath(){
 		return this.reviewImagePath;
 	}
+    /*  Author: Pujitha Desiraju
+        Created: 4/1/2015
+        Using for loop to get the keys and values in the hashmap and creates a list
+        Modified: 4/13/2015 by Jason Lin
+        Modification: Writes to SD card, correct formatting.
+     */
+    // writes the pin coord into sd card as a textfile
+    public void savePins(Map<Integer [], List<String>> pincoord) {
+        try{
+            // open up the file from SD card
+            File file = new File("/sdcard/newtag.txt");
+            file.createNewFile();
+            // construct a file writer
+            FileOutputStream fout = new FileOutputStream(file);
+            // write user id
+            fout.write("123456790\n".getBytes());
+            // write number of pins
+            fout.write((Integer.toString(pincoord.size())+"\n").getBytes());
+            // write each coordinate and respective values
+            for(Integer [] key : pincoord.keySet()) {
+                String coord = key[0].toString()+"\t"+key[1].toString()+"\n";
+                fout.write("0\n".getBytes());
+                fout.write(coord.getBytes());
+                fout.write(("00000000\t"+pincoord.get(key).get(0)+"\n").getBytes());
+                fout.write(("00000000\t"+pincoord.get(key).get(1)+"\n").getBytes());
+                fout.write(("00000000\t"+pincoord.get(key).get(2)+"\n").getBytes());
+                fout.write(("00000000\t"+pincoord.get(key).get(3)+"\n").getBytes());
+                fout.write(("00000000\t"+pincoord.get(key).get(4)+"\n").getBytes());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 	
 	
 }

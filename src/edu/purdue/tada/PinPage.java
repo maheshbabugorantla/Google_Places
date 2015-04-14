@@ -93,14 +93,14 @@ public class PinPage extends BaseActivity {
             final InputStream is = getAssets().open("food.dat");
             reader = new BufferedReader((new InputStreamReader(is)));
             String line;
-            do {
-                line = reader.readLine();
+            line = reader.readLine();
+            while(line != null) {
                 String sp [] = line.split("\t");
-                // remove this if using food description
-                if(!foodDatabase.contains(sp[1])) {
+                if(!foodDatabase.contains(sp[1])){
                     foodDatabase.add(sp[1]);
                 }
-            } while (line != null);
+                line = reader.readLine();
+            }
             databaseAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, foodDatabase);
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,19 +113,36 @@ public class PinPage extends BaseActivity {
         Initialize TextView's text, only works on initialization or new pin
         Modified @ 3/12/2015
         Modification: can resolve both key and manual input now
+        Modified @ 4/13/2015
+        Modification: centering the text according to the length
      */
     public TextView setTextBlock(String key, int w, int h) {
         TextView tt = new TextView(context);
-        try {
-            tt.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
-        } catch (Exception e) {
-            tt.setText(key);
-        }
+        tt.setText(centerText(key));
         tt.setId(1000+i);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(w,h,0,0);
+        params.setMargins(w-25,h+10,0,0);
         tt.setLayoutParams(params);
         return tt;
+    }
+    /*
+        Author: Vicky Sun & Jason Lin
+        Created: 4/13/2015
+        Basically moved Vicky's code out to a function to be more versatile.
+        Made some changes to allow the function to be more flexible
+     */
+    public String centerText(String t) {
+        // find the length of the
+        int length = t.length();
+        // empty string for spaces on the sides of the text
+        String space = new String();
+        // default is assuming the text is 18 characters long
+        for(int i = 0; i < (18-length)/2; i++){
+            space = space.concat(" ");
+        }
+        // adding the calculated spaces to the text
+        String txt = space + t + space;
+        return txt;
     }
     /*
      *  Author: Pan Di
@@ -152,6 +169,23 @@ public class PinPage extends BaseActivity {
         // remove the coordinate mapping to button id
         pinId.remove(i);
 
+    }
+    /*
+        Author: Jason Lin
+        Created: 4/13/2015
+        converts the screen size coordinates to image size coordinate
+     */
+    public HashMap returnCoord() {
+        HashMap<Integer [], List<String>> newCoord = new HashMap<Integer[], List<String>>();
+        float screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+        float screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+        for (Integer [] key : pinCoord.keySet()) {
+            float newKeyX = key[0]*2560/screenWidth;
+            float newKeyY = key[1]*1920/screenHeight;
+            Integer [] newKey = {(int) newKeyX, (int) newKeyY};
+            newCoord.put(newKey,pinCoord.get(key));
+        }
+        return newCoord;
     }
     /*
         Author: Jason Lin
@@ -192,7 +226,7 @@ public class PinPage extends BaseActivity {
             // Creating a button
             final Button btn = new Button(this);
             // Creating a textView for the text floating above pin
-            TextView tx = setTextBlock(key, (int)pinX, (int)pinY-20);
+            TextView tx = setTextBlock(ActivityBridge.getInstance().getfoodPinsNames(key).get(0), (int)pinX, (int)pinY);
             // setup the internal lists
             Integer [] newcoord = {(int)pinX, (int)pinY};
             // creating a new copy of coordinate : foods
@@ -203,8 +237,8 @@ public class PinPage extends BaseActivity {
             textId.put(i,pinCoord.get(newcoord).get(0));
             // button settings
             btn.setId(i);
-            btn.setWidth(80);
-            btn.setHeight(80);
+            btn.setWidth(50);
+            btn.setHeight(50);
             btn.setBackgroundResource(R.drawable.rsz_pin);
             //btn.setText(ActivityBridge.getInstance().getfoodPinsNames(key).get(0));
             // set onclick implementation of onClick
@@ -212,7 +246,7 @@ public class PinPage extends BaseActivity {
             // set onLongClick implementation of long click
             btn.setOnLongClickListener(new myOnLongClickListener(rm, rl,i));
             //System.out.println(pinNumber);
-            params.setMargins((int)pinX-20, (int)pinY+25,0,0);
+            params.setMargins((int)pinX-15, (int)pinY+50,0,0);
             btn.setLayoutParams(params);
             // add the button to views
             rl.addView(btn);
@@ -229,6 +263,10 @@ public class PinPage extends BaseActivity {
         layoutButtons function, creating all UI buttons on the screen
         Modified: 2/21/2015
         Modification: New pin created now is adjusted accordingly to the input length
+        Modified: 4/13/2015 by Pujitha Desiraju
+        Modification: Add new button to save the pincoord when clicked
+        Modified: 4/13/2015 by Jason Lin
+        Modification: Recalls the previous activity when the button is clicked, and restores the pin coordinate to picture pixels
      */
     public void layoutButtons() {
         // creating edit text for the prompt
@@ -304,6 +342,22 @@ public class PinPage extends BaseActivity {
                 alertDialog.show();
             }
         });
+        // calls the confirm button by id
+        Button savePins = (Button) findViewById(R.id.save);
+        // confirm button onclick listener
+        savePins.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // sends the pincoord to activitybridge for process
+
+                ActivityBridge.getInstance().savePins(returnCoord());
+                // toast message
+                Toast toast = Toast.makeText(context, "Changes saved.", Toast.LENGTH_SHORT);
+                toast.show();
+                // recalls to the previous activity
+                finish();
+            }
+        });
     }
 	/* 
 	 * Author: Jason Lin
@@ -360,7 +414,7 @@ public class PinPage extends BaseActivity {
                             // call the textview correspond to this button
                             TextView tt = (TextView) findViewById(1000+id);
                             // update the textview's text
-                            tt.setText(items.get(which+1));
+                            tt.setText(centerText(items.get(which+1)));
                             // toast a message to show changes
                             Toast toast = Toast.makeText(context, "Changed to " + items.get(which + 1), Toast.LENGTH_SHORT);
                             toast.show();
@@ -372,6 +426,7 @@ public class PinPage extends BaseActivity {
                      * Modification: add the second prompt to allow the user to manually input the text
                      * Modified by Jason Lin @ 4/8/2015
                      * Modification: change the Editable textview to AutoCompleteTextView for database searching
+                     * Bug: current API does not support AutoComplete in AlertDialog
                      */
                     .setPositiveButton("Insert", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -389,7 +444,7 @@ public class PinPage extends BaseActivity {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     String value = input.getText().toString();
                                     TextView tt = (TextView) findViewById(1000 + myOnClickListener.this.id);
-                                    tt.setText(value);
+                                    tt.setText(centerText(value));
                                     textId.put(myOnClickListener.this.id, value.toString());
                                     List<String> newItemOrder = Arrays.asList(value.toString(), items.get(1), items.get(2), items.get(3), items.get(4));
                                     pinCoord.put(coord, newItemOrder);
@@ -441,6 +496,7 @@ public class PinPage extends BaseActivity {
                 public boolean onTouch(View v, MotionEvent event) {
                     switch(event.getActionMasked()) {
                         // Shadowing finger movement
+                        /* temporarily removed due to causing precision errors when creating shadowing effect. */
                         case MotionEvent.ACTION_MOVE:
                             // Temporarily removed because shadowing causing too much bugs
                             /*TextView tt = (TextView) findViewById(1000+id);
