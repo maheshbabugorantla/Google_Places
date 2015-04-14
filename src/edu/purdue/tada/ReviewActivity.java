@@ -17,8 +17,10 @@ import com.hb.views.PinnedSectionListView.PinnedSectionListAdapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources.Theme;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +28,11 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.text.DateFormat; 
@@ -53,6 +57,8 @@ public class ReviewActivity extends BaseFragment{
 	       
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.review_layout, container, false);
+		// Apply the color to the fragment's background
+		view.setBackgroundColor(backGroundColor);
 		
 		ListView lv = (ListView) view.findViewById(R.id.reviewList);
 		
@@ -78,6 +84,17 @@ public class ReviewActivity extends BaseFragment{
 				}
 				
 			}
+		});
+		
+		Button refreshButton = (Button) view.findViewById(R.id.refresh);
+		refreshButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				System.out.println("updating viewPager");
+				ViewPagerContainer.mPagerAdapter.notifyDataSetChanged();
+			}
+		
 		});
 	        
 	    return view;

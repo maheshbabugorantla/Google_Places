@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-public class ViewPagerContainer extends FragmentActivity
+public class ViewPagerContainer extends BaseActivity
 {
 	public static ScreenSwipe mPagerAdapter;
 	public static ViewPager mViewPager;
@@ -30,10 +30,5 @@ public class ViewPagerContainer extends FragmentActivity
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(mPagerAdapter);
         System.out.println("In viewpager");
-    }
-    
-    public static ViewPager getViewPager()
-    {
-    	return mViewPager;
     }
 }

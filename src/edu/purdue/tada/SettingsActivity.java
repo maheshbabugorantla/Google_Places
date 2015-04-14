@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources.Theme;
 import android.graphics.Color;
 import android.view.ContextThemeWrapper;
 
@@ -26,7 +28,8 @@ public class SettingsActivity extends BaseFragment {
 	    
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.setting_layout, container, false);
-		//view.setBackgroundColor(Color.GREEN);
+		// Apply the color to the fragment's background
+		view.setBackgroundColor(backGroundColor);
 		
 		
 		
@@ -36,13 +39,6 @@ public class SettingsActivity extends BaseFragment {
 			
 			@Override
 			public void onClick(View v) {
-				 // Put the User Settings page as the current fragment on the screen 
-				 // make it so when the back button is clicked, it goes to more page
-				 /*Fragment newFragment = new UserSettings();
-				 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-				 transaction.replace(R.id.container, newFragment);
-		         transaction.addToBackStack(null);
-				 transaction.commit();*/
 				TabGroup.container.removeAllViews();
 				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 		                "UserSettings",
@@ -75,13 +71,6 @@ public class SettingsActivity extends BaseFragment {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 					//sign in user
-					// Put the User Settings page as the current fragment on the screen 
-					 // make it so when the back button is clicked, it goes to more page
-					 /*Fragment newFragment = new ResearchSettings();
-					 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-					 transaction.replace(R.id.container, newFragment);
-			         transaction.addToBackStack(null);
-					 transaction.commit(); */
 					TabGroup.container.removeAllViews();
 					TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 			                "Module1",
@@ -115,14 +104,6 @@ public class SettingsActivity extends BaseFragment {
 		
 			@Override
 			public void onClick(View v) {
-				// Put the About page as the current fragment on the screen 
-				// make it so when the back button is clicked, it goes to more page
-				/*ViewPagerContainer.getViewPager().setVisibility(View.GONE);
-				Fragment newFragment = new AboutTada();
-				FragmentTransaction transaction = getFragmentManager().beginTransaction();
-				transaction.replace(R.id.container, newFragment);
-				transaction.addToBackStack(null);
-				transaction.commit(); */
 				TabGroup.container.removeAllViews();
 				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 		                "About",

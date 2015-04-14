@@ -68,13 +68,6 @@ public class UserSettings extends BaseActivity {
 							
 					@Override
 					public void onClick(View v) {
-						// Put the Theme page as the current fragment on the screen 
-						// make it so when the back button is clicked, it goes to more page
-						/*Fragment newFragment = new ChangeTheme();
-						FragmentTransaction transaction = getFragmentManager().beginTransaction();
-						transaction.replace(R.id.container, newFragment);
-				        transaction.addToBackStack(null);
-						transaction.commit();*/
 						TabGroup.container.removeAllViews();
 						TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 				                "UserSettings",

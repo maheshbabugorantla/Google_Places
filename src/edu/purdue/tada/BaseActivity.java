@@ -12,7 +12,7 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.Window;
 
-public class BaseActivity extends Activity
+public class BaseActivity extends FragmentActivity
 {
 	private final String TAG = "BaseActivity";
 	
@@ -70,7 +70,7 @@ public class BaseActivity extends Activity
 		ViewPagerContainer.mPagerAdapter.notifyDataSetChanged();
 		TabGroup.container.removeAllViews();
 		TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
-                "UserSettings",
+                "ChangeTheme",
                 new Intent(this, ChangeTheme.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());

@@ -19,8 +19,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources.Theme;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +66,9 @@ public class TadaActivity extends BaseFragment
 	       
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.activity_tada, container, false);
+		// Apply the color to the fragment's background
+		view.setBackgroundColor(backGroundColor);
+		
 		
 		unsentRec = "" + recSaved + REC_SAVED; // Added By David to fix crash 9/24/2013
 		img_scanner = (Button) view.findViewById(R.id.scan);

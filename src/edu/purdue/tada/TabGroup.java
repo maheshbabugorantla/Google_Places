@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,25 +29,16 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 public class TabGroup extends ActivityGroup {
 
 	private final String TAG = "TabGroup";
-    public static FrameLayout container = null;
+    static FrameLayout container = null;
     private RadioGroup rGroup;
     private RadioButton radio0;
     private RadioButton radio1;
     private RadioButton radio2;
-    private Fragment fr;
-    private FragmentTransaction fragmentTransaction;
     public static boolean onSetting = true;
-    
-    public static ActivityGroup group; 
-    
-    
-    
+    static ActivityGroup group; 
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	
-    	
-    	
         super.onCreate(savedInstanceState);
         group = this;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -77,19 +69,11 @@ public class TabGroup extends ActivityGroup {
                 new Intent(TabGroup.this, ViewPagerContainer.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());
-        
-        // Start the view pager so that the user can swipe across the to change between
-        // The main pages of the app. The default page is the Record screen
-        /*fr = new ViewPagerContainer();
-    	fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    	fragmentTransaction.replace(R.id.container, fr);
-    	fragmentTransaction.commit(); */
-             
+          
         rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				
+				System.out.println("Check changed");
 					switch (checkedId) {
 					case R.id.tab_0:
 						Log.v("TabGroup", "Pressed first button");
@@ -161,11 +145,6 @@ public class TabGroup extends ActivityGroup {
 					}
 				}
 		}); 
-        
-        if (ViewPagerContainer.getViewPager() == null)
-        {
-        	System.out.println("Viewpager is null");
-        }
         startViewPagerListener();
     } 
     
