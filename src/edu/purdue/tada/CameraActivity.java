@@ -284,7 +284,6 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 				   String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()); // temporary
 				   Bitmap combination = quality(bitmapPicture); // temporary
 				   //save in gallery
-				   
 				   MediaStore.Images.Media.insertImage(getContentResolver(),combination,"test_"+ timeStamp + ".jpg",timeStamp.toString()); // temporary
 				   
 				   Date date = new Date();
@@ -720,7 +719,7 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		    //H.release();
 		    //H = null;
 		    
-		    if(good_matches.size() > 20)  //  >= 43 ideal
+		    if(good_matches.size() > 43)  //  >= 43 ideal
 		    {
 		    	Log.i(TAG, "FM detected");
 		    	return true;
