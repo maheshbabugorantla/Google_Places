@@ -72,8 +72,8 @@ public class TabGroup extends ActivityGroup {
                 new Intent(TabGroup.this, ViewPagerContainer.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());
-        
-        rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+          
+        /*rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				System.out.println("Check changed");
@@ -94,7 +94,6 @@ public class TabGroup extends ActivityGroup {
 		                ActivityBridge.getInstance().setRadio2(false);
 						break; 
 					case R.id.tab_1:
-						// Slide the page to the Review Screen
 						ViewPagerContainer.mViewPager.setCurrentItem(1, true);
 		                //set the review button to "pressed" status
 		                radio1.setTextColor(Color.parseColor("#FFFFFF"));
@@ -109,8 +108,7 @@ public class TabGroup extends ActivityGroup {
 		                ActivityBridge.getInstance().setRadio2(false);
 		                break;
 					case R.id.tab_2:
-						isSetting = true;
-						// Slide the page to the More Screen
+						/*isSetting = true;
 						ViewPagerContainer.mViewPager.setCurrentItem(2, true);
 		                //set the more button to "pressed" status
 		                radio2.setTextColor(Color.parseColor("#FFFFFF"));
@@ -126,7 +124,80 @@ public class TabGroup extends ActivityGroup {
 		                break;
 					}
 				}
-		});
+		}); */
+        radio0.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (ActivityBridge.getInstance().isRadio0() == false)
+				{
+					// Slide the page to the Record screen
+					ViewPagerContainer.mViewPager.setCurrentItem(0, true);
+	                //set the record button to "pressed" status
+	                radio0.setTextColor(Color.parseColor("#FFFFFF"));
+	                radio1.setTextColor(Color.parseColor("#5DD2DC"));
+	                radio2.setTextColor(Color.parseColor("#5DD2DC"));
+	                radio0.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_testicon_selected), null, null);
+	                radio1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_review_unselected), null, null);
+	                radio2.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_more_unselected), null, null);
+	                //save tabs status in singleton
+	                ActivityBridge.getInstance().setRadio0(true);
+	                ActivityBridge.getInstance().setRadio1(false);
+	                ActivityBridge.getInstance().setRadio2(false);
+				}
+				
+			}
+        	
+        });
+        radio1.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (ActivityBridge.getInstance().isRadio1() == false)
+				{
+					// Slide the page to the Review Screen
+					ViewPagerContainer.mViewPager.setCurrentItem(1, true);
+	                //set the review button to "pressed" status
+	                radio1.setTextColor(Color.parseColor("#FFFFFF"));
+	                radio0.setTextColor(Color.parseColor("#5DD2DC"));
+	                radio2.setTextColor(Color.parseColor("#5DD2DC"));
+	                radio1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_review_selected), null, null);
+	                radio0.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_testicon_unselected), null, null);
+	                radio2.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_more_unselected), null, null);
+	                //save tabs status in singleton
+	                ActivityBridge.getInstance().setRadio1(true);
+	                ActivityBridge.getInstance().setRadio0(false);
+	                ActivityBridge.getInstance().setRadio2(false);
+				}
+				
+			}
+        	
+        });
+        radio2.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (ActivityBridge.getInstance().isRadio2() == false)
+				{
+					// Slide the page to the More Screen
+					isSetting = true;
+					ViewPagerContainer.mViewPager.setCurrentItem(2, true);
+	                //set the more button to "pressed" status
+	                radio2.setTextColor(Color.parseColor("#FFFFFF"));
+	                radio0.setTextColor(Color.parseColor("#5DD2DC"));
+	                radio1.setTextColor(Color.parseColor("#5DD2DC"));
+	                radio2.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_more_selected), null, null);
+	                radio0.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_testicon_unselected), null, null);
+	                radio1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_tab_review_unselected), null, null);
+	                //save tabs status in singleton
+	                ActivityBridge.getInstance().setRadio2(true);
+	                ActivityBridge.getInstance().setRadio0(false);
+	                ActivityBridge.getInstance().setRadio1(false);
+				}
+				
+			}
+        	
+        });
         startViewPagerListener();
     } 
     
