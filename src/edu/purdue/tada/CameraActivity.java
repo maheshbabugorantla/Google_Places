@@ -248,6 +248,9 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 				ActivityBridge.getInstance().setImgFlag(1);
 			}
 			CameraActivity.this.setResult(Activity.RESULT_CANCELED);
+			
+			ActivityBridge.getInstance().setChecked4();
+			
 			finish();
 		}});
        //set onClickListener on the "Tips" button 
