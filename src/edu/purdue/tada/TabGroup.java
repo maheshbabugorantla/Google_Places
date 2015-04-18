@@ -28,7 +28,7 @@ public class TabGroup extends ActivityGroup{
     private RadioButton radio1;
     private RadioButton radio2;
     public static boolean isSetting = false;
-   	public static ActivityGroup group;
+    public static ActivityGroup group;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class TabGroup extends ActivityGroup{
         container = (FrameLayout)findViewById(R.id.container);
         rGroup = (RadioGroup)findViewById(R.id.tabGroup);
         
+         
         radio0 = (RadioButton)findViewById(R.id.tab_0);
         radio1 = (RadioButton)findViewById(R.id.tab_1);
         radio2 = (RadioButton)findViewById(R.id.tab_2);
@@ -125,8 +126,6 @@ public class TabGroup extends ActivityGroup{
 				}
 		}); 
     }
-    
-    
     
    /* commented out since removed SettingsGroup Nicole Missele - 3/22/15
     @Override

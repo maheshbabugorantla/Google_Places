@@ -69,7 +69,6 @@ public class SettingsActivity extends BaseActivity{
 				View layout = inflater.inflate(R.layout.password_layout, null);
 				builder.setTitle("Login");			
 				builder.setView(layout);
-			
 				//add action buttons
 				//builder.setPositiveButton(R.string.research_login, new DialogInterface.OnClickListener() {
 				builder.setPositiveButton("Login", new DialogInterface.OnClickListener() {
@@ -119,17 +118,7 @@ public class SettingsActivity extends BaseActivity{
 //			}}
 //			
 //		);
-
-		/*//set up button three to go to "About" screen using Settings Group
-		btn3.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(SettingsActivity.this, AboutTada.class);
-				startActivity(intent);
-				TabGroup.isSetting = false;
-			}
-		});	*/
+		
 		
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
 		btn3.setOnClickListener(new View.OnClickListener() {
