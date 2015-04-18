@@ -2,12 +2,8 @@ package edu.purdue.tada;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Window;
-
 
 public class ViewPagerContainer extends BaseActivity
 {

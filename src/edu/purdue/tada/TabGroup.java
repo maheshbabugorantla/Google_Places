@@ -46,7 +46,7 @@ public class TabGroup extends ActivityGroup {
         group = this;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         group = this; // define group for tabs to appear over all activities launched inside app -- Nicole Missele 4/12/15
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.tada_layout);
         
         container = (FrameLayout)findViewById(R.id.container);
@@ -79,7 +79,6 @@ public class TabGroup extends ActivityGroup {
 				System.out.println("Check changed");
 					switch (checkedId) {
 					case R.id.tab_0:
-						// Slide the page to the Record screen
 						ViewPagerContainer.mViewPager.setCurrentItem(0, true);
 		                //set the record button to "pressed" status
 		                radio0.setTextColor(Color.parseColor("#FFFFFF"));
@@ -201,7 +200,8 @@ public class TabGroup extends ActivityGroup {
         startViewPagerListener();
     } 
     
-    @Override
+    
+    //commented out since removed SettingsGroup Nicole Missele - 3/22/15
     public void onBackPressed() {  
     	// In the more tab if you are in any of the settings, if you press the back button
     	// it will take you back to original More tab
@@ -227,8 +227,7 @@ public class TabGroup extends ActivityGroup {
     	else
     	{
     		finish();
-    	}
-    	
+    	}   	
     	/*
     	//if users press the back button in the main activity, shows an alert dialog
         AlertDialog.Builder builder = new Builder(this);
@@ -309,6 +308,6 @@ public class TabGroup extends ActivityGroup {
     			}
     		}
     	}); 
-    }
+    }   
 }
 

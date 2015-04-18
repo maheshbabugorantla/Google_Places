@@ -26,11 +26,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.content.res.Resources.Theme;
 import android.os.Bundle;
 import android.text.InputType;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,17 +66,20 @@ public class ReviewActivity extends BaseFragment{
 	
 	protected static final int TAG_REQUEST = 101;
 	
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setContentView(R.layout.review_layout);
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 	       
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.review_layout, container, false);
-		// Apply the color to the fragment's background
-		view.setBackgroundColor(backGroundColor);
 		
 		ListView lv = (ListView) view.findViewById(R.id.reviewList);
-		Button bv = (Button) view.findViewById(R.id.refresh);
 		Button searchButton = (Button) view.findViewById(R.id.reviewSearch);
 		
 		//Adding Button to listview at footer Parth Patel 3.28.15
@@ -120,16 +121,7 @@ public class ReviewActivity extends BaseFragment{
 				
 			}
 		});
-		Button refreshButton = (Button) view.findViewById(R.id.refresh);
-		refreshButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				System.out.println("updating viewPager");
-				ViewPagerContainer.mPagerAdapter.notifyDataSetChanged();
-			}
-		
-		});
+
 		
 		searchButton.setOnClickListener(new OnClickListener(){
 			@Override
@@ -144,7 +136,6 @@ public class ReviewActivity extends BaseFragment{
 				Button dateButton = (Button) d.findViewById(R.id.review_search_date);
 				Button foodButton = (Button) d.findViewById(R.id.review_search_food);
 				Button mealButton = (Button) d.findViewById(R.id.review_search_meal);
-
 
 				dateButton.setOnClickListener(new OnClickListener(){
 					@Override
@@ -214,16 +205,9 @@ public class ReviewActivity extends BaseFragment{
 //				}
 //		});
 	}
-	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		System.out.println("In Review Activity");
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//setContentView(R.layout.review_layout);
-		
-		
-	}
 	
 
+	
 	private ReviewAdapter generateReviewAdapter(){
 		ReviewAdapter adapter = new ReviewAdapter(getActivity());
 		InputStream in = null;
@@ -404,6 +388,7 @@ public class ReviewActivity extends BaseFragment{
 	 * @author Ben Klutzke
 	 * 
 	 */
+
 	private class ReviewAdapter extends BaseAdapter implements PinnedSectionListAdapter, Filterable {		
 		private ArrayList<ReviewContainer> originalList = new ArrayList<ReviewContainer>();	
 		private ArrayList<ReviewContainer> filteredList = new ArrayList<ReviewContainer>();
@@ -569,10 +554,12 @@ public class ReviewActivity extends BaseFragment{
 		     return viewType == HEADER_TYPE;
 		 }
 
+
 		@Override
 		public Filter getFilter() {
 			return filter;
-		}
+	}
+	
 		
 		public void clearFilter() {
 			filteredList = originalList;

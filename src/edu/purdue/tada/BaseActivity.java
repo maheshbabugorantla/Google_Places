@@ -69,7 +69,3 @@ public class BaseActivity extends FragmentActivity
                 .getDecorView());
 		}
 }
-	
-	
-		
-

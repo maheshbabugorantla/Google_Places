@@ -1,7 +1,12 @@
 package edu.purdue.tada;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
@@ -14,7 +19,6 @@ public class ChangeTheme extends BaseActivity {
 		
 		Button cornflowerblue = (Button)findViewById(R.id.cornflowerblue);
 		cornflowerblue.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -24,6 +28,7 @@ public class ChangeTheme extends BaseActivity {
 			
 			}
 		});
+		
 		Button skyblue = (Button)findViewById(R.id.skyblue);
 		skyblue.setOnClickListener(new OnClickListener() {
 			
@@ -34,6 +39,7 @@ public class ChangeTheme extends BaseActivity {
                 reload();
 			}
 		});
+		
 		Button powderblue = (Button)findViewById(R.id.powderblue);
 		powderblue.setOnClickListener(new OnClickListener() {
 			
@@ -45,6 +51,7 @@ public class ChangeTheme extends BaseActivity {
 				
 			}
 		});
+		
 		Button mediumturquoise = (Button)findViewById(R.id.mediumturquoise);
 		mediumturquoise.setOnClickListener(new OnClickListener() {
 			
@@ -56,9 +63,9 @@ public class ChangeTheme extends BaseActivity {
 				
 			}
 		});
+		
 		Button white = (Button)findViewById(R.id.white);
 		white.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -67,9 +74,9 @@ public class ChangeTheme extends BaseActivity {
 				
 			}
 		});
+		
 		Button lightpink = (Button)findViewById(R.id.lightpink);
 		lightpink.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -78,9 +85,9 @@ public class ChangeTheme extends BaseActivity {
 				
 			}
 		});
+		
 		Button plum = (Button)findViewById(R.id.plum);
 		plum.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -91,7 +98,6 @@ public class ChangeTheme extends BaseActivity {
 		});
 		Button navajowhite = (Button)findViewById(R.id.navajowhite);
 		navajowhite.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub

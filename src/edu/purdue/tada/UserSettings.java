@@ -21,7 +21,6 @@ public class UserSettings extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_layout);
 		TabGroup.isSetting = false;
-		
 		//update check box status
 		//update check box 1 status
 				checkBox1 = (CheckBox)findViewById(R.id.checkBox1);

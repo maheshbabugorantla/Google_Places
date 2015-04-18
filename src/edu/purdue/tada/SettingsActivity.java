@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources.Theme;
@@ -18,7 +21,7 @@ import android.graphics.Color;
 import android.view.ContextThemeWrapper;
 
 public class SettingsActivity extends BaseFragment {
-			
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -40,17 +43,18 @@ public class SettingsActivity extends BaseFragment {
 						"UserSettings",
 						new Intent(getActivity(), UserSettings.class)
 							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-						.getDecorView());}
-		
+						.getDecorView());
+			}
 		});
 		
 		Button btn2 = (Button) view.findViewById(R.id.settings_button2);
-		btn2.setOnClickListener(new OnClickListener(){
-		@Override
+		btn2.setOnClickListener(new OnClickListener() { 
+			@Override
 			public void onClick(View v) {
 				// Above code moves to ResearchPassword class, let's try to do it with a dialog
 				dialog();
 			}
+			
 			//using dialog box
 			private void dialog(){
 				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -83,11 +87,8 @@ public class SettingsActivity extends BaseFragment {
 						
 					}
 				});
-			
-
 				builder.create().show();
-				
-			};
+			}
 		});
 		Button btn3 = (Button) view.findViewById(R.id.settings_button3);
 		btn3.setOnClickListener(new View.OnClickListener() {
@@ -100,19 +101,21 @@ public class SettingsActivity extends BaseFragment {
 		                new Intent(getActivity(), AboutTada.class)
 		                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		                .getDecorView());
-				}
+			}
+			
 		});
-		return view;
+	    return view;
 	}
 	
-	public void onCreate(Bundle savedInstanceState){
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		//setContentView(R.layout.setting_layout);
 		System.out.println("in settings activity");
 	}
 }
-	
-
-
-	
+		
+		
+		
+			
+		

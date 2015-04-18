@@ -41,8 +41,8 @@ import android.widget.Toast;
  *  // HEY! GO TO https://github.com/DushyanthMaguluru/ZBarScanner TO GET THE ZBAR LIBRARY ON YOUR INDIVIDUAL MACHINE
  */
 
-public class TadaActivity extends BaseFragment
-{
+
+public class TadaActivity extends BaseFragment {
 	final static String TAG = "TadaActivity";
 	
 	private ImageButton img_before;
@@ -58,6 +58,7 @@ public class TadaActivity extends BaseFragment
 	private String unsentRec; // moved to oncreate.
 	
 	private final String REC_SAVED = "/rec_unsent.txt"; 
+	
 	
 	
 	
@@ -329,7 +330,7 @@ public class TadaActivity extends BaseFragment
 		img_after = (ImageButton) view.findViewById(R.id.imageButton2);
 		
 		//WHAT HAPPENS WHEN THE 'SCAN' BUTTON IS CLICKED
-		img_scanner.setOnClickListener(new View.OnClickListener() {
+		/*img_scanner.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -339,7 +340,7 @@ public class TadaActivity extends BaseFragment
 			}
 			
 			
-		});
+		});*/
 		//WHAT HAPPENS WHEN THE 'BEFORE' BUTTON IS CLICKED
 		img_before.setOnClickListener(new View.OnClickListener()
 		{
@@ -436,8 +437,6 @@ public class TadaActivity extends BaseFragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
->>>>>>> 2fb81d8 Got Settings working except theme
 		unsentRec = "" + recSaved + REC_SAVED; // Added By David to fix crash 9/24/2013
 		//img_scanner = (Button) view.findViewById(R.id.scan);
 		unsent = (Button) view.findViewById(R.id.unsent_event);
@@ -792,23 +791,19 @@ public class TadaActivity extends BaseFragment
 					intent.setClass(getActivity(), CameraActivity.class);
 					startActivityForResult(intent, TAKE_PHOTO);
 				}
-				
 			}
 		});
 	    
 		
-<<<<<<< Upstream, based on origin/ui
 		return view;
-	}
-=======
-	}*/
+	} */
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	public void onResume()
 	{
@@ -850,11 +845,12 @@ public class TadaActivity extends BaseFragment
 		
 	}
 	
+
 	@Override
-	public
+	
 	//WHAT HAPPENS WHEN AN ACTIVITY RETURNS
 	//BOTH THE 'SCAN' AND 'BEFORE/AFTER' CAMARAS RETURN VALUES THROUGH THIS METHOD
- void onActivityResult(int requestCode, int resultCode, Intent data)
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 			super.onActivityResult(requestCode, resultCode, data);
 			System.out.println("tada gets result:" + resultCode);
@@ -899,7 +895,7 @@ public class TadaActivity extends BaseFragment
 				
 			}
 	}
-	
+
 	private boolean isNetworkConnected()
 	{
 		ConnectivityManager conManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
