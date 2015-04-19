@@ -107,7 +107,7 @@ public class TabGroup extends ActivityGroup {
 		                ActivityBridge.getInstance().setRadio2(false);
 		                break;
 					case R.id.tab_2:
-						/*isSetting = true;
+						isSetting = true;
 						ViewPagerContainer.mViewPager.setCurrentItem(2, true);
 		                //set the more button to "pressed" status
 		                radio2.setTextColor(Color.parseColor("#FFFFFF"));
@@ -130,6 +130,18 @@ public class TabGroup extends ActivityGroup {
 			public void onClick(View v) {
 				if (ActivityBridge.getInstance().isRadio0() == false)
 				{
+					if (isSetting == false)
+					{
+						isSetting = true;
+		    			container.removeAllViews();
+		    			container.addView(getLocalActivityManager().startActivity(
+		    	                "Module1",
+		    	                new Intent(TabGroup.this, ViewPagerContainer.class)
+		    	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+		    	                .getDecorView());
+		    			ViewPagerContainer.mViewPager.setCurrentItem(0, true);
+		    			startViewPagerListener();
+					}
 					// Slide the page to the Record screen
 					ViewPagerContainer.mViewPager.setCurrentItem(0, true);
 	                //set the record button to "pressed" status
@@ -154,6 +166,18 @@ public class TabGroup extends ActivityGroup {
 			public void onClick(View v) {
 				if (ActivityBridge.getInstance().isRadio1() == false)
 				{
+					if (isSetting == false)
+					{
+						isSetting = true;
+		    			container.removeAllViews();
+		    			container.addView(getLocalActivityManager().startActivity(
+		    	                "Module1",
+		    	                new Intent(TabGroup.this, ViewPagerContainer.class)
+		    	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+		    	                .getDecorView());
+		    			ViewPagerContainer.mViewPager.setCurrentItem(1, true);
+		    			startViewPagerListener();
+					}
 					// Slide the page to the Review Screen
 					ViewPagerContainer.mViewPager.setCurrentItem(1, true);
 	                //set the review button to "pressed" status
@@ -179,6 +203,18 @@ public class TabGroup extends ActivityGroup {
 				if (ActivityBridge.getInstance().isRadio2() == false)
 				{
 					// Slide the page to the More Screen
+					if (isSetting == false)
+					{
+						isSetting = true;
+		    			container.removeAllViews();
+		    			container.addView(getLocalActivityManager().startActivity(
+		    	                "Module1",
+		    	                new Intent(TabGroup.this, ViewPagerContainer.class)
+		    	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+		    	                .getDecorView());
+		    			ViewPagerContainer.mViewPager.setCurrentItem(2, true);
+		    			startViewPagerListener();
+					}
 					isSetting = true;
 					ViewPagerContainer.mViewPager.setCurrentItem(2, true);
 	                //set the more button to "pressed" status

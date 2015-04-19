@@ -29,7 +29,7 @@ public class SettingsActivity extends BaseFragment {
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.setting_layout, container, false);
 		// Apply the color to the fragment's background
-		view.setBackgroundColor(backGroundColor);
+		//view.setBackgroundColor(backGroundColor);
 		
 		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15

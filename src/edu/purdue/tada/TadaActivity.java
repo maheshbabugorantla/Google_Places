@@ -69,7 +69,7 @@ public class TadaActivity extends BaseFragment {
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.activity_tada, container, false);
 		// Apply the color to the fragment's background
-		view.setBackgroundColor(backGroundColor);
+		//view.setBackgroundColor(backGroundColor);
 		
 		
 		unsentRec = "" + recSaved + REC_SAVED; // Added By David to fix crash 9/24/2013

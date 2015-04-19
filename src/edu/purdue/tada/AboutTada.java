@@ -12,4 +12,5 @@ public class AboutTada extends BaseActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.about_layout);
-	}}
+	}
+}
