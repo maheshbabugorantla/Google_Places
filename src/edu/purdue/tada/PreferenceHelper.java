@@ -28,7 +28,7 @@ public class PreferenceHelper {
     }
     //get the value of KEY_THEME from the default file 
     public static int getTheme(Context context){
-        return PreferenceHelper.getSharedPreferences(context).getInt(KEY_THEME, R.style.AppTheme_white);
+        return PreferenceHelper.getSharedPreferences(context).getInt(KEY_THEME, R.style.AppTheme_powderblue);
     }
     //modify the value of KEY_THEME
     public static void setTheme(Context context, int theme){
