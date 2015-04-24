@@ -94,7 +94,7 @@ public class UserSettings extends BaseActivity {
 //				View view = w.getDecorView();
 //				SettingsGroup.group.setContentView(view);
 //			}
-//		});
+//		}); 
 			
 		
 		
