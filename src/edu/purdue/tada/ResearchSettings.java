@@ -5,7 +5,7 @@ import android.os.Bundle;
 /* 
  * 	----ABOUT (Spring 2015)----
  * Research settings is a functionality for the Researcher to set alarms for the user of the app to be reminded
- * to take pictures of their food around breakfast, lunch, dinner, and a snack time.  Nicole Missele 4/23/2015
+ * to take pictures of their food around breakfast, lunch, dinner, and a snack time.  Nicole Missele 2/28/2015
  * 
  */
 
