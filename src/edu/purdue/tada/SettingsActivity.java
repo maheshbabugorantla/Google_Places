@@ -64,7 +64,7 @@ public class SettingsActivity extends BaseFragment {
 				builder.setView(layout);
 				//add action buttons
 				//builder.setPositiveButton(R.string.research_login, new DialogInterface.OnClickListener() {
-				//Define Login button to take you to Researcher Settings Activity - Nicole Missele 4/23/15
+				//Define Login button to take you to Researcher Settings Activity - Nicole Missele 3/10/15
 				builder.setPositiveButton("Login", new DialogInterface.OnClickListener() {
 				
 					@Override
