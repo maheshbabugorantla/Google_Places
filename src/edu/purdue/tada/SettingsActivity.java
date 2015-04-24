@@ -40,7 +40,7 @@ public class SettingsActivity extends BaseFragment {
 		btn2.setOnClickListener(new OnClickListener() { 
 			@Override
 			public void onClick(View v) {
-				// Above code moves to ResearchPassword class, let's try to do it with a dialog
+				// Dialog for Researcher Settings Login -- Nicole Missele 3/8/15
 				dialog();
 			}
 			
@@ -53,6 +53,7 @@ public class SettingsActivity extends BaseFragment {
 				builder.setView(layout);
 				//add action buttons
 				//builder.setPositiveButton(R.string.research_login, new DialogInterface.OnClickListener() {
+				//Define Login button to take you to Researcher Settings Activity - Nicole Missele 4/23/15
 				builder.setPositiveButton("Login", new DialogInterface.OnClickListener() {
 				
 					@Override
@@ -68,6 +69,7 @@ public class SettingsActivity extends BaseFragment {
 					}
 						
 				});
+				//Define Cancel Button in dialog box - Nicole Missele 3/8/15
 				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				
 					@Override
@@ -80,7 +82,7 @@ public class SettingsActivity extends BaseFragment {
 				builder.create().show();
 			}
 		});
-		
+		//Set button three to take you to the AboutTada activity 
 		Button btn3 = (Button) view.findViewById(R.id.settings_button3);
 		btn3.setOnClickListener(new View.OnClickListener() {
 		
