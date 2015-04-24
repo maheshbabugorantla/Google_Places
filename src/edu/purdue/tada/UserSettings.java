@@ -61,7 +61,7 @@ public class UserSettings extends BaseActivity {
 					}
 				});
 				
-				//prepare "theme" button
+				//prepare "theme" button -- Navigate without using SettingsGroup -- Nicole Missele 3/20/15
 				Button themeButton = (Button)findViewById(R.id.theme_button);
 				themeButton.setOnClickListener(new View.OnClickListener() {
 							
