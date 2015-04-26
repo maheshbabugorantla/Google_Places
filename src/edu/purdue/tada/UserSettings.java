@@ -16,7 +16,7 @@ import android.content.Intent;
 public class UserSettings extends BaseActivity {
 	private CheckBox checkBox1;
 	private CheckBox checkBox2; 
-	
+	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
