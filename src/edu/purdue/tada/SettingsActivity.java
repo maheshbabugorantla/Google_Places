@@ -16,7 +16,7 @@ public class SettingsActivity extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 	    
-		//Inflate the layout for this fragment
+		//Inflate the layout for this fragment 
 		View view = inflater.inflate(R.layout.setting_layout, container, false);
 		
 		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
@@ -82,6 +82,7 @@ public class SettingsActivity extends BaseFragment {
 				builder.create().show();
 			}
 		});
+		
 		//Set button three to take you to the AboutTada activity 
 		Button btn3 = (Button) view.findViewById(R.id.settings_button3);
 		btn3.setOnClickListener(new View.OnClickListener() {

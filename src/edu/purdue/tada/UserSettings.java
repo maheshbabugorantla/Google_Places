@@ -15,68 +15,73 @@ import android.content.Intent;
 
 public class UserSettings extends BaseActivity {
 	private CheckBox checkBox1;
-	private CheckBox checkBox2;
+	private CheckBox checkBox2; 
 	
-	public void onCreate(Bundle savedInstanceState){
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_layout);
 		TabGroup.isSetting = false;
 		//update check box status
 		//update check box 1 status
+
 			checkBox1 = (CheckBox)findViewById(R.id.checkBox1);
 			checkBox1.setChecked(PreferenceHelper.getTips(this));
 			//prepare the checkbox one for "tips" option
 			checkBox1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-						
-			@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					// TODO Auto-generated method stub
-					if (isChecked) {
-						checkBox1.setChecked(true);
-						PreferenceHelper.setTips(UserSettings.this, true);
-						ActivityBridge.getInstance().setChecked1(true);
-					}else {
-						checkBox1.setChecked(false);
-						ActivityBridge.getInstance().setChecked1(false);
-						PreferenceHelper.setTips(UserSettings.this, false);
-					}
-				}
-			});
-			// update check box 2 status
-			checkBox2 = (CheckBox)findViewById(R.id.checkBox2);
-			checkBox2.setChecked(ActivityBridge.getInstance().isChecked2());
-			//prepare the checkbox 2 for "camera assistant" option
-			checkBox2.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				
+							
 				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					// TODO Auto-generated method stub
-					if (isChecked) {
-						checkBox2.setChecked(true);
-						ActivityBridge.getInstance().setChecked2(true);
-					}else {
-						checkBox2.setChecked(false);
-						ActivityBridge.getInstance().setChecked2(false);
+					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+						// TODO Auto-generated method stub
+						if (isChecked) {
+							checkBox1.setChecked(true);
+							PreferenceHelper.setTips(UserSettings.this, true);
+							ActivityBridge.getInstance().setChecked1(true);
+						}else {
+							checkBox1.setChecked(false);
+							ActivityBridge.getInstance().setChecked1(false);
+							PreferenceHelper.setTips(UserSettings.this, false);
+						}
 					}
-				}
-			});
-			
-			//prepare "theme" button  -- Navigate without using SettingsGroup -- Nicole Missele 3/20/15
-			Button themeButton = (Button)findViewById(R.id.theme_button);
-			themeButton.setOnClickListener(new View.OnClickListener() {
-						
-				@Override
-				public void onClick(View v) {
-					// Load the Change Theme page on the screen
-					TabGroup.container.removeAllViews();
-					TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
-			                "ChangeTheme",
-			                new Intent(UserSettings.this, ChangeTheme.class)
-			                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-			                .getDecorView());
-				}
+				});
+				// update check box 2 status
+				checkBox2 = (CheckBox)findViewById(R.id.checkBox2);
+				checkBox2.setChecked(ActivityBridge.getInstance().isChecked2());
+				//prepare the checkbox 2 for "camera assistant" option
+				checkBox2.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 					
-			});
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+						// TODO Auto-generated method stub
+						if (isChecked) {
+							checkBox2.setChecked(true);
+							ActivityBridge.getInstance().setChecked2(true);
+						}else {
+							checkBox2.setChecked(false);
+							ActivityBridge.getInstance().setChecked2(false);
+						}
+					}
+				});
+				
+				//prepare "theme" button -- Navigate without using SettingsGroup -- Nicole Missele 3/20/15
+				Button themeButton = (Button)findViewById(R.id.theme_button);
+				themeButton.setOnClickListener(new View.OnClickListener() {
+							
+					@Override
+					public void onClick(View v) {
+						TabGroup.container.removeAllViews();
+						TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+				                "UserSettings",
+				                new Intent(UserSettings.this, ChangeTheme.class)
+				                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+				                .getDecorView());
+					}
+				});
+				
+
+						
+			
+			
 		
 		
 
@@ -100,6 +105,7 @@ public class UserSettings extends BaseActivity {
 		
 		
 	}
+}
 	
 	/*@Override
     public void onBackPressed() {   
@@ -128,4 +134,3 @@ public class UserSettings extends BaseActivity {
 		});
   	  	builder.create().show();
     }    */
-}

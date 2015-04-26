@@ -59,8 +59,11 @@ public class BaseActivity extends FragmentActivity
 		 * intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION); finish();
 		 * overridePendingTransition(0, 0); startActivity(intent);
 		 */   
-		
+
 		// Update the fragments in the viewPager since their is a color change
+
+		//prepare for changing theme to update Nicole Missele 4/12/2015
+
 		ViewPagerContainer.mPagerAdapter.notifyDataSetChanged();
 		//prepare for changing theme to update by reloading Nicole Missele 4/12/2015
 		TabGroup.container.removeAllViews();
