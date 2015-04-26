@@ -100,7 +100,7 @@ public class UserSettings extends BaseActivity {
 //				SettingsGroup.group.setContentView(view);
 //			}
 //		}); 
-			
+			 
 		
 		
 		
