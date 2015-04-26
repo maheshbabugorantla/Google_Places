@@ -62,6 +62,8 @@
 	<item name="android:layout_weight">1.0</item>
 	</style>
 	
+	<!-- All the color in this app are stored in TADA>res>value>color -->
+	
 	<style name="AppTheme_white" parent="AppBaseTheme">
         <item name="background">@color/white</item>
     </style>

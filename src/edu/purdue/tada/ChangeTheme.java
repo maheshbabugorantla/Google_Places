@@ -5,6 +5,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+//New change theme screen: there are 9 different colors options, so there are 9 onclicklisteners,
+//each corresponding to a button, but not in the same order as that of the change theme screen. 
+//All the color used in this file can be found in TADA>res>value>color, and styles are located in 
+//TADA>res>value>style lechuan
+
 public class ChangeTheme extends BaseActivity {
 	
 	public void onCreate(Bundle savedInstanceState){

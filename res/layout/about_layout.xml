@@ -40,7 +40,7 @@
         android:layout_height="0.5dp"
         android:background="@color/white">
    	</FrameLayout>  
-   	<!-- From line 13 to 42, it is the top bar format.-->
+   	<!-- From line 13 to 42, it is the top bar format. lechuan-->
    	
     <TextView
         android:layout_width="match_parent"

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- there are two xml files controling the camera screen, this file is used when
+the camera screen is displayed vertically in a device or an amulator, otherwise,
+check out the other file located in  TADA>res>layout-land -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"

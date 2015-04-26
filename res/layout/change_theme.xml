@@ -41,7 +41,7 @@
         android:background="@color/white">
     </FrameLayout>
     
-    <!-- From line 9 to 41, it is the top bar format. Made by Lechuan-->
+    <!-- From line 9 to 41, it is the top bar format. Lechuan-->
     
     <FrameLayout 
         android:layout_width="fill_parent"

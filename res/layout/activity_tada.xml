@@ -62,7 +62,7 @@
         android:layout_height="0.5dp"
         android:background="@color/white">
    	</FrameLayout>  
-   	<!-- From line 7 to 64, it is the top bar format.-->
+   	<!-- From line 7 to 64, it is the top bar format.Lechuan-->
    	
     <FrameLayout
         android:layout_width="match_parent"

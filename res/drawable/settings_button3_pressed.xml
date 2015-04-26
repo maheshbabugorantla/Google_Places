@@ -4,7 +4,9 @@
         android:color="@color/transparent"
         android:width="1dp"
         />
+    <!-- using transparent color in stroke to match the margin color with the theme color -->
     <solid android:color="@color/transparent"/>
+    <!-- when the button be pressed, the button will show up the same color as the theme color -->
     
 
 </shape>

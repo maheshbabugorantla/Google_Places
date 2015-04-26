@@ -61,7 +61,7 @@
         android:layout_height="0.5dp"
         android:background="@color/white">
    	</FrameLayout>  
-   	<!-- From line 8 to 51, it is the top bar format.-->
+   	<!-- From line 8 to 51, it is the top bar format. Lechuan-->
    	  
 	<com.hb.views.PinnedSectionListView
 	    android:id="@+id/reviewList"

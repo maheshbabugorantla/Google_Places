@@ -235,7 +235,7 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
     	   }});
        //set onClickListener on the "cancel" button 
        Button buttonCancel = (Button)findViewById(R.id.cancelbutton);
-       //change the background of the cancel button
+       //change the background of the cancel button Lechuan
        buttonCancel.setBackgroundResource(R.drawable.barcode);
        buttonCancel.setText(" ");
        buttonCancel.setOnClickListener(new Button.OnClickListener(){
@@ -255,7 +255,7 @@ private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		}});
        //set onClickListener on the "Tips" button 
        Button buttonTip = (Button)findViewById(R.id.tipbutton);
-       //change the background of the tip button
+       //change the background of the tip button Lechuan
        buttonTip.setBackgroundResource(R.drawable.tip);
        buttonTip.setText(" ");
        buttonTip.setOnClickListener(new Button.OnClickListener(){
