@@ -1,24 +1,14 @@
 package edu.purdue.tada;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources.Theme;
-import android.graphics.Color;
-import android.view.ContextThemeWrapper;
 
 public class SettingsActivity extends BaseFragment {
 
@@ -28,8 +18,6 @@ public class SettingsActivity extends BaseFragment {
 	    
 		//Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.setting_layout, container, false);
-		// Apply the color to the fragment's background
-		//view.setBackgroundColor(backGroundColor);
 		
 		Button btn1 = (Button) view.findViewById(R.id.settings_button1);
 		//set up button one to go to User Settings without the SettingsGroup functionality - Nicole Missele 3/20/15
@@ -38,6 +26,7 @@ public class SettingsActivity extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				// Load the User Settings page on the screen
 				TabGroup.container.removeAllViews();
 				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 						"UserSettings",
@@ -69,12 +58,13 @@ public class SettingsActivity extends BaseFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						//sign in user
-							TabGroup.container.removeAllViews();
-							TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
-							"ResearchSettings",
-							new Intent(getActivity(), ResearchSettings.class)
-								.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-							.getDecorView());
+						// Load the Research Settings page on the screen
+						TabGroup.container.removeAllViews();
+						TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
+						"ResearchSettings",
+						new Intent(getActivity(), ResearchSettings.class)
+							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+						.getDecorView());
 					}
 						
 				});
@@ -90,11 +80,13 @@ public class SettingsActivity extends BaseFragment {
 				builder.create().show();
 			}
 		});
+		
 		Button btn3 = (Button) view.findViewById(R.id.settings_button3);
 		btn3.setOnClickListener(new View.OnClickListener() {
 		
 			@Override
 			public void onClick(View v) {
+				// Load the About page on the screen
 				TabGroup.container.removeAllViews();
 				TabGroup.container.addView(TabGroup.group.getLocalActivityManager().startActivity(
 		                "About",
@@ -111,7 +103,6 @@ public class SettingsActivity extends BaseFragment {
 		super.onCreate(savedInstanceState);
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		//setContentView(R.layout.setting_layout);
-		System.out.println("in settings activity");
 	}
 }
 		

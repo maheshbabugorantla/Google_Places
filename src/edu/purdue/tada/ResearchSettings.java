@@ -8,6 +8,7 @@ public class ResearchSettings extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.research_settings);
+		// Set so the back button override knows the page is not on original settings page
 		TabGroup.isSetting = false;
 		//Button alarm1 = (Button)findViewById(R.id.research_button1);
 		

@@ -1,17 +1,13 @@
 package edu.purdue.tada;
 
-import java.util.ArrayList;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
  
 // Handles the swipe functionality between the main pages of the app
 public class ScreenSwipe extends FragmentStatePagerAdapter {
  
-	private int NUM_COUNT = 3;
-    // Creates a ScreenSwipe FragmentPagerAdapter with the fragments that are included 
+    // Creates a ScreenSwipe FragmentPagerAdapter
     public ScreenSwipe(FragmentManager fm) {
         super(fm);
     }
@@ -19,21 +15,22 @@ public class ScreenSwipe extends FragmentStatePagerAdapter {
     // Returns each view's position in the swipeable interface
     @Override
     public Fragment getItem(int position) {
+    	// If at first page, return Record page
         if (position == 0)
         {
-        	System.out.println("In Tada");
         	return new TadaActivity();
         }
+        // If at second page, return Review page
         else if (position == 1)
         {
-        	System.out.println("In Review");
         	return new ReviewActivity();
         }
+        // If at third page, return More page
         else if (position == 2)
         {
-        	System.out.println("In Settings");
         	return new SettingsActivity();
         }
+        // If none of the above, return null
 		return null;
     }
  
@@ -41,9 +38,10 @@ public class ScreenSwipe extends FragmentStatePagerAdapter {
     // Returns the number of views to swipe through
     @Override
     public int getCount() {
-        return NUM_COUNT;
+        return 3;
     }
     
+    // Return POSITION_NONE so the viewpager is updated when you notify their is an update
     public int getItemPosition(Object obj)
     {
     	return POSITION_NONE;

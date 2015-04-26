@@ -45,12 +45,11 @@ public class TabGroup extends ActivityGroup {
         super.onCreate(savedInstanceState);
         group = this;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        group = this; // define group for tabs to appear over all activities launched inside app -- Nicole Missele 4/12/15
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.tada_layout);
         
         container = (FrameLayout)findViewById(R.id.container);
-        rGroup = (RadioGroup)findViewById(R.id.tabGroup);
+        //rGroup = (RadioGroup)findViewById(R.id.tabGroup);
         radio0 = (RadioButton)findViewById(R.id.tab_0);
         radio1 = (RadioButton)findViewById(R.id.tab_1);
         radio2 = (RadioButton)findViewById(R.id.tab_2);
@@ -72,6 +71,8 @@ public class TabGroup extends ActivityGroup {
                 new Intent(TabGroup.this, ViewPagerContainer.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 .getDecorView());
+        // Start listening for the user to swipe between screens
+        startViewPagerListener();
           
         /*rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -124,22 +125,25 @@ public class TabGroup extends ActivityGroup {
 					}
 				}
 		}); */
+        // If the first radio button is pressed
         radio0.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				if (ActivityBridge.getInstance().isRadio0() == false)
 				{
+					// If in the no longer in the viewPager since in a nested settings page
 					if (isSetting == false)
 					{
 						isSetting = true;
+						// Reload the viewPager
 		    			container.removeAllViews();
 		    			container.addView(getLocalActivityManager().startActivity(
 		    	                "Module1",
 		    	                new Intent(TabGroup.this, ViewPagerContainer.class)
 		    	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		    	                .getDecorView());
-		    			ViewPagerContainer.mViewPager.setCurrentItem(0, true);
+		    			// Start listening for the user to swipe between screens
 		    			startViewPagerListener();
 					}
 					// Slide the page to the Record screen
@@ -166,16 +170,18 @@ public class TabGroup extends ActivityGroup {
 			public void onClick(View v) {
 				if (ActivityBridge.getInstance().isRadio1() == false)
 				{
+					// If in the no longer in the viewPager since in a nested settings page
 					if (isSetting == false)
 					{
 						isSetting = true;
+						// Reload the viewPager
 		    			container.removeAllViews();
 		    			container.addView(getLocalActivityManager().startActivity(
 		    	                "Module1",
 		    	                new Intent(TabGroup.this, ViewPagerContainer.class)
 		    	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		    	                .getDecorView());
-		    			ViewPagerContainer.mViewPager.setCurrentItem(1, true);
+		    			// Start listening for the user to swipe between screens
 		    			startViewPagerListener();
 					}
 					// Slide the page to the Review Screen
@@ -202,20 +208,22 @@ public class TabGroup extends ActivityGroup {
 			public void onClick(View v) {
 				if (ActivityBridge.getInstance().isRadio2() == false)
 				{
-					// Slide the page to the More Screen
+					// If in the no longer in the viewPager since in a nested settings page
 					if (isSetting == false)
 					{
 						isSetting = true;
+						// Reload the viewPager
 		    			container.removeAllViews();
 		    			container.addView(getLocalActivityManager().startActivity(
 		    	                "Module1",
 		    	                new Intent(TabGroup.this, ViewPagerContainer.class)
 		    	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 		    	                .getDecorView());
-		    			ViewPagerContainer.mViewPager.setCurrentItem(2, true);
+		    			// Start listening for the user to swipe between screens
 		    			startViewPagerListener();
 					}
 					isSetting = true;
+					// Slide the page to the Review Screen
 					ViewPagerContainer.mViewPager.setCurrentItem(2, true);
 	                //set the more button to "pressed" status
 	                radio2.setTextColor(Color.parseColor("#FFFFFF"));
@@ -233,35 +241,42 @@ public class TabGroup extends ActivityGroup {
 			}
         	
         });
-        startViewPagerListener();
+        
     } 
     
     
-    //commented out since removed SettingsGroup Nicole Missele - 3/22/15
     public void onBackPressed() {  
-    	// In the more tab if you are in any of the settings, if you press the back button
-    	// it will take you back to original More tab
+    	// If the settings radio button is currently active
     	if (ActivityBridge.getInstance().isRadio2() == true)
     	{
+    		// If in a nested settings page
     		if (isSetting == false)
     		{
+    			// Set it so its on original settings page
     			isSetting = true;
+    			// Reload the viewPager
     			container.removeAllViews();
     			container.addView(getLocalActivityManager().startActivity(
     	                "Module1",
     	                new Intent(TabGroup.this, ViewPagerContainer.class)
     	                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
     	                .getDecorView());
+    			// Set the viewPager screen to the settings page
     			ViewPagerContainer.mViewPager.setCurrentItem(2, true);
+    			// Start listening for the user to swipe between screens
     			startViewPagerListener();
     		}
+    		// If on original settings page
     		else
     		{
+    			// Exit the app
     			finish();
     		}
     	}
+    	// If any of the other radio buttons are currently active
     	else
     	{
+    		// Exit the app
     		finish();
     	}   	
     	/*
@@ -293,6 +308,7 @@ public class TabGroup extends ActivityGroup {
 
     } 
     
+    // Listening for the user to swipe between screens
     public void startViewPagerListener()
     {
     	ViewPagerContainer.mViewPager.setOnPageChangeListener(new OnPageChangeListener () {
