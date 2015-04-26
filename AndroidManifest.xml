@@ -82,5 +82,5 @@
             android:name="edu.purdue.tada.ResearchSettings"
             />
     </application>
-
+ 
 </manifest>

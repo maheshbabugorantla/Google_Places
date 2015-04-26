@@ -1,5 +1,9 @@
 package edu.purdue.tada;
-
+/* 
+ * 	----ABOUT (Spring 2014)----
+ * This is not longer used because it would not allow the Researcher settings login dialog box appear.  The functionality of this ActivityGroup
+ * is still accomplished by using the TabGroup Activity Group - Nicole Missele 3/20/15 
+ */
 import android.app.ActivityGroup;  
 import android.content.Intent;  
 import android.os.Bundle;  
