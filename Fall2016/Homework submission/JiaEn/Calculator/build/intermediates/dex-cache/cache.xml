@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-21.0.3_f922cfb32cd3590555469980ee218691ddfbefcf\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-21.0.3_3be8ab3b2774918397388ac789706f2b9d2d0982\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-21.0.3_cc74bb2d618efd0159978ace5c40d2b3ec3e07a5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="6d7c646259fa0136c24649937d5dc076af638422">
+        <dex dex="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_823b183eab63cba629b201ebc47cc9ff84a6c141\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Jia En Chua\.gradle\caches\modules-2\files-2.1\net.objecthunter\exp4j\0.4.4\31fc16920f12de42b8605fe33e6036786626fe11\exp4j-0.4.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="31fc16920f12de42b8605fe33e6036786626fe11">
+        <dex dex="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\transforms\dex\debug\folders\1000\10\exp4j-0.4.4_456b1d5afb6b313ef8a21c7dbceb22ca9f8245c7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-21.0.3_99c1ccd53a7fa88549c32ac544faa9e96cd17557\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="8e0789cd43ab16a2029ec8c977a7232ee989ab73">
+        <dex dex="C:\Users\Jia En Chua\AndroidStudioProjects\Calculator\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_777c21d26daf5df9a57c150abaca90f1aa8dfb76\classes.dex" />
+    </item>
+
+</items>
