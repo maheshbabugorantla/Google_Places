@@ -1,0 +1,30 @@
+<resources>
+<string name="app_name">Search Food</string>
+<string name="menu_1">Clear History</string>
+<string name="menu_2">Hide History</string>
+<string name="searchable">Searchable</string>
+<string name="menu_search">Search</string>
+
+<string-array name="food">
+
+
+    <item>Apple</item>
+    <item>Bacon</item>
+    <item>Beer</item>
+    <item>Broccoli</item>
+    <item>Buritto</item>
+    <item>Cake</item>
+    <item>Coleslaw</item>
+    <item>Cheese</item>
+    <item>Chicken</item>
+    <item>Chips</item>
+    <item>Dumpling</item>
+    <item>Hamburger</item>
+    <item>Fried Rice</item>
+    <item>Lobster</item>
+    <item>Pizza</item>
+    <item>Sausage</item>
+
+</string-array>
+
+</resources>
