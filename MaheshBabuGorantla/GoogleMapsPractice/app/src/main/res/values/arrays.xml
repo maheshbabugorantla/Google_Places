@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- List of Restaurant Categories -->
+    <string-array name="Restaurant_Categories_Entries">
+        <item>Delivery</item>
+        <item>Dine-out</item>
+        <item>Takeaway</item>
+        <item>Cafes</item>
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+    </string-array>
+
+    <string-array name="Restaurant_Categories_EntryValues">
+        <item>Delivery</item>
+        <item>Dine-out</item>
+        <item>Takeaway</item>
+        <item>Cafes</item>
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+    </string-array>
+
+</resources>

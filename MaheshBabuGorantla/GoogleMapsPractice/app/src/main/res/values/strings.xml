@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GoogleMapsPractice</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_gps">GPS</string>
+
+    <!-- App Preferences -->
+    <!-- Restaurants Categories -->
+    <string name="pref_categories_key">Categories</string>
+    <string name="pref_categories_label">Categories</string>
+    <string name="pref_default_category">Lunch</string>
+
+    <!-- Google API Key -->
+    <string name="google_maps_key">AIzaSyDEciyXErG3z09m43v9PT_1eEIFKcoFtnk</string>
+
+</resources>
