@@ -12,12 +12,10 @@ import com.example.maheshbabugorantla.stepscounter.R;
 
 public class Utility {
 
-
     public int getMaxStepsCount(Context context) {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String stepsCount = sharedPreferences.getString(context.getString(R.string.pref_steps_goal_key), context.getString(R.string.pref_default_steps_goal));
         return Integer.parseInt(stepsCount);
     }
-
 }

@@ -33,11 +33,11 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
 
+        String newStepsGoals = newValue.toString();
+
         // handling when the user has input the new Steps Goal
         if(preference instanceof EditTextPreference) {
-            EditTextPreference editTextPreference = (EditTextPreference) preference;
-            String newStepsGoals = editTextPreference.getText();
-            preference.setSummary(newStepsGoals);
+             preference.setSummary(newStepsGoals);
         }
 
         return true;
@@ -55,7 +55,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
             // Adding the settings using settings preferences xml file
             addPreferencesFromResource(R.xml.settings_preferences);
-
 
             new SettingsActivity().bindPreferenceSummarytoValue(findPreference(getString(R.string.pref_steps_goal_key)));
         }
