@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">StepsCounter</string>
+
+    <!--Menu Action Bar Items-->
+    <string name="action_settings">Settings</string>
+
+    <!--App Preferences-->
+    
+    <!--Steps Goal-->
+    <string name="pref_steps_goal_key">Steps Goal</string> 
+    <string name="pref_steps_goal_label">Steps Goal</string>
+    <string name="pref_default_steps_goal">10000</string>
+
+    <!--Google API KEY-->
+
 </resources>

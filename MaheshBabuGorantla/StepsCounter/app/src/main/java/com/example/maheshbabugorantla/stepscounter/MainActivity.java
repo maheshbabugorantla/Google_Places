@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.hardware.Sensor;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      int oldSteps = 0;
      int newSteps = 0;
 
+     static final String OLD_STEPS = "old steps";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +52,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         circularProgressBar = (CircularProgressBar) findViewById(R.id.progressBar);
-        circularProgressBar.setMax(1000);
+        circularProgressBar.setMax(10000);
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+    }
+
+    /**
+     *  This function is called immediately after onCreate
+     *  Author: Mahesh Babu Gorantla , Date: Feb 09, 2017
+     */
     @Override
     protected void onStart() {
 
@@ -76,7 +89,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    // This function is called when the System shuts down the app to free up the resources
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        System.out.println("New Steps: " + newSteps);
+        outState.putString(OLD_STEPS, String.valueOf(newSteps));
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    /**
+     * This function is called when the System shuts down the app to free up the resources
+     * Author: Mahesh Babu Gorantla , Date: Feb 09, 2017
+     * **/
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -84,7 +107,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager.unregisterListener(this, mStepsCounter); // UnRegistering the Sensor when the Application is not in Focus
     }
 
-    // This function is called whenever there is a new sensor Event
+    /**
+     * This function is called whenever there is a new sensor Event
+     * Author: Mahesh Babu Gorantla , Date: Feb 09, 2017
+     * **/
     @Override
     public void onSensorChanged(SensorEvent event) {
 
@@ -100,7 +126,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    @Override
+    /**
+     * This is used to determine if a run-time permission has been granted by the user/not
+     * Author: Mahesh Babu Gorantla , Date: Feb 10, 2017
+     **/
+     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         runTimePermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }

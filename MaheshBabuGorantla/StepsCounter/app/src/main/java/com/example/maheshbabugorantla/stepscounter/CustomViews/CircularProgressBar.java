@@ -13,12 +13,15 @@ import com.example.maheshbabugorantla.stepscounter.R;
 
 /**
  * Created by MaheshBabuGorantla on 2/10/2017.
+ *
+ * 
  */
 
 public class CircularProgressBar extends View {
 
     /**
-     * The Below variables are used to set the thickness for the Circular Progress Bar
+     *  The Below variables are used to set the thickness for the Circular Progress Bar
+     *  Author: Mahesh Babu Gorantla , Date: Feb 10, 2017
      **/
     private float strokeWidth = 100;
     private int progress = 0;
@@ -26,14 +29,18 @@ public class CircularProgressBar extends View {
     private int max = 100;
 
     /**
-     * Start the Progress at 12 o'clock
+     *  Start the Progress at 12 o'clock
+     *  Author: Mahesh Babu Gorantla , Date: Feb 10, 2017
      **/
     private int startAngle = 0;
     private int color = Color.rgb(242, 133, 0);
     private RectF rectF;
 
-    // Paint objects hold the style and color information about how to draw geometries,
-    // text and bitmaps.
+    /**
+     *  Paint objects hold the style and color information about how to draw geometries,
+     *  text and bitmaps.
+     *  Author: Mahesh Babu Gorantla , Date: Feb 10, 2017
+     * */
     private Paint backgroundPaint;
     private Paint foregroundPaint;
 
@@ -42,7 +49,10 @@ public class CircularProgressBar extends View {
         initialize(context, attrs);
     }
 
-
+    /**
+    *   This is used to initialize the CircularProgressBar View Properties
+     *  Author: Mahesh Babu Gorantla , Date: Feb 10, 2017
+    * */
     private void initialize(Context context, AttributeSet attributeSet) {
 
         rectF = new RectF();
@@ -71,6 +81,7 @@ public class CircularProgressBar extends View {
             typedArray.recycle();
         }
 
+        // Setting the background and foreground colors
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         backgroundPaint.setColor(adjustAlpha(color, 1.3f));
         backgroundPaint.setStyle(Paint.Style.STROKE);
@@ -82,6 +93,10 @@ public class CircularProgressBar extends View {
         foregroundPaint.setStrokeWidth(strokeWidth);
     }
 
+    /**
+     * This is used the adjust the Alpha factor in the color.
+     * Author: Mahesh Babu Gorantla , Date: Feb 10, 2017
+     * */
     private int adjustAlpha(int color, float factor) {
         int alpha = Math.round(Color.alpha(color)*factor);
         int red = Color.red(color);
@@ -91,6 +106,10 @@ public class CircularProgressBar extends View {
         return Color.argb(alpha, red, green, blue);
     }
 
+    /**
+     *  This is used by the LayoutManager to specialize the calculation of  children of the Custom View
+     *  Author: Mahesh Babu Gorantla , Date: Feb 10, 2017
+     * */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
@@ -101,6 +120,10 @@ public class CircularProgressBar extends View {
         rectF.set(0 + strokeWidth/2, 0 + strokeWidth/2, min - strokeWidth/2, min - strokeWidth/2);
     }
 
+    /**
+    *   This Draw the View on the Screen
+     *   Author: Mahesh Babu Gorantla , Date: Feb 10, 2017
+     * */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -110,11 +133,19 @@ public class CircularProgressBar extends View {
         canvas.drawArc(rectF, startAngle, angle, false, foregroundPaint);
     }
 
+    /**
+     *  This is used to update the Progress Bar as the user's step Count Starts Increasing
+    *   Author: Mahesh Babu Gorantla , Date: Feb 10, 2017
+    * */
     public void setProgress(int progress) {
         this.progress = progress;
         invalidate(); // This notifies the view to redraw itself which in turn calls "onDraw".
     }
 
+    /**
+     *  This will be used in conjunction with the user preference of Maximum Step Count of the Day
+     *  Author: Mahesh Babu Gorantla, Date: Feb 10, 2017
+     * */
     public void setMax(int max) {
         this.max = max;
         invalidate();
