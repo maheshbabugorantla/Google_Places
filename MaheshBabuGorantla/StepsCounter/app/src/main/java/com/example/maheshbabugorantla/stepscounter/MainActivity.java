@@ -1,7 +1,9 @@
 package com.example.maheshbabugorantla.stepscounter;
 
 import android.*;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
@@ -9,10 +11,13 @@ import android.hardware.Sensor;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maheshbabugorantla.stepscounter.CustomViews.CircularProgressBar;
+import com.example.maheshbabugorantla.stepscounter.HelperClasses.Utility;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -46,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         runTimePermissions.checkNetworkStateAccess();
         runTimePermissions.checkWriteExternalStorage();
 
+        getSupportActionBar().show();
+
         // Checking for the presence of the StepsCounter Sensor on the User's Device.
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mStepsCounter = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -56,9 +63,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        // This adds items to the action Bar if it is present
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle ActionBar item clicks here
+        // The action bar will automatically handle clicks on the Home/Up button
+        // so long as you specify a parent Activity in AndroidManifest.xml
+
+        int id = item.getItemId();
+
+        switch(id) {
+            case R.id.action_settings: {
+                startActivity(new Intent(this, SettingsActivity.class));
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -69,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onStart() {
 
         super.onStart();
+
+        // Fetching the User Settings
+        circularProgressBar.setMax(new Utility().getMaxStepsCount(this));
 
         mRunning = true;
 
