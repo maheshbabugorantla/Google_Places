@@ -1,5 +1,6 @@
 package com.example.maheshbabugorantla.stepscounter;
 
+import android.*;
 import android.content.Context;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,15 +11,23 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.maheshbabugorantla.stepscounter.CustomViews.CircularProgressBar;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     // Variables for the SensorManager
     SensorManager mSensorManager;
-    Sensor mSensor = null;
+    Sensor mStepsCounter = null;
 
     boolean mRunning = false;
 
     RunTimePermissions runTimePermissions; // USed to ask the User for the RunTime Permissions
+
+     CircularProgressBar circularProgressBar;
+
+     // Steps Count
+     int oldSteps = 0;
+     int newSteps = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +45,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         // Checking for the presence of the StepsCounter Sensor on the User's Device.
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        mStepsCounter = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+
+
+        circularProgressBar = (CircularProgressBar) findViewById(R.id.progressBar);
+        circularProgressBar.setMax(1000);
     }
 
     @Override
@@ -48,11 +61,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         Toast.makeText(this, "Inside onStart", Toast.LENGTH_SHORT).show();
 
+        oldSteps = newSteps;
+
         // Registering the StepCounter Listener to listen for the changes
-        if(mSensor != null) {
+        if(mStepsCounter != null) {
             // Here the sampling frequency is set to the rate that is suitable for the user interface which has a value of 2
             Toast.makeText(this, "Registering StepsCount Listener", Toast.LENGTH_SHORT);
-            mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+            mSensorManager.registerListener(this, mStepsCounter, SensorManager.SENSOR_DELAY_UI);
         }
         else {
             Toast.makeText(this, "Step Counter not available!", Toast.LENGTH_LONG).show();
@@ -61,24 +76,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    // This function is called when the System shuts down the app to free up the resources
     @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Toast.makeText(this, "Inside onStop()", Toast.LENGTH_SHORT).show();
+    protected void onDestroy() {
+        super.onDestroy();
         mRunning = false;
-        mSensorManager.unregisterListener(this, mSensor); // UnRegistering the Sensor when the Application is not in Focus
-    }
-
-    // W
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Toast.makeText(this, "Inside onRestart", Toast.LENGTH_SHORT).show();
+        mSensorManager.unregisterListener(this, mStepsCounter); // UnRegistering the Sensor when the Application is not in Focus
     }
 
     // This function is called whenever there is a new sensor Event
@@ -86,7 +89,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
 
         if(mRunning) {
-            ((TextView) findViewById(R.id.stepsCount)).setText(String.valueOf(event.values[0]));
+            newSteps = Math.round(event.values[0]);
+            ((TextView) findViewById(R.id.stepsCount)).setText(String.valueOf(newSteps - oldSteps));
+            circularProgressBar.setProgress(Math.round(newSteps - oldSteps));
         }
     }
 
