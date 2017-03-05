@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ToggleSwitch" parent="Theme.AppCompat.Light">
+
+        <item name="colorControlActivated">@color/indigo</item>
+        <item name="colorSwitchThumbNormal">@color/pink</item>
+        <item name="android:colorForeground">@color/grey</item>
+
+    </style>
+
 </resources>

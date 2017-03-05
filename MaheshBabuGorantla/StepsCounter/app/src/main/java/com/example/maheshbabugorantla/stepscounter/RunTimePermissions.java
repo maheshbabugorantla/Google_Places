@@ -7,20 +7,28 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import android.Manifest;
+import android.util.Log;
 
 /**
- * Created by MaheshBabuGorantla on 2/9/2017.
+ * Description: This class is used handle all the run-time permissions that are accessed by the
+ *              application to access the resources on the device by the app.
+ * Author: MaheshBabuGorantla
+ * Created On: 2/9/2017
+ * Last Updated: 3/4/2017
  */
 
 public class RunTimePermissions {
 
-    private Context applicationContext; // Stores the Application Context
-    private Activity currentActivity; // Stores the Activity that is accessing these run-Time Permissions.
+    private Context applicationContext;
+    private Activity currentActivity;
 
-    private static final int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 538; // Access the Fine Location
+    private static final int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 538;
     private static final int MY_PERMISSIONS_ACCESS_NETWORK_STATE = 196;
     private static final int MY_PERMISSIONS_CHECK_INTERNET_ACCESS = 390;
     private static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 47;
+    private static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 55;
+
+    protected static final String TAG = "RunTimePermissions";
 
     public RunTimePermissions(Context context, Activity activity) {
         this.applicationContext = context;
@@ -29,10 +37,20 @@ public class RunTimePermissions {
 
     // This Function displays a dialog box asynchronously to request the user for permission to access the Fine GPS Location of the Device
     public void checkLocationAccess() {
-        int permissionCheck = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION);
 
-        if(permissionCheck != PackageManager.PERMISSION_GRANTED) {
+        int fineLocation_permissionCheck = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION);
+        int coarseLocation_permissionCheck = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        Log.i(TAG, "Location Access Permission");
+
+        if(fineLocation_permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "Fetching Fine Location Access Permission");
             ActivityCompat.requestPermissions(currentActivity, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_ACCESS_FINE_LOCATION); // The users response can be accessed using MY_PERMISSIONS_ACCESS_FINE_LOCATION.
+        }
+
+        if(coarseLocation_permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "Fetching Coarse Location Access Permission");
+            ActivityCompat.requestPermissions(currentActivity, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSION_ACCESS_COARSE_LOCATION);
         }
     }
 
@@ -68,16 +86,27 @@ public class RunTimePermissions {
     // Handling the Application Functionality according the User's Permissions
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
+        Log.i(TAG, "Inside onRequestPermissionsResult");
+
         switch (requestCode) {
             case MY_PERMISSIONS_ACCESS_FINE_LOCATION: {
 
                 if(grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-
+                    Log.i(TAG, "Fine Location access permission granted");
                 } else {
                     // Disable any application functionalities that are dependent on the above permission.
                 }
 
                 break;
+            }
+
+            case MY_PERMISSION_ACCESS_COARSE_LOCATION: {
+
+                if(grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Log.i(TAG, "Coarse Location access permission granted");
+                } else {
+                    // Disable any application functionalities that are dependent on the above permission.
+                }
             }
 
             case MY_PERMISSIONS_ACCESS_NETWORK_STATE: {
@@ -112,6 +141,4 @@ public class RunTimePermissions {
             }
         }
     }
-
-
 }

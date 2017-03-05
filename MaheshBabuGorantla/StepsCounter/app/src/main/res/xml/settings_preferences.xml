@@ -9,6 +9,12 @@
         android:title="@string/pref_steps_goal_label"
         android:defaultValue="@string/pref_default_steps_goal"
         android:inputType="number"
-        android:maxLength="7" />
+        android:maxLength="6" />
+
+    <SwitchPreference
+        android:key="@string/pref_google_location_services_key"
+        android:title="@string/pref_google_location_services_label"
+        android:defaultValue="true"
+        android:theme="@style/ToggleSwitch" />
 
 </PreferenceScreen>

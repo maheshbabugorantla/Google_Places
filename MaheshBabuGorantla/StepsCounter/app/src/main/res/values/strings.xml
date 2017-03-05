@@ -13,4 +13,17 @@
 
     <!--Google API KEY-->
 
+    <!-- Toggle Button for the Google Location Services -->
+    <string name="pref_google_location_services_key">GLS Switch</string>
+    <string name="pref_google_location_services_label">Google Location Services</string>
+
+    <string name="latitude_label">Latitude</string>
+    <string name="longitude_label">Longitude</string>
+    <string name="last_update_time_label">Last location update time</string>
+    <string name="default_gps_text">0.0</string>
+
+    <string name="start_updates">Start updates</string>
+    <string name="stop_updates">Stop updates</string>
+    <string name="location_updated_message">Location updated</string>
+
 </resources>

@@ -6,6 +6,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
+import android.util.Log;
 
 /**
  *  Created by MaheshBabuGorantla on 2/10/2017.
@@ -13,6 +15,8 @@ import android.preference.PreferenceManager;
  *  Date Created: Feb 10, 2017, Last Updated: Feb 10, 2017
  */
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
+
+    private final String TAG = "SettingsActivity";
 
     /**
      *  This is used to create the SettingsActivity
@@ -33,13 +37,21 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-        String newStepsGoals = newValue.toString();
-
         // handling when the user has input the new Steps Goal
         if(preference instanceof EditTextPreference) {
+            String newStepsGoals = newValue.toString();
              preference.setSummary(newStepsGoals);
         }
 
+        if(preference instanceof SwitchPreference) {
+            String locationServicesEnabled = newValue.toString();
+            if(locationServicesEnabled == "true") {
+                preference.setSummary("ON");
+            }
+            else {
+                preference.setSummary("OFF");
+            }
+        }
         return true;
     }
 
@@ -56,7 +68,9 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             // Adding the settings using settings preferences xml file
             addPreferencesFromResource(R.xml.settings_preferences);
 
+            // Fetching the Keys that reference different settings on the settings page
             new SettingsActivity().bindPreferenceSummarytoValue(findPreference(getString(R.string.pref_steps_goal_key)));
+            new SettingsActivity().bindPreferenceSummarytoValue(findPreference(getString(R.string.pref_google_location_services_key)));
         }
     }
 
@@ -70,6 +84,10 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         preference.setOnPreferenceChangeListener(this);
 
         // Immediately make changes to the user preferences as soon as there is a change
-        onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
+        if (preference instanceof SwitchPreference) {
+            onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getBoolean(preference.getKey(), true));
+        } else {
+            onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
+        }
     }
 }
