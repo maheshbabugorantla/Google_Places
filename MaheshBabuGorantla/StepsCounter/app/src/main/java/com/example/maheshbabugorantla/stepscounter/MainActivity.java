@@ -125,11 +125,10 @@ public class MainActivity extends AppCompatActivity implements
     /**
      *  UI Widgets
      * */
-    protected Button mStartUpdatesButton;
-    protected Button mStopUpdatesButton;
     protected TextView mLastUpdatedTimeTextView;
     protected TextView mLatitudeTextView;
     protected TextView mLongitudeTextView;
+    protected Button mStopUpdatesButton;
 
     /**
      * Labels
@@ -177,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements
         // Associated all the views to specific properties
         mLatitudeTextView = (TextView) findViewById(R.id.latitude_text);
         mLongitudeTextView = (TextView) findViewById(R.id.longitude_text);
-        mStartUpdatesButton = (Button) findViewById(R.id.start_updates_button);
         mStopUpdatesButton = (Button) findViewById(R.id.stop_updates_button);
         mLastUpdatedTimeTextView = (TextView) findViewById(R.id.last_update_time_text);
 
@@ -285,6 +283,12 @@ public class MainActivity extends AppCompatActivity implements
         return super.onCreateOptionsMenu(menu);
     }
 
+
+    /**
+     * Created by: Mahesh Babu Gorantla
+     * Created on: Feb 09, 2017
+     * Last Updated on: Mar 05, 2017
+     * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -297,6 +301,9 @@ public class MainActivity extends AppCompatActivity implements
         switch(id) {
             case R.id.action_settings: {
                 startActivity(new Intent(this, SettingsActivity.class));
+            }
+            case R.id.action_current_location: {
+                checkLocationSettings();
             }
         }
 
@@ -317,14 +324,6 @@ public class MainActivity extends AppCompatActivity implements
 
         // Fetching the User Settings
         circularProgressBar.setMax(new Utility().getMaxStepsCount(this));
-        locationServicesEnabled = new Utility().locationServicesEnabled(this);
-
-        if(locationServicesEnabled){
-            /** This checks to see of the GPS Provider is enabled if not requests the user
-             *  with the appropriate permissions to enable the Google Location Services
-             * */
-            checkLocationSettings();
-        }
 
         mRunning = true;
 
@@ -583,7 +582,6 @@ public class MainActivity extends AppCompatActivity implements
                 public void onResult(@NonNull Status status) {
                     Log.i(TAG, "StartedLocationUpdates: inside onResult");
                     mRequestingLocationUpdates = true;
-                    setButtonsEnabledState();
                 }
             });
         }
@@ -593,25 +591,7 @@ public class MainActivity extends AppCompatActivity implements
      * Updating all the UI Fields
      * */
     private void updateUI() {
-        setButtonsEnabledState();
         updateLocationUI();
-    }
-
-    /**
-     * Disables both buttons when functionality is disabled due to insufficient location settings.
-     * Otherwise this ensures that only button is enabled at any time. The Start Updates button is
-     * enabled if the user is not requesting location updates. The Stop Updates button is enabled
-     * if the user is requesting location updates.
-     * */
-    private void setButtonsEnabledState() {
-
-        if(mRequestingLocationUpdates) {
-            mStartUpdatesButton.setEnabled(false);
-            mStopUpdatesButton.setEnabled(true);
-        } else {
-            mStopUpdatesButton.setEnabled(false);
-            mStartUpdatesButton.setEnabled(true);
-        }
     }
 
     /**
@@ -646,8 +626,7 @@ public class MainActivity extends AppCompatActivity implements
                 this).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
-                mRequestingLocationUpdates = false;
-                setButtonsEnabledState();
+
             }
         });
     }

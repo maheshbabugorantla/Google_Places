@@ -7,7 +7,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
-import android.util.Log;
 
 /**
  *  Created by MaheshBabuGorantla on 2/10/2017.

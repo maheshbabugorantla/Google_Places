@@ -8,6 +8,13 @@
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:icon="@drawable/settings_icon"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_current_location"
+        android:title="GPS"
+        android:icon="@drawable/maps_marker_1"
         android:orderInCategory="100"
         app:showAsAction="ifRoom" />
 
