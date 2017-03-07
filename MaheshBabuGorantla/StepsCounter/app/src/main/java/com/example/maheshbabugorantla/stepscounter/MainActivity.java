@@ -1,6 +1,5 @@
 package com.example.maheshbabugorantla.stepscounter;
 
-import android.*;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -41,10 +40,19 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  *  This Activity will be launching screen for the Android Application
@@ -57,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements
         ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
-        ResultCallback<LocationSettingsResult>{
+        ResultCallback<LocationSettingsResult>,
+        OnMapReadyCallback {
 
     protected static final String TAG = "MainActivity";
 
@@ -65,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements
     SensorManager mSensorManager;
     Sensor mStepsCounter = null;
 
-    boolean locationServicesEnabled = false;
+//    boolean locationServicesEnabled = false;
     boolean mRunning = false;
 
     RunTimePermissions runTimePermissions; // USed to ask the User for the RunTime Permissions
@@ -125,17 +134,7 @@ public class MainActivity extends AppCompatActivity implements
     /**
      *  UI Widgets
      * */
-    protected TextView mLastUpdatedTimeTextView;
-    protected TextView mLatitudeTextView;
-    protected TextView mLongitudeTextView;
     protected Button mStopUpdatesButton;
-
-    /**
-     * Labels
-     * */
-    protected String mLatitudeLabel;
-    protected String mLongitudeLabel;
-    protected String mLastUpdatedTimeLabel;
 
     /**
      *  Tracks the status of the location updates request. Value changes when the user presses the
@@ -148,6 +147,13 @@ public class MainActivity extends AppCompatActivity implements
      * */
     protected String mLastUpdateTime;
 
+
+    /**
+     * Object to Access the Google Map Fragment in the application
+     * */
+    protected GoogleMap googleMap;
+    boolean mapReady = false;
+    protected Marker currentLocMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,21 +180,19 @@ public class MainActivity extends AppCompatActivity implements
         circularProgressBar.setMax(10000);
 
         // Associated all the views to specific properties
-        mLatitudeTextView = (TextView) findViewById(R.id.latitude_text);
-        mLongitudeTextView = (TextView) findViewById(R.id.longitude_text);
         mStopUpdatesButton = (Button) findViewById(R.id.stop_updates_button);
-        mLastUpdatedTimeTextView = (TextView) findViewById(R.id.last_update_time_text);
-
-        // Setting the Labels
-        mLatitudeLabel = getResources().getString(R.string.latitude_label);
-        mLongitudeLabel = getResources().getString(R.string.longitude_label);
-        mLastUpdatedTimeLabel = getResources().getString(R.string.last_update_time_label);
 
         mRequestingLocationUpdates = false;
         mLastUpdateTime = "";
 
         // Update values using data stored in the Bundle
         updateValuesFromBundle(savedInstanceState);
+
+        /**
+         *  Setting up the MapFragment
+         * */
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.googleMap);
+        mapFragment.getMapAsync(this);
 
         /**
          *  Kickoff the process of building the GoogleApiClient, LocationRequest, and
@@ -223,9 +227,7 @@ public class MainActivity extends AppCompatActivity implements
             if (savedInstanceState.keySet().contains(KEY_LAST_UPDATED_TIME_STRING)) {
                 mLastUpdateTime = savedInstanceState.getString(KEY_LAST_UPDATED_TIME_STRING);
             }
-
             updateUI();
-
         }
     }
 
@@ -356,6 +358,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onPause() {
         super.onPause();
         // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
+        Log.i(TAG, "Inside onPause");
         if(mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
         }
@@ -364,6 +367,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i(TAG, "Inside onStop");
         mGoogleApiClient.disconnect(); // Stop listening to updates when app goes into the background
     }
 
@@ -425,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements
      * Author: Mahesh Babu Gorantla , Date: Feb 10, 2017
      **/
      @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         runTimePermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -503,9 +507,12 @@ public class MainActivity extends AppCompatActivity implements
             // Check for the integer request code originally supplied to startResolutionForResult().
             case REQUEST_CHECK_SETTINGS:
                 switch (resultCode) {
-                    case Activity.RESULT_OK:
+                    case Activity.RESULT_OK: // Need to clarify this
                         Log.i(TAG, "User agreed to make required location settings changes");
-                        startLocationUpdates();
+                        if(mGoogleApiClient.isConnected() && mRequestingLocationUpdates) {
+                            Log.i(TAG, "Started Location Updates");
+                            startLocationUpdates();
+                        }
                         break;
 
                     case Activity.RESULT_CANCELED:
@@ -544,15 +551,6 @@ public class MainActivity extends AppCompatActivity implements
                 );
 
         result.setResultCallback(this);
-    }
-
-    /**
-     * Handles the Start Updates button and requests start of location updates. Does nothing ig
-     * updates have already been requested.
-     * */
-    public void startUpdatesButtonHandler(View view) {
-        Log.i(TAG, "Started Location Updates");
-        checkLocationSettings();
     }
 
     /**
@@ -596,19 +594,24 @@ public class MainActivity extends AppCompatActivity implements
 
     /**
      *  Sets the value of the UI fields for the location latitude, longitude and last update time.
+     *  And update the location the Google Maps
      * */
     private void updateLocationUI() {
 
         if(mCurrentLocation != null) {
 
-            mLatitudeTextView.setText(String.format(Locale.getDefault(), "%s: %f", mLatitudeLabel,
+/*            mLatitudeTextView.setText(String.format(Locale.getDefault(), "%s: %f", mLatitudeLabel,
                     mCurrentLocation.getLatitude()));
 
             mLongitudeTextView.setText(String.format(Locale.getDefault(), "%s: %f", mLongitudeLabel,
                     mCurrentLocation.getLongitude()));
 
             mLastUpdatedTimeTextView.setText(String.format(Locale.getDefault(),"%s: %s", mLastUpdatedTimeLabel,
-                    mLastUpdateTime));
+                    mLastUpdateTime)); */
+
+            /* Will update the Map with a Google Marker pointing the Current User Location */
+
+
         }
     }
 
@@ -629,5 +632,32 @@ public class MainActivity extends AppCompatActivity implements
 
             }
         });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap mMap) {
+
+        /** Clearing any existing Marker at the current Device Location */
+        if(currentLocMarker != null) {
+            currentLocMarker.remove();
+        }
+
+        mapReady = true;
+        googleMap = mMap;
+        if(mCurrentLocation != null) {
+            Log.i(TAG, "Inside mCurrentLocation not Null");
+            LatLng Home_CoOrdinates = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+//            CameraPosition targetPosition = CameraPosition.builder().target(Home_CoOrdinates).build();
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(Home_CoOrdinates, 15, 65, 112)));
+
+            // Adding the Google Marker to the current location
+            MarkerOptions markerOptions = new MarkerOptions();
+            // This places a marker on the GPS Co-Ordinates of the current Location
+            markerOptions.position(Home_CoOrdinates);
+            markerOptions.title("Here"); // This is title of the Google Maps Marker
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+            currentLocMarker = googleMap.addMarker(markerOptions);
+        }
     }
 }

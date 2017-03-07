@@ -38,11 +38,11 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
         // handling when the user has input the new Steps Goal
         if(preference instanceof EditTextPreference) {
-            String newStepsGoals = newValue.toString();
-             preference.setSummary(newStepsGoals);
+            String textValue = newValue.toString();
+             preference.setSummary(textValue);
         }
 
-        if(preference instanceof SwitchPreference) {
+/*        if(preference instanceof SwitchPreference) {
             String locationServicesEnabled = newValue.toString();
             if(locationServicesEnabled == "true") {
                 preference.setSummary("ON");
@@ -50,7 +50,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             else {
                 preference.setSummary("OFF");
             }
-        }
+        } */
+
         return true;
     }
 
@@ -69,7 +70,9 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
             // Fetching the Keys that reference different settings on the settings page
             new SettingsActivity().bindPreferenceSummarytoValue(findPreference(getString(R.string.pref_steps_goal_key)));
-            new SettingsActivity().bindPreferenceSummarytoValue(findPreference(getString(R.string.pref_google_location_services_key)));
+            new SettingsActivity().bindPreferenceSummarytoValue(findPreference(getString(R.string.pref_height_key)));
+            new SettingsActivity().bindPreferenceSummarytoValue(findPreference(getString(R.string.pref_weight_key)));
+            new SettingsActivity().bindPreferenceSummarytoValue(findPreference(getString(R.string.pref_age_key)));
         }
     }
 
@@ -83,9 +86,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         preference.setOnPreferenceChangeListener(this);
 
         // Immediately make changes to the user preferences as soon as there is a change
-        if (preference instanceof SwitchPreference) {
-            onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getBoolean(preference.getKey(), true));
-        } else {
+        if (preference instanceof EditTextPreference) {
             onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
         }
     }

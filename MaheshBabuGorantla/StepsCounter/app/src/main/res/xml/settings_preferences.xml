@@ -4,17 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditTextPreference
-        android:key="@string/pref_steps_goal_key"
-        android:title="@string/pref_steps_goal_label"
-        android:defaultValue="@string/pref_default_steps_goal"
-        android:inputType="number"
-        android:maxLength="6" />
+    <PreferenceCategory android:title="Fitness Goals">
+        <EditTextPreference
+            android:key="@string/pref_steps_goal_key"
+            android:title="@string/pref_steps_goal_label"
+            android:defaultValue="@string/pref_default_steps_goal"
+            android:inputType="number"
+            android:maxLength="6" />
+    </PreferenceCategory>
 
-    <SwitchPreference
-        android:key="@string/pref_google_location_services_key"
-        android:title="@string/pref_google_location_services_label"
-        android:defaultValue="true"
-        android:theme="@style/ToggleSwitch" />
+    <PreferenceCategory
+        android:title="User Profile">
+
+        <!-- Height of the user -->
+        <EditTextPreference
+            android:key="@string/pref_height_key"
+            android:title="@string/pref_height_label"
+            android:defaultValue="@string/pref_height_default_value"
+            android:inputType="numberDecimal"
+            android:maxLength="4"
+            android:hint="@string/pref_height_default_units" />
+
+        <!-- Weight of the user -->
+        <EditTextPreference
+            android:key="@string/pref_weight_key"
+            android:title="@string/pref_weight_label"
+            android:defaultValue="@string/pref_weight_default_value"
+            android:inputType="number"
+            android:maxLength="3"
+            android:hint="@string/pref_weight_default_units" />
+
+        <!-- Age of the user -->
+        <EditTextPreference
+            android:key="@string/pref_age_key"
+            android:title="@string/pref_age_label"
+            android:defaultValue="@string/pref_age_default_value"
+            android:hint="@string/pref_age_default_units"
+            android:inputType="number"
+            android:maxLength="3" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

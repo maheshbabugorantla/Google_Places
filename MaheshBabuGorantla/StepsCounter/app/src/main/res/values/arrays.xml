@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Need to make Custom Widgets to get the Weight-->
+    <string-array name="WeightUnits">
+        <item>Kilogram</item>
+        <item>Pound</item>
+    </string-array>
+
+    <!-- Need to make custom widget to get the Height-->
+    <string-array name="HeightUnits">
+        <item>Metres</item>
+        <item>Inches</item>
+    </string-array>
+
+    <!-- Custom Widget to get the Date of Birth for Date Picker -->
+
+</resources>

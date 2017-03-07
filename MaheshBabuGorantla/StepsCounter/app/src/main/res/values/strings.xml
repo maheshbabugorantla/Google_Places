@@ -11,7 +11,8 @@
     <string name="pref_steps_goal_label">Steps Goal</string>
     <string name="pref_default_steps_goal">10000</string>
 
-    <!--Google API KEY-->
+    <!--Google Maps API KEY-->
+    <string name="google_maps_key">AIzaSyBZNV8I5fHgHHTTR2cdmtJRCRQTX62MHF8</string>
 
     <!-- Toggle Button for the Google Location Services -->
     <string name="pref_google_location_services_key">GLS Switch</string>
@@ -25,5 +26,23 @@
     <string name="start_updates">Start updates</string>
     <string name="stop_updates">Stop updates</string>
     <string name="location_updated_message">Location updated</string>
+
+    <!-- Height of a Person to input in Feet and Inches -->
+    <string name="pref_height_label">Height</string>
+    <string name="pref_height_key">Height</string>
+    <string name="pref_height_default_value">5.6</string>
+    <string name="pref_height_default_units">in Ft.inches</string>
+
+    <!-- Weight of a Person: With the Option to input Pounds or Kilos -->
+    <string name="pref_weight_label">Weight</string>
+    <string name="pref_weight_key">Weight</string>
+    <string name="pref_weight_default_value">70</string>
+    <string name="pref_weight_default_units">In Kgs</string>
+
+    <!-- Age of the Person -->
+    <string name="pref_age_label">Age</string>
+    <string name="pref_age_key">Age</string>
+    <string name="pref_age_default_value">18</string>
+    <string name="pref_age_default_units">In Years</string>
 
 </resources>
