@@ -44,7 +44,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -154,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements
     protected GoogleMap googleMap;
     boolean mapReady = false;
     protected Marker currentLocMarker;
+    LatLng Home_CoOrdinates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +169,12 @@ public class MainActivity extends AppCompatActivity implements
         runTimePermissions.checkNetworkStateAccess();
         runTimePermissions.checkWriteExternalStorage();
 
-        getSupportActionBar().show();
+        try {
+            getSupportActionBar().show();
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+        }
 
         // Checking for the presence of the StepsCounter Sensor on the User's Device.
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -250,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements
      *  One is ACCESS_FINE_LOCATION and one is ACCESS_COARSE_LOCATION. These setting control the accuracy
      *  of the current location. This ample uses ACCESS_FINE_LOCATION, as defined in the AndroidManiffest.xml
      *  <p/>
-     *  When the ACCESS_FINE_LOCATION setting is specified combines with a fast update interval (5 mins)
+     *  When the ACCESS_FINE_LOCATION setting is specified combines with a fast update interval (5 secs)
      *  the Fused Location Provider API returns location updates that are accurate to within a few feet.
      *  <p/>
      *  These settings are appropriate for mapping applications that show real-time location
@@ -264,6 +269,8 @@ public class MainActivity extends AppCompatActivity implements
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
 
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        mLocationRequest.setSmallestDisplacement(5);
     }
 
     /**
@@ -284,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements
 
         return super.onCreateOptionsMenu(menu);
     }
-
 
     /**
      * Created by: Mahesh Babu Gorantla
@@ -343,6 +349,8 @@ public class MainActivity extends AppCompatActivity implements
             Toast.makeText(this, "Step Counter not available!", Toast.LENGTH_LONG).show();
 
             // Else May be implement our own custom Algorithm to count the steps using Accelerometer and Gyroscopes
+
+            //googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(Home_CoOrdinates, 15, 65, 112)));
         }
     }
 
@@ -527,6 +535,9 @@ public class MainActivity extends AppCompatActivity implements
 
     /**
      * This is callback function that fires when a location change is noticed by the device
+     *
+     * TO DO
+     *
      * */
     @Override
     public void onLocationChanged(Location location) {
@@ -598,20 +609,25 @@ public class MainActivity extends AppCompatActivity implements
      * */
     private void updateLocationUI() {
 
-        if(mCurrentLocation != null) {
+        if(currentLocMarker != null) {
+            currentLocMarker.remove();
+        }
 
-/*            mLatitudeTextView.setText(String.format(Locale.getDefault(), "%s: %f", mLatitudeLabel,
-                    mCurrentLocation.getLatitude()));
+        if(mCurrentLocation != null && mapReady) { // It only updates the Map when the map is Ready
+            //Log.i(TAG, "Inside mCurrentLocation not Null");
+            Home_CoOrdinates = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
 
-            mLongitudeTextView.setText(String.format(Locale.getDefault(), "%s: %f", mLongitudeLabel,
-                    mCurrentLocation.getLongitude()));
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(Home_CoOrdinates, 15, 65, 112)));
 
-            mLastUpdatedTimeTextView.setText(String.format(Locale.getDefault(),"%s: %s", mLastUpdatedTimeLabel,
-                    mLastUpdateTime)); */
+            // Adding the Google Marker to the current location
+            MarkerOptions markerOptions = new MarkerOptions();
 
-            /* Will update the Map with a Google Marker pointing the Current User Location */
+            // This places a marker on the GPS Co-Ordinates of the current Location
+            markerOptions.position(Home_CoOrdinates);
+            markerOptions.title("Here"); // This is title of the Google Maps Marker
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
-
+            currentLocMarker = googleMap.addMarker(markerOptions);
         }
     }
 
@@ -644,20 +660,7 @@ public class MainActivity extends AppCompatActivity implements
 
         mapReady = true;
         googleMap = mMap;
-        if(mCurrentLocation != null) {
-            Log.i(TAG, "Inside mCurrentLocation not Null");
-            LatLng Home_CoOrdinates = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-//            CameraPosition targetPosition = CameraPosition.builder().target(Home_CoOrdinates).build();
-            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(Home_CoOrdinates, 15, 65, 112)));
 
-            // Adding the Google Marker to the current location
-            MarkerOptions markerOptions = new MarkerOptions();
-            // This places a marker on the GPS Co-Ordinates of the current Location
-            markerOptions.position(Home_CoOrdinates);
-            markerOptions.title("Here"); // This is title of the Google Maps Marker
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-            currentLocMarker = googleMap.addMarker(markerOptions);
-        }
+        updateLocationUI();
     }
 }

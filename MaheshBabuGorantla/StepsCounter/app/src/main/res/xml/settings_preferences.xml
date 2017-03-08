@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
+<android.support.v7.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <PreferenceCategory android:title="Fitness Goals">
+    <android.support.v7.preference.PreferenceCategory android:title="Fitness Goals">
         <EditTextPreference
             android:key="@string/pref_steps_goal_key"
             android:title="@string/pref_steps_goal_label"
             android:defaultValue="@string/pref_default_steps_goal"
             android:inputType="number"
             android:maxLength="6" />
-    </PreferenceCategory>
+    </android.support.v7.preference.PreferenceCategory>
 
-    <PreferenceCategory
+    <android.support.v7.preference.PreferenceCategory
         android:title="User Profile">
 
         <!-- Height of the user -->
@@ -43,6 +43,6 @@
             android:inputType="number"
             android:maxLength="3" />
 
-    </PreferenceCategory>
+    </android.support.v7.preference.PreferenceCategory>
 
-</PreferenceScreen>
+</android.support.v7.preference.PreferenceScreen>
