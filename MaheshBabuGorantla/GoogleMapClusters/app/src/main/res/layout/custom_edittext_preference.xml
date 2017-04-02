@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_marginTop="48dp"
+    android:layout_marginBottom="48dp"
+    android:overScrollMode="ifContentScrolls">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/alert_def_padding"
+        android:paddingBottom="@dimen/alert_def_padding"
+        android:paddingStart="?dialogPreferredPadding"
+        android:paddingEnd="?dialogPreferredPadding"
+        android:paddingLeft="?dialogPreferredPadding"
+        android:paddingRight="?dialogPreferredPadding">
+
+        <!-- This is used to display the Summary of the Dialog -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@android:id/message"
+            android:layout_marginBottom="@dimen/alert_def_padding"
+            android:textColor="?android:attr/textColorSecondary" />
+
+        <!-- This is used to get the text from the user android:id should as always
+             use @android:id/edit else v7.preference library will crash the App with
+             IllegalStateException if doesn't find -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@android:id/edit"
+            android:inputType="text|number|numberDecimal" />
+
+    </LinearLayout>
+</ScrollView>

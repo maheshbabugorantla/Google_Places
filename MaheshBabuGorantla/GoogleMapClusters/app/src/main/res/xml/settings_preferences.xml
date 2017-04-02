@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.preference.PreferenceCategory
+        android:title="Fitness Goals">
+        <android.support.v7.preference.EditTextPreference
+            android:key="@string/pref_steps_goal_key"
+            android:title="@string/pref_steps_goal_label"
+            android:defaultValue="@string/pref_default_steps_goal"
+            android:inputType="number"
+            android:maxLength="6"
+            android:dialogLayout="@layout/custom_edittext_preference" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
+        android:title="User Profile">
+
+        <!-- Height of the user -->
+        <android.support.v7.preference.EditTextPreference
+            android:key="@string/pref_height_key"
+            android:title="@string/pref_height_label"
+            android:defaultValue="@string/pref_height_default_value"
+            android:inputType="numberDecimal"
+            android:maxLength="4"
+            android:hint="@string/pref_height_default_units"
+            android:dialogLayout="@layout/custom_edittext_preference" />
+
+        <!-- Weight of the user -->
+        <android.support.v7.preference.EditTextPreference
+            android:key="@string/pref_weight_key"
+            android:title="@string/pref_weight_label"
+            android:defaultValue="@string/pref_weight_default_value"
+            android:inputType="number"
+            android:maxLength="3"
+            android:hint="@string/pref_weight_default_units"
+            android:dialogLayout="@layout/custom_edittext_preference" />
+
+        <!-- Age of the user -->
+        <android.support.v7.preference.EditTextPreference
+            android:key="@string/pref_age_key"
+            android:title="@string/pref_age_label"
+            android:defaultValue="@string/pref_age_default_value"
+            android:hint="@string/pref_age_default_units"
+            android:inputType="number"
+            android:maxLength="3"
+            android:dialogLayout="@layout/custom_edittext_preference" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <com.example.maheshbabugorantla.googlemapclusters.CustomPreferences.TimePreference
+        android:key="key4"
+        android:title="Time Preference"
+        android:summary="Time Summary"
+        android:defaultValue="90"
+        style="@style/AppPreference.DialogPreference" />
+
+</android.support.v7.preference.PreferenceScreen>
