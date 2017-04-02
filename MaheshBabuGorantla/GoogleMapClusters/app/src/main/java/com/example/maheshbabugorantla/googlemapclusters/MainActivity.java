@@ -1,6 +1,8 @@
 package com.example.maheshbabugorantla.googlemapclusters;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +17,15 @@ import android.view.MenuItem;
 import com.example.maheshbabugorantla.googlemapclusters.Fragments.FitnessFragment;
 import com.example.maheshbabugorantla.googlemapclusters.Fragments.MapsFragment;
 import com.example.maheshbabugorantla.googlemapclusters.HelperClasses.RunTimePermissions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 /**
  * DESCRIPTION: MainActivity class
@@ -23,12 +34,21 @@ import com.example.maheshbabugorantla.googlemapclusters.HelperClasses.RunTimePer
  * Last Update On Mar 22, 2017.
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ResultCallback<LocationSettingsResult>{
 
     private final String LOG_TAG = "MainActivity";
 
     // RunTime Permissions
     RunTimePermissions runTimePermissions; // Used to ask the user for the runtime permissions
+
+    LocationSettingsRequest mLocationSettingsRequest;
+
+    GoogleApiClient mGoogleApiClient;
+
+    /**
+     *  Constant used in the location settings dialog
+     * */
+    protected static final int REQUEST_CHECK_SETTINGS = 0x01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +73,45 @@ public class MainActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.swipeTabs);
         FragmentPagerAdapter fragmentPagerAdapter = new myPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentPagerAdapter);
+
+        buildGoogleApiClient();
+        buildLocationSettingRequest();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         runTimePermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onResult(LocationSettingsResult locationSettingsResult) {
+        final Status status = locationSettingsResult.getStatus();
+
+        Log.i(LOG_TAG, "Inside OnResult");
+
+        switch (status.getStatusCode()) {
+
+            case LocationSettingsStatusCodes.SUCCESS:
+                Log.i(LOG_TAG, "All Location Settings are satisfied");
+                break;
+
+            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED: // This case is used to show the user the dialog
+                Log.i(LOG_TAG, "Location Settings not satisfied. Showing the Location Services " +
+                        "settings dialog to the user");
+
+                // Asking the user for the settings
+                try {
+                    status.startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
+                } catch (IntentSender.SendIntentException e) {
+                    Log.i(LOG_TAG, "Pending Intent unable to execute the request");
+                }
+                break;
+
+            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                Log.i(LOG_TAG, "Location settings are inadequate, and cannot be fixed here. " +
+                        "Dialog not created.");
+                break;
+        }
     }
 
     private static class myPagerAdapter extends FragmentPagerAdapter {
@@ -121,10 +175,65 @@ public class MainActivity extends AppCompatActivity {
             }
             case R.id.action_current_location: {
                 Log.i(LOG_TAG, "Inside the MainActivity");
-                return true;
+                checkLocationSettings();
             }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     *  Building the GoogleApiClient to request the Google Location Updates
+     * */
+    private synchronized void buildGoogleApiClient() {
+
+        Log.i(LOG_TAG, "Building the GoogleApiClient");
+        mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    /**
+     *  Building Location Services Settings Checker that ensures that the device has tbe needed
+     *  location settings
+     * */
+    protected void buildLocationSettingRequest() {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(new LocationRequest());
+        mLocationSettingsRequest = builder.build();
+    }
+    /**
+     *  Checking if the device's location settings are adequate for the app's needs using the
+     *  {@link com.google.android.gms.location.SettingsApi#checkLocationSettings(GoogleApiClient,
+     *  LocationSettingsRequest)} method, with the results provided through a {@code PendingResult}.
+     * */
+    public void checkLocationSettings() {
+
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(
+                        mGoogleApiClient,
+                        mLocationSettingsRequest
+                );
+
+        result.setResultCallback(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK: // Need to clarify this
+                        Log.i(LOG_TAG, "User agreed to make required location settings changes");
+                        }
+                        break;
+
+                    case Activity.RESULT_CANCELED:
+                        Log.i(LOG_TAG, "User chose not to make required location settings changes");
+                        break;
+                }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

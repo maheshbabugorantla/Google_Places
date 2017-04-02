@@ -68,7 +68,7 @@ public class MapsFragment extends Fragment implements
     /**
      *  Constant used in the location settings dialog
      * */
-    protected static final int REQUEST_CHECK_SETTINGS = 0x01;
+    protected static final int REQUEST_CHECK_SETTINGS = 0x02;
 
     /**
      *  The desired interval for location updates. Inexact. Updates may be more or less frequent
@@ -151,11 +151,11 @@ public class MapsFragment extends Fragment implements
     private synchronized void buildGoogleApiClient() {
 
         Log.i(LOG_TAG, "Building the GoogleApiClient");
-
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity()).
-                addConnectionCallbacks(this).
-                addOnConnectionFailedListener(this).
-                addApi(LocationServices.API).build();
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     @Override
@@ -448,7 +448,14 @@ public class MapsFragment extends Fragment implements
      *  {@link com.google.android.gms.location.SettingsApi#checkLocationSettings(GoogleApiClient,
      *  LocationSettingsRequest)} method, with the results provided through a {@code PendingResult}.
      * */
-    protected void checkLocationSettings() {
+    public void checkLocationSettings() {
+
+        if(mLocationSettingsRequest == null) {
+            buildLocationSettingRequest();
+        }
+        if(mGoogleApiClient == null) {
+            buildGoogleApiClient();
+        }
 
         PendingResult<LocationSettingsResult> result =
                 LocationServices.SettingsApi.checkLocationSettings(
