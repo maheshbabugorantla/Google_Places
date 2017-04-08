@@ -7,7 +7,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
-import com.google.maps.android.ui.IconGenerator;
 
 /**
  * DESCRIPTION: MyClusterRenderer class
@@ -21,7 +20,6 @@ public class MyClusterRenderer extends DefaultClusterRenderer<MyClusterItem> {
 
     public MyClusterRenderer(Context context, GoogleMap map, ClusterManager<MyClusterItem> clusterManager) {
         super(context, map, clusterManager);
-        //clusterManager.setRenderer(this);
     }
 
     /**

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/circular_shape">
+
+    <com.example.maheshbabugorantla.googlemapclusters.CustomViews.CircleImageView
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:src="@drawable/thumbnail_shoe_logo"
+        app:civ_border_color="#E65100"
+        app:civ_border_width="2dp"/>
+
+</RelativeLayout>

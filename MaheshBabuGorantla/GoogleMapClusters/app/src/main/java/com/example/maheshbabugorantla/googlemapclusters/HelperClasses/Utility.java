@@ -83,6 +83,8 @@ public class Utility {
         return (float) (Float.parseFloat(userWeight) * 0.453592);
     }
 
+
+
     /**
      * This method is used to determine if the GPS Location Services are enabled on the device
      * */
@@ -109,4 +111,6 @@ public class Utility {
             return !TextUtils.isEmpty(locProviders);
         }
     }
+
+
 }

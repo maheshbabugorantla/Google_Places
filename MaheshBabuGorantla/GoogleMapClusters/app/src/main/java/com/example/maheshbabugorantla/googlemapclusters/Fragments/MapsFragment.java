@@ -1,8 +1,13 @@
 package com.example.maheshbabugorantla.googlemapclusters.Fragments;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -11,21 +16,22 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.maheshbabugorantla.googlemapclusters.HelperClasses.RunTimePermissions;
+import com.example.maheshbabugorantla.googlemapclusters.HelperClasses.Utility;
 import com.example.maheshbabugorantla.googlemapclusters.MarkerCluster.MyClusterItem;
 import com.example.maheshbabugorantla.googlemapclusters.MarkerCluster.MyClusterRenderer;
 import com.example.maheshbabugorantla.googlemapclusters.R;
 import com.example.maheshbabugorantla.googlemapclusters.SettingsActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
@@ -38,7 +44,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -48,6 +53,7 @@ import com.google.maps.android.clustering.ClusterManager;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * DESCRIPTION: MapsFragment class
@@ -131,6 +137,11 @@ public class MapsFragment extends Fragment implements
      * */
     protected LocationSettingsRequest mLocationSettingsRequest;
 
+
+    private View mapFragmentView;
+
+    private boolean insideOnSaveInstanceState = false;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,7 +155,22 @@ public class MapsFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+
+        if(mapFragmentView != null) {
+            ViewGroup parent = (ViewGroup) mapFragmentView.getParent();
+
+            if(parent != null) {
+                parent.removeView(mapFragmentView);
+            }
+        }
+
+        try {
+            mapFragmentView = inflater.inflate(R.layout.fragment_maps, container, false);
+        } catch (InflateException e) {
+            e.printStackTrace();
+        }
+
+        return mapFragmentView;
     }
 
     /**
@@ -166,8 +192,7 @@ public class MapsFragment extends Fragment implements
 
         FragmentManager fragmentManager = getFragmentManager();
 
-
-         //  Setting up the MapFragment
+        //  Setting up the MapFragment
         SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.googleMap);
 
         if(mapFragment == null) {
@@ -176,7 +201,6 @@ public class MapsFragment extends Fragment implements
         }
 
         mapFragment.getMapAsync(this);
-
 
         /*
             Kickoff the process of building the GoogleApiClient, LocationRequest, and
@@ -221,8 +245,11 @@ public class MapsFragment extends Fragment implements
         super.onResume();
 
         if(mGoogleApiClient.isConnected()) {
+            Log.d(LOG_TAG, "Inside OnResume");
             startLocationUpdates();
         }
+
+        updateLocationUI();
     }
 
     @Override
@@ -239,6 +266,30 @@ public class MapsFragment extends Fragment implements
         super.onStop();
 
         mGoogleApiClient.disconnect();
+    }
+
+ /*   @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        Log.d(LOG_TAG, "Inside onDestroyView");
+
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getFragmentManager()
+                .findFragmentById(R.id.googleMap);
+
+        // Removing up the Existing Map Fragment
+        if(supportMapFragment != null) {
+            Log.d(LOG_TAG, "Removing the MapFragment");
+            if(!insideOnSaveInstanceState) {
+                getFragmentManager().beginTransaction().remove(supportMapFragment).commit();
+            }
+        }
+    }*/
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        insideOnSaveInstanceState = true;
     }
 
     /**
@@ -314,7 +365,15 @@ public class MapsFragment extends Fragment implements
             currentLocMarker.remove();
         }
 
+        Log.i(LOG_TAG, "Is MapReady: " + Boolean.toString(mapReady));
+
+        if(mCurrentLocation == null) {
+            Log.d(LOG_TAG, "Current Location Not Available");
+        }
+
         if(mCurrentLocation != null && mapReady) { // It only updates the Map when the map is Ready
+
+            Log.d(LOG_TAG, "Updating Location UI");
 
             Home_CoOrdinates = new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
 
@@ -329,7 +388,10 @@ public class MapsFragment extends Fragment implements
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
             currentLocMarker = googleMap.addMarker(markerOptions);
+
+            insertGoogleMarkers(mCurrentLocation);
         }
+
     }
 
     @Override
@@ -366,12 +428,10 @@ public class MapsFragment extends Fragment implements
 
         setUpMarkerClusterer();
 
-        insertGoogleMarkers();
-
         updateLocationUI();
     }
 
-    private void insertGoogleMarkers() {
+    private void insertGoogleMarkers(Location currentLocation) {
 
         String[] coOrdinates = {"40.41841214,-86.84202029", "40.36269908,-86.86760934", "40.53977904,-86.89005129", "40.50634612,-87.05256397",
                 "40.43827456,-87.08932359", "40.48504711,-86.8012231", "40.33759611,-86.88391314", "40.50411696,-86.94593462",
@@ -385,22 +445,62 @@ public class MapsFragment extends Fragment implements
                 "40.41757992,-86.87271634", "40.33304984,-86.96281284", "40.30934259,-86.84469059", "40.37467623,-86.97825626",
                 "40.46997948,-87.00214496", "40.38142492,-86.80650344"};
 
-        int index = 0;
-
         for(String coordinate: coOrdinates) {
             String[] coord_values = coordinate.split(",");
             double Latitude = Double.parseDouble(coord_values[0]);
             double Longitude =  Double.parseDouble(coord_values[1]);
+
+            LatLng gps_coordinate = new LatLng(Latitude, Longitude);
+
+            Location newLocation = new Location("Location");
+            newLocation.setLatitude(Latitude);
+            newLocation.setLongitude(Longitude);
+
+            // By Default the below method location.distanceTo(Location l) will return the distance in metres
+            // Hence, for convenience we are converting the Metres into Miles
+            float distanceInMiles = currentLocation.distanceTo(newLocation) / 1600;
+
+            int footStepCount = getFootStepCount(distanceInMiles);
+
             MarkerOptions markerOptions = new MarkerOptions()
-                                              .position(new LatLng(Latitude, Longitude))
-                                              .title("LocationS" + Integer.toString(index))
-                                              .icon(BitmapDescriptorFactory.fromResource(R.drawable.thumbnail_marker));
-            //MyClusterItem myClusterItem = new MyClusterItem(Latitude, Longitude, "LocationT " + Integer.toString(index), "LocationS " + Integer.toString(index));
+                    .position(gps_coordinate)
+                    .title(String.format(Locale.getDefault(),"%d", footStepCount) + " steps")
+                    .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromLayout(getContext())));
+
             MyClusterItem myClusterItem = new MyClusterItem(markerOptions);
             mClusterManager.addItem(myClusterItem);
-
-            index += 1;
         }
+    }
+
+    private int getFootStepCount(float distanceInMiles) {
+
+        // Here the user height is converted to metres
+        double footStepLength = new Utility().getUserHeight(getContext()) * 0.43;
+
+        Double footStepCount = (distanceInMiles * 1600) / footStepLength;
+
+        return footStepCount.intValue();
+    }
+
+    /**
+     * This method is useful to create a drawable from Layout File
+     * */
+    private Bitmap createDrawableFromLayout(Context context) {
+
+        View markerView = LayoutInflater.from(context).inflate(R.layout.custom_marker_layout, null);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        markerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        markerView.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        markerView.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        markerView.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(markerView.getMeasuredWidth(), markerView.getMeasuredHeight(), Bitmap.Config.RGB_565);
+
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.WHITE);
+        markerView.draw(canvas);
+
+        return bitmap;
     }
 
     /**
@@ -452,29 +552,6 @@ public class MapsFragment extends Fragment implements
                         "Dialog not created.");
                 break;
         }
-    }
-
-    /**
-     *  Checking if the device's location settings are adequate for the app's needs using the
-     *  {@link com.google.android.gms.location.SettingsApi#checkLocationSettings(GoogleApiClient,
-     *  LocationSettingsRequest)} method, with the results provided through a {@code PendingResult}.
-     * */
-    public void checkLocationSettings() {
-
-        if(mLocationSettingsRequest == null) {
-            buildLocationSettingRequest();
-        }
-        if(mGoogleApiClient == null) {
-            buildGoogleApiClient();
-        }
-
-        PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(
-                        mGoogleApiClient,
-                        mLocationSettingsRequest
-                );
-
-        result.setResultCallback(this);
     }
 
     @Override
