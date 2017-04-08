@@ -3,6 +3,7 @@ package com.example.maheshbabugorantla.googlemapclusters;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,12 +14,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.maheshbabugorantla.googlemapclusters.Fragments.FitnessFragment;
+import com.example.maheshbabugorantla.googlemapclusters.Fragments.FoodFragment;
 import com.example.maheshbabugorantla.googlemapclusters.Fragments.MapsFragment;
 import com.example.maheshbabugorantla.googlemapclusters.HelperClasses.RunTimePermissions;
+import com.example.maheshbabugorantla.googlemapclusters.HelperClasses.Utility;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
@@ -36,7 +39,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 public class MainActivity extends AppCompatActivity implements ResultCallback<LocationSettingsResult>{
 
-    private final String LOG_TAG = "MainActivity";
+    protected final String LOG_TAG = "MainActivity";
 
     // RunTime Permissions
     RunTimePermissions runTimePermissions; // Used to ask the user for the runtime permissions
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
     LocationSettingsRequest mLocationSettingsRequest;
 
     GoogleApiClient mGoogleApiClient;
+
+    boolean isLocationEnabled = false;
 
     /**
      *  Constant used in the location settings dialog
@@ -56,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
         setContentView(R.layout.activity_main);
 
         runTimePermissions = new RunTimePermissions(getApplicationContext(), this);
+
+        // Used to implement the Swiping Tabs that contains both the Maps and Fitness Fragments
+        ViewPager viewPager;
+        FragmentPagerAdapter fragmentPagerAdapter;
 
         // Asking the user for all runtime permissions
         runTimePermissions.checkInternetAccess();
@@ -70,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
             e.printStackTrace();
         }
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.swipeTabs);
-        FragmentPagerAdapter fragmentPagerAdapter = new myPagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.swipeTabs);
+        fragmentPagerAdapter = new myPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentPagerAdapter);
 
         buildGoogleApiClient();
@@ -84,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
     }
 
     @Override
-    public void onResult(LocationSettingsResult locationSettingsResult) {
+    public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
         final Status status = locationSettingsResult.getStatus();
 
         Log.i(LOG_TAG, "Inside OnResult");
@@ -114,6 +123,22 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
         }
     }
 
+    @Override
+    protected void onStart() {
+
+        if(new Utility().isLocationEnabled(getApplicationContext())) {
+            Log.d(LOG_TAG, "Location Settings Enabled");
+            //fragmentPagerAdapter.notifyDataSetChanged();
+        }
+        else {
+            Log.d(LOG_TAG, "Google Location Services not available");
+            Toast.makeText(getApplicationContext(), "Please Switch on the GPS for better experience", Toast.LENGTH_SHORT).show();
+            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), REQUEST_CHECK_SETTINGS);
+        }
+
+        super.onStart();
+    }
+
     private static class myPagerAdapter extends FragmentPagerAdapter {
 
         private myPagerAdapter(FragmentManager fm) {
@@ -129,6 +154,8 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
                     return new MapsFragment();
                 case 1:
                     return new FitnessFragment();
+                case 2:
+                    return new FoodFragment();
                 default:
                     return null;
             }
@@ -136,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -149,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
 
                 case 1:
                     return "Fitness";
+
+                case 2:
+                    return "Food";
 
                 default:
                     return "TAB";
@@ -175,7 +205,13 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
             }
             case R.id.action_current_location: {
                 Log.i(LOG_TAG, "Inside the MainActivity");
-                checkLocationSettings();
+
+                if(! new Utility().isLocationEnabled(getApplicationContext())) {
+                     startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), REQUEST_CHECK_SETTINGS);
+                }
+                else {
+                    isLocationEnabled = true;
+                }
             }
         }
 
@@ -201,21 +237,6 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<Lo
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(new LocationRequest());
         mLocationSettingsRequest = builder.build();
-    }
-    /**
-     *  Checking if the device's location settings are adequate for the app's needs using the
-     *  {@link com.google.android.gms.location.SettingsApi#checkLocationSettings(GoogleApiClient,
-     *  LocationSettingsRequest)} method, with the results provided through a {@code PendingResult}.
-     * */
-    public void checkLocationSettings() {
-
-        PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(
-                        mGoogleApiClient,
-                        mLocationSettingsRequest
-                );
-
-        result.setResultCallback(this);
     }
 
     @Override

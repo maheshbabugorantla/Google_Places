@@ -52,7 +52,7 @@ import java.util.Date;
  *              This Fragment has displays the google Maps
  * Created by MaheshBabuGorantla
  * First Update On Mar 27, 2017 .
- * Last Update On Mar 27, 2017.
+ * Last Update On Apr 06, 2017.
  */
 
 public class MapsFragment extends Fragment implements
@@ -218,7 +218,7 @@ public class MapsFragment extends Fragment implements
     public void onResume() {
         super.onResume();
 
-        if(mGoogleApiClient.isConnected() && mRequestingLocationUpdates) {
+        if(mGoogleApiClient.isConnected()) {
             startLocationUpdates();
         }
     }
@@ -349,7 +349,7 @@ public class MapsFragment extends Fragment implements
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         updateLocationUI();
-        Toast.makeText(getActivity(), "Location Updated", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Location Updated", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -410,6 +410,10 @@ public class MapsFragment extends Fragment implements
         googleMap.setOnMarkerClickListener(mClusterManager);
 
         mClusterManager.setAnimation(true);
+    }
+
+    public void updateMaps() {
+        updateLocationUI();
     }
 
     @Override
@@ -476,8 +480,8 @@ public class MapsFragment extends Fragment implements
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
             }
             case R.id.action_current_location: {
-                checkLocationSettings();
                 Log.i(LOG_TAG, "Inside MapsFragment");
+                return true;
             }
         }
 

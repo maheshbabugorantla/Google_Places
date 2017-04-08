@@ -2,7 +2,10 @@ package com.example.maheshbabugorantla.googlemapclusters.HelperClasses;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.text.TextUtils;
 
 import com.example.maheshbabugorantla.googlemapclusters.R;
 
@@ -78,5 +81,32 @@ public class Utility {
 
     private float convertPoundsToKgs(String userWeight) {
         return (float) (Float.parseFloat(userWeight) * 0.453592);
+    }
+
+    /**
+     * This method is used to determine if the GPS Location Services are enabled on the device
+     * */
+    public boolean isLocationEnabled(Context context) {
+
+        int locationStatus = 0; // false
+
+        String locProviders;
+
+        // If the Device OS is either Kitkat or anything after KitKat
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                locationStatus = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+            }
+            catch(Settings.SettingNotFoundException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+            return locationStatus != Settings.Secure.LOCATION_MODE_OFF;
+         }
+        else {
+            locProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+            return !TextUtils.isEmpty(locProviders);
+        }
     }
 }

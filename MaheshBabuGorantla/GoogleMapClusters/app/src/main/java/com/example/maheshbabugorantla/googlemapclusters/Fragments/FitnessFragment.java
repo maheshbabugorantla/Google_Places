@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.example.maheshbabugorantla.googlemapclusters.CustomViews.CircularProgressBar;
@@ -229,7 +228,7 @@ public class FitnessFragment extends Fragment implements
         // [START find_data_sources]
         // Note: Fitness.SensorsApi.findDataSources() requires the ACCESS_FINE_LOCATION permission.
         Fitness.SensorsApi.findDataSources(mGoogleApiClient, new DataSourcesRequest.Builder()
-                // At least one datatype must be specified.
+                // At least one data type must be specified.
                 .setDataTypes(DataType.TYPE_LOCATION_SAMPLE)
                 // Can specify whether data type is raw or derived.
                 .setDataSourceTypes(DataSource.TYPE_RAW)

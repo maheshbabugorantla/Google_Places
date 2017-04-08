@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
 
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -44,6 +45,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
+        <!-- Registering the Content Provider (FoodDataProvider.java Class)-->
+        <provider
+            android:authorities="com.example.maheshbabugorantla.googlemapclusters"
+            android:name=".HelperClasses.FoodDataProvider" />
+        
     </application>
 
 </manifest>
