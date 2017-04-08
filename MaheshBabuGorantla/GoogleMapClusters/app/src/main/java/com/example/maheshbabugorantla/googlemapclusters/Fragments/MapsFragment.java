@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.maheshbabugorantla.googlemapclusters.HelperClasses.RunTimePermissions;
 import com.example.maheshbabugorantla.googlemapclusters.MarkerCluster.MyClusterItem;
+import com.example.maheshbabugorantla.googlemapclusters.MarkerCluster.MyClusterRenderer;
 import com.example.maheshbabugorantla.googlemapclusters.R;
 import com.example.maheshbabugorantla.googlemapclusters.SettingsActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -389,7 +391,12 @@ public class MapsFragment extends Fragment implements
             String[] coord_values = coordinate.split(",");
             double Latitude = Double.parseDouble(coord_values[0]);
             double Longitude =  Double.parseDouble(coord_values[1]);
-            MyClusterItem myClusterItem = new MyClusterItem(Latitude, Longitude, "LocationT " + Integer.toString(index), "LocationS " + Integer.toString(index));
+            MarkerOptions markerOptions = new MarkerOptions()
+                                              .position(new LatLng(Latitude, Longitude))
+                                              .title("LocationS" + Integer.toString(index))
+                                              .icon(BitmapDescriptorFactory.fromResource(R.drawable.thumbnail_marker));
+            //MyClusterItem myClusterItem = new MyClusterItem(Latitude, Longitude, "LocationT " + Integer.toString(index), "LocationS " + Integer.toString(index));
+            MyClusterItem myClusterItem = new MyClusterItem(markerOptions);
             mClusterManager.addItem(myClusterItem);
 
             index += 1;
@@ -410,10 +417,10 @@ public class MapsFragment extends Fragment implements
         googleMap.setOnMarkerClickListener(mClusterManager);
 
         mClusterManager.setAnimation(true);
-    }
 
-    public void updateMaps() {
-        updateLocationUI();
+        // Initializing the Custom Cluster Renderer with context, map and clusterManager
+        // Setting the ClusterRenderer to the Cluster Manager
+        mClusterManager.setRenderer(new MyClusterRenderer(getActivity(), googleMap, mClusterManager));
     }
 
     @Override
