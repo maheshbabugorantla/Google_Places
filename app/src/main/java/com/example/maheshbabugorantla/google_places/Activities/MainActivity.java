@@ -195,6 +195,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         } catch(ExecutionException e){
             e.printStackTrace();
         }
+        catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         if (restaurantItems != null) {
             Arrays.sort(restaurantItems, new Comparator<RestaurantItem>() {
@@ -443,13 +446,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             final String RADIUS = "radius";
             final String CO_ORDINATES = "location";
             final String TYPE = "type";
-
+            final String NEXTPAGE = "hasNextPage"; //true
+            final String GETNXTPAGE = "nextPage()"; //true
             // Building the URI to fetch the data from
             Uri BuiltUri = Uri.parse(GOOGLE_PLACES_BASE_URL).buildUpon()
                             .appendQueryParameter(ID, API_KEY)
                             .appendQueryParameter(RADIUS, Integer.toString(distance))
                             .appendQueryParameter(CO_ORDINATES, Double.toString(latitude) + ", " + Double.toString(longitude))
                             .appendQueryParameter(TYPE, "restaurant").build();
+                            //.appendQueryParameter(NEXTPAGE, "true")
+                            //.appendQueryParameter(GETNXTPAGE, "true").build();
 
             Log.d("PLACES URL:", BuiltUri.toString());
 
