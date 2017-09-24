@@ -14,19 +14,21 @@
         android:gravity="center_vertical"
         android:layout_gravity="center_horizontal">
 
-        <ImageView
+<!--        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/green_leaf"
+            android:layout_height="200dp"
             android:baselineAlignBottom="false"
-            android:id="@+id/businessPic"
-            android:scaleType="centerCrop"/>
+            android:id="@+id/businessPic" />-->
 
+        <android.support.v4.view.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:id="@+id/pager" />
+        
         <TextView
             android:id="@+id/restaurantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Green Leaf"
             android:textAlignment="center"
             android:textSize="35sp"
             android:textColor="#212121"
@@ -49,7 +51,6 @@
             android:textAlignment="center"
             android:textSize="25sp"
             android:textColor="#212121"
-            android:text="PMU, 101 N Grant St, West Lafayette, IN 47906, USA"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>

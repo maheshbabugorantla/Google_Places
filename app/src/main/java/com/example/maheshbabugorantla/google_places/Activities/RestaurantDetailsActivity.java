@@ -1,5 +1,6 @@
 package com.example.maheshbabugorantla.google_places.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -7,11 +8,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.Manifest;
 
@@ -41,14 +47,14 @@ import java.util.concurrent.ExecutionException;
 public class RestaurantDetailsActivity extends AppCompatActivity {
 
     private final String LOG_TAG = RestaurantDetailsActivity.class.getSimpleName();
-
-    String placeId;
+    private String[] photoRefIDs = null;
+    private String placeId;
 
     /**
      *  The Object to access the appropriate permissions from the User
      */
 
-    RunTimePermissions runTimePermissions;
+    private RunTimePermissions runTimePermissions;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +70,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
         runTimePermissions = new RunTimePermissions(getApplicationContext(), this);
         runTimePermissions.checkPhoneCallAccess(); // Checks for the Permission to access the Phone Call
+
+        CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(this);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(mCustomPagerAdapter);
     }
 
     @Override
@@ -81,31 +91,13 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         {
             final String[] placeDetails = restaurantDetails.execute(placeId).get();
 
-            // final int [] photoImageIDs = {R.id.businessPic1, R.id.businessPic2, R.id.businessPic3, R.id.businessPic4};
-
-            // Populating the View Flipper with Images of the Business Location
-            String BASE_PHOTO_URL = "https://maps.googleapis.com/maps/api/place/photo";
-            final String API_KEY = "AIzaSyDFGrHTpQvTgOuGu065RYYpgemLmokgetA";
-            final String ID = "key";
-            final String PHOTO_REF_KEY = "photoreference";
-            final String MAX_WIDTH = "maxwidth";
-            final String SENSOR = "sensor";
-            final String Sensor_Value = "false";
-
-            String[] photoRefIDs = placeDetails[7].split(";");
-
-//            for(int index = 0; index < 4; index++) {
-            Uri photoURL = Uri.parse(BASE_PHOTO_URL).buildUpon()
-                    .appendQueryParameter(MAX_WIDTH, "400")
-                    .appendQueryParameter(PHOTO_REF_KEY, photoRefIDs[0])
-                    .appendQueryParameter(ID, API_KEY)
-                    .appendQueryParameter(SENSOR, Sensor_Value)
-                    .build();
-
-            Log.d(LOG_TAG, "Photo URL: " + photoURL.toString());
-            Picasso.with(getApplicationContext()).load("https://lh3.googleusercontent.com/p/AF1QipMGpX3F7MAgDjbPV_eGRE4W_OBpDhKypOShuKiW=s1600-w400").fit().into((ImageView) findViewById(R.id.businessPic));
-            //}
-
+            // For some business Locations there are no photos Available
+            if(!placeDetails[7].equals("NULL")) {
+                photoRefIDs = placeDetails[7].split(";");
+            }
+            else {
+                photoRefIDs = new String[]{}; // No Photos
+            }
             // Populating the Restaurant Name
             // Log.d(LOG_TAG, "Name: " + placeDetails[1]);
             TextView restaurantName = (TextView) findViewById(R.id.restaurantName);
@@ -219,18 +211,22 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
                 placeDetails[6] = resultsObject.getString("rating");
 
                 // Get the References for the Photos of the Business Locations
-                JSONArray photoReferences = resultsObject.getJSONArray("photos");
+                if(!resultsObject.isNull("photos")) {
+                    JSONArray photoReferences = resultsObject.getJSONArray("photos");
 
-                StringBuilder photoLinks = new StringBuilder();
+                    StringBuilder photoLinks = new StringBuilder();
 
-                for(int index = 0; index < photoReferences.length(); index++) {
-                    JSONObject photoReference = photoReferences.getJSONObject(index);
+                    for (int index = 0; index < photoReferences.length(); index++) {
+                        JSONObject photoReference = photoReferences.getJSONObject(index);
 
-                    photoLinks.append(photoReference.getString("photo_reference")).append(";");
+                        photoLinks.append(photoReference.getString("photo_reference")).append(";");
+                    }
+
+                    placeDetails[7] = photoLinks.toString();
                 }
-
-                placeDetails[7] = photoLinks.toString();
-
+                else {
+                    placeDetails[7] = "NULL";
+                }
                 /*// Place Id Useful for PlaceDetails
                 String Place_ID = jsonObject.getString("place_id");
                 stringBuilder.append(Place_ID).append(";");
@@ -340,6 +336,64 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
             Log.d(LOG_TAG, rawJSONData);
 
             return rawJSONData;
+        }
+    }
+
+    private class CustomPagerAdapter extends PagerAdapter {
+
+        Context mContext;
+        LayoutInflater mLayoutInflater;
+
+        private CustomPagerAdapter(Context context) {
+            mContext = context;
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return 6;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+
+            Log.d(LOG_TAG, "Inside instantiateItem");
+
+            View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+
+            String BASE_PHOTO_URL = "https://maps.googleapis.com/maps/api/place/photo";
+            final String API_KEY = "AIzaSyDFGrHTpQvTgOuGu065RYYpgemLmokgetA";
+            final String ID = "key";
+            final String PHOTO_REF_KEY = "photoreference";
+            final String MAX_WIDTH = "maxwidth";
+            final String SENSOR = "sensor";
+            final String Sensor_Value = "false";
+
+            if(photoRefIDs.length > 0) {
+                ImageView imageView = (ImageView) itemView.findViewById(R.id.newImage);
+                Uri photoURL = Uri.parse(BASE_PHOTO_URL).buildUpon()
+                        .appendQueryParameter(MAX_WIDTH, "400")
+                        .appendQueryParameter(PHOTO_REF_KEY, photoRefIDs[position])
+                        .appendQueryParameter(ID, API_KEY)
+                        .appendQueryParameter(SENSOR, Sensor_Value)
+                        .build();
+
+                Log.d(LOG_TAG, "Photo URL: " + photoURL.toString());
+                Picasso.with(getApplicationContext()).load(photoURL.toString()).fit().centerCrop().into(imageView);
+            }
+
+            container.addView(itemView);
+            return itemView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((LinearLayout) object);
         }
     }
 }
