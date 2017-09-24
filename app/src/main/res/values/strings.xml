@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Google_Places</string>
+    <string name="Google_Places_API_Key">AIzaSyDFGrHTpQvTgOuGu065RYYpgemLmokgetA</string>
+    <string name="location_closed">CLOSED</string>
+    <string name="location_open">OPEN</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
