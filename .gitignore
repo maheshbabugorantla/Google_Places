@@ -1,3 +1,10 @@
 gen/
 bin/
 
+
+src/
+tada.iml
+test.rtf
+res/
+Fall2016/
+.idea/
