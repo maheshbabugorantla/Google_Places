@@ -40,6 +40,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".Activities.SettingsActivity"
+            android:label="@string/action_settings"
+            android:parentActivityName=".Activities.MainActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
