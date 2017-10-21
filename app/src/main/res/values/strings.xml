@@ -4,4 +4,36 @@
     <string name="location_closed">CLOSED</string>
     <string name="location_open">OPEN</string>
     <string name="title_activity_maps">Map</string>
+
+    <!--App Preferences-->
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Restaurant Search -->
+    <string name="pref_restaurant_radius_key">Radius</string>
+    <string name="pref_restaurant_radius">Radius</string>
+
+    <!--Steps Goal-->
+    <string name="pref_steps_goal_key">Steps Goal</string>
+    <string name="pref_steps_goal_label">Steps Goal</string>
+    <string name="pref_default_steps_goal">10000</string>
+
+    <!-- Height of a Person to input in Feet and Inches -->
+    <string name="pref_height_label">Height</string>
+    <string name="pref_height_key">Height</string>
+    <string name="pref_height_default_value">5.6</string>
+    <string name="pref_height_default_units">in Ft.inches</string>
+
+    <!-- Weight of a Person: With the Option to input Pounds or Kilos -->
+    <string name="pref_weight_label">Weight</string>
+    <string name="pref_weight_key">Weight</string>
+    <string name="pref_weight_default_value">70</string>
+    <string name="pref_weight_default_units">In Kgs</string>
+
+    <!-- Age of the Person -->
+    <string name="pref_age_label">Age</string>
+    <string name="pref_age_key">Age</string>
+    <string name="pref_age_default_value">18</string>
+    <string name="pref_age_default_units">In Years</string>
+
 </resources>

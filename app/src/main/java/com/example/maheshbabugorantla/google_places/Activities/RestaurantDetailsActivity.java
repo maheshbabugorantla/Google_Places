@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -21,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.Manifest;
 
+import android.widget.Toast;
 import com.example.maheshbabugorantla.google_places.R;
 import com.example.maheshbabugorantla.google_places.RunTimePermissions;
 import com.squareup.picasso.Picasso;
@@ -74,6 +76,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(this);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(mCustomPagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager, true);
     }
 
     @Override
@@ -116,6 +121,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
             // PhoneIcon
             ImageView phoneIcon = (ImageView) findViewById(R.id.phone_call);
+//            Picasso.with(getApplicationContext()).load(R.drawable.phone_icon).fit().centerCrop().into(phoneIcon);
             phoneIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -130,8 +136,25 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
                 }
             });
 
+            // Menu Icon
+            ImageView menuIcon = (ImageView) findViewById(R.id.menu_logo);
+//            Picasso.with(getApplicationContext()).load(R.drawable.menu_logo).fit().centerCrop().into(menuIcon);
+            menuIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(! placeDetails[5].equals("NULL")) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(placeDetails[5]));
+                        startActivity(browserIntent);
+                    }
+                    else { // Toast notification is shown when there is no website
+                        Toast.makeText(getApplicationContext(), "No website available for " + placeDetails[1], Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
             // Directions Icon
             ImageView directionsIcon = (ImageView) findViewById(R.id.getDirections);
+//            Picasso.with(getApplicationContext()).load(R.drawable.directions_icon).fit().centerCrop().into(directionsIcon);
             directionsIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
