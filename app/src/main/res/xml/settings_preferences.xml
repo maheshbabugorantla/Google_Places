@@ -28,6 +28,12 @@
             walt:maxValue="10"
             walt:minValue="1" />
 
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:key="search_by_radius"
+            android:summary="Order nearby restaurants first"
+            android:title="Search By Radius"
+            android:defaultValue="false" />
+
     </android.support.v7.preference.PreferenceCategory>
 
     <android.support.v7.preference.PreferenceCategory

@@ -2,10 +2,9 @@ package com.example.maheshbabugorantla.google_places.HelperClasses;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
+import java.lang.Math;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.maheshbabugorantla.google_places.R;
 
@@ -49,6 +48,19 @@ public class Utility {
         }
     }
 
+    // This method is used to get the user chosen radius to search for restaurants
+    // Units: Miles (1 - 10 miles)
+    public String getSearchRadius(Context context) { // The radius is converted to meters
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // By Default 1 mile is chosen as the search radius
+        int searchRadius = sharedPreferences.getInt(context.getString(R.string.pref_restaurant_radius_key), 1);
+
+        System.out.println(searchRadius);
+        searchRadius = searchRadius * 1600; // Miles to meters
+        return Integer.toString(searchRadius); // Returning the search radius in meters.
+    }
+
     // This method always returns the user's weight in kgs irrespective of the users preference of
     // units for weight
     public float getUserWeight(Context context) {
@@ -61,6 +73,36 @@ public class Utility {
         } else {
             return convertPoundsToKgs(userWeight);
         }
+    }
+
+    public double convertDegreestoRadians(double degree_coordinate) {
+
+        return (Math.PI * degree_coordinate) / 180;
+    }
+
+    public float getDistanceBetween(double lat1, double lng1, double lat2, double lng2) {
+
+        double dLat = convertDegreestoRadians(lat2 - lat1);
+        double dLng = convertDegreestoRadians(lng2 - lng1);
+
+        lat1 = convertDegreestoRadians(lat1);
+        lat2 = convertDegreestoRadians(lat2);
+
+        double val_1 = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
+
+        val_1 = 2 * Math.atan2(Math.sqrt(val_1), Math.sqrt(1 - val_1));
+
+        return (float)(6371 * val_1);
+    }
+
+    // This is used to get the user search criteria
+    public boolean getSortChoice(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean getSortChoice = sharedPreferences.getBoolean("search_by_radius", false);
+        Log.d(Utility.class.getSimpleName(), Boolean.toString(getSortChoice));
+
+        return getSortChoice;
     }
 
     // This used to get the user preferred units for the Height

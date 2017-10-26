@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import com.example.maheshbabugorantla.google_places.Activities.RestaurantDetailsActivity;
 import com.example.maheshbabugorantla.google_places.Adapters.RestaurantAdapter;
 import com.example.maheshbabugorantla.google_places.CustomViews.RestaurantItem;
+import com.example.maheshbabugorantla.google_places.HelperClasses.Utility;
 import com.example.maheshbabugorantla.google_places.R;
 import com.example.maheshbabugorantla.google_places.RunTimePermissions;
 import com.google.android.gms.common.ConnectionResult;
@@ -86,7 +87,7 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
     private FusedLocationProviderClient mFusedLocationClient;
 
     /**
-     * Represents a geographical location.
+     * Represents the user's current geographical location.
      * */
     private Location mCurrentLocation;
 
@@ -98,6 +99,8 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
 
     View rootView; // This is used to set the parent layout for the Fragment
 
+    Utility utility;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +110,8 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
         // Asking for the necessary permissions
         runTimePermissions.checkInternetAccess();
         runTimePermissions.checkLocationAccess();
+
+        utility = new Utility();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -157,7 +162,8 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
 
         try {
             if (mCurrentLocation != null) {
-                String[] restaurants = retrieveJSONData.execute("3000", Double.toString(mCurrentLocation.getLatitude()), Double.toString(mCurrentLocation.getLongitude())).get();
+                String searchRadius = utility.getSearchRadius(getContext()); // In Meters
+                String[] restaurants = retrieveJSONData.execute(searchRadius, Double.toString(mCurrentLocation.getLatitude()), Double.toString(mCurrentLocation.getLongitude())).get();
 
                 restaurantItems = new RestaurantItem[restaurants.length];
                 placeIDs = new String[restaurants.length];
@@ -170,13 +176,14 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
                     //                    openNow = "OPEN";
                     //                }
                     //restaurantItems.add(new RestaurantItem(Double.parseDouble(restaurant[5]), restaurant[1], Boolean.parseBoolean(openNow)));
-                    restaurantItems[index] = new RestaurantItem(Double.parseDouble(restaurant[5]), restaurant[1], Boolean.parseBoolean(restaurant[2]), restaurant[3]);
+                    boolean userSortChoice = utility.getSortChoice(getContext());
+                    restaurantItems[index] = new RestaurantItem(Double.parseDouble(restaurant[5]), restaurant[1], Boolean.parseBoolean(restaurant[2]), restaurant[3], Float.parseFloat(restaurant[6]), userSortChoice);
                     placeIDs[index] = restaurant[3];
                 }
             }
         } catch(InterruptedException e) {
             e.printStackTrace();
-        } catch(ExecutionException e){
+        } catch(ExecutionException e) {
             e.printStackTrace();
         }
         catch (NullPointerException e) {
@@ -197,6 +204,10 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
             if(placesList.getAdapter() == null) {
                 placesList.setAdapter(restaurantAdapter);
             }
+            else { // placeList will not null when the app is already running but the ListView went into background
+                restaurantAdapter.notifyDataSetChanged();
+            }
+
             placesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -302,6 +313,8 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
+        Log.d(RestaurantsScreen.class.getSimpleName(), "Inside OnConnected");
+
         while (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.i("RestaurantsFragment", "Requesting the Location Services Access");
@@ -365,7 +378,9 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
          */
         // TODO: Need to change the parameter data types for latitude and longitude
         private String[] parseJSONData(int distance, double latitude, double longitude) {
+
             String jsonData = getJSONData(distance, latitude, longitude);
+
             publishProgress(70);
             String [] restaurants = null;
 
@@ -387,6 +402,11 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
                     // Get the GPS CoOrdinates of the Business Location
                     JSONObject latLng = jsonObject.getJSONObject("geometry").getJSONObject("location");
 
+                    String distanceBetween = Float.toString(utility.getDistanceBetween(mCurrentLocation.getLatitude(),
+                                                                mCurrentLocation.getLongitude(),
+                                                                latLng.getDouble("lat"),
+                                                                latLng.getDouble("lng")));
+
                     String lat = Double.toString(latLng.getDouble("lat"));
                     String lng = Double.toString(latLng.getDouble("lng"));
                     stringBuilder.append(lat).append(" ").append(lng).append(";");
@@ -398,17 +418,20 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
                     String openNow = Boolean.toString(opening_hours.getBoolean("open_now"));
                     stringBuilder.append(openNow).append(";");
 
-                    // Place Id Useful for PlaceDetails
+                    // Place Id Useful for PlaceDetails (4)
                     String Place_ID = jsonObject.getString("place_id");
                     stringBuilder.append(Place_ID).append(";");
 
-                    // Pricing Level
+                    // Pricing Level (4)
                     String pricing_level = Integer.toString(jsonObject.getInt("price_level"));
                     stringBuilder.append(pricing_level).append(";");
 
-                    // Rating
+                    // Rating (5)
                     String rating = Double.toString(jsonObject.getDouble("rating"));
                     stringBuilder.append(rating).append(";");
+
+                    // Get the distance between current location and the Restaurant Location (6)
+                    stringBuilder.append(distanceBetween).append(";");
 
                     // TODO: Might use this in future
                     // Show if Delivery Available

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maheshbabugorantla.google_places.CustomViews.CircularProgressBar;
+import com.example.maheshbabugorantla.google_places.HelperClasses.Utility;
 import com.example.maheshbabugorantla.google_places.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
@@ -45,7 +46,6 @@ public class FitnessRecord extends Fragment implements OnDataPointListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
 
-
         private final String LOG_TAG = FitnessRecord.class.getSimpleName();
 
         /**
@@ -67,6 +67,8 @@ public class FitnessRecord extends Fragment implements OnDataPointListener,
 
         private TextView stepsCount;
 
+        Utility utility;
+
         private CircularProgressBar circularProgressBar;
 
         long totalSteps;
@@ -79,8 +81,10 @@ public class FitnessRecord extends Fragment implements OnDataPointListener,
 
         stepsCount = (TextView) rootView.findViewById(R.id.stepsCount);
 
+        utility = new Utility();
+
         circularProgressBar = (CircularProgressBar) rootView.findViewById(R.id.progressBar);
-        circularProgressBar.setMax(10000); // Setting the Default Maximum value
+        circularProgressBar.setMax(utility.getMaxStepsCount(getContext())); // Set the Max Foot Step Count from the Settings
         circularProgressBar.setColor(237, 168, 14); // Setting the Color to RGB(250, 180, 10)
 
         buildFitnessClient();
@@ -97,6 +101,8 @@ public class FitnessRecord extends Fragment implements OnDataPointListener,
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
+
+        circularProgressBar.setMax(utility.getMaxStepsCount(getContext())); // Set the Max Foot Step Count from the Settings
     }
 
     @Override
