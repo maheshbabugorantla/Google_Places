@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.maheshbabugorantla.google_places.Activities.RestaurantDetailsActivity;
 import com.example.maheshbabugorantla.google_places.Adapters.RestaurantAdapter;
@@ -53,6 +54,12 @@ import java.util.Comparator;
 import java.util.concurrent.ExecutionException;
 
 public class RestaurantsScreen extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+
+
+    /**
+     * Generic Log Tag for the Log Messages
+     * */
+    private final String LOG_TAG = RestaurantsScreen.class.getSimpleName();
 
     /**
      *  Constant used in the location settings dialog
@@ -92,6 +99,8 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
     private Location mCurrentLocation;
 
     private ListView placesList;
+
+    private RestaurantAdapter restaurantAdapter;
 
     private RunTimePermissions runTimePermissions;
 
@@ -200,11 +209,12 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
 
             final ArrayList<RestaurantItem> Restaurants = new ArrayList<>(Arrays.asList(restaurantItems));
 
-            RestaurantAdapter restaurantAdapter = new RestaurantAdapter(getActivity(), Restaurants);
+            restaurantAdapter = new RestaurantAdapter(getActivity(), Restaurants);
             if(placesList.getAdapter() == null) {
                 placesList.setAdapter(restaurantAdapter);
             }
             else { // placeList will not null when the app is already running but the ListView went into background
+                Log.d(LOG_TAG, "DataSetChanged");
                 restaurantAdapter.notifyDataSetChanged();
             }
 
@@ -222,10 +232,26 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
     @Override
     public void onStart() {
         super.onStart();
+
+        Log.d(LOG_TAG, "Inside onStart");
+
+        progressBar.setVisibility(View.VISIBLE);
+
         checkGPSSettings();
 
         // Step-2: Connect the GoogleApiClient to the Relevant APIs (In here we will connect to LocationServices API)
         mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.d(LOG_TAG, "Inside onResume");
+
+        if (restaurantAdapter != null) {
+            restaurantAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -241,7 +267,6 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
 
         LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rootView = layoutInflater.inflate(id, null);
-//        ViewGroup viewGroup = (ViewGroup) getView();
     }
 
     private void createLocationRequest() {
@@ -313,7 +338,7 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        Log.d(RestaurantsScreen.class.getSimpleName(), "Inside OnConnected");
+        Log.d(LOG_TAG, "Inside OnConnected");
 
         while (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -334,6 +359,7 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.i("RestaurantsFragment", "Google Location Services Failed");
+        Toast.makeText(getActivity(), "Connection Failed. Check your internet Connection", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -341,7 +367,6 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
         Log.d("RestaurantsFragment", "Location Changed: " + location.toString());
         mCurrentLocation = location;
     }
-
 
     /**
      * AsyncTask Class used to retrieve the Restaurants data using Google Places API
@@ -352,13 +377,6 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            progressBar.setMax(100);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            progressBar.setProgress(values[0]);
         }
 
         @Override
@@ -381,7 +399,7 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
 
             String jsonData = getJSONData(distance, latitude, longitude);
 
-            publishProgress(70);
+            // publishProgress(70);
             String [] restaurants = null;
 
             try {
@@ -442,7 +460,7 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
                     restaurants[index] = stringBuilder.toString();
                 }
 
-                publishProgress(90);
+                //publishProgress(90);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -511,7 +529,7 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
                     return null;
                 }
                 rawJSONData = stringBuilder.toString();
-                publishProgress(30);
+                // publishProgress(30);
             } catch (MalformedURLException e) {
                 Log.d("getJSONData", "MalformedURLException occurred");
                 e.printStackTrace();
@@ -523,7 +541,7 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
             // Closing all the open Network Connections and the BufferedReaders
             finally {
 
-                publishProgress(40);
+                // publishProgress(40);
 
                 // Checking to see if the connection to Web URL is still Open. If Yes, then close it
                 if(httpURLConnection != null) {

@@ -45,39 +45,34 @@ public class RestaurantItem implements Comparable<RestaurantItem> {
     @Override
     public int compareTo(@NonNull RestaurantItem o) {
 
-        if (!searchSetting) { // Order by Rating
-
             if ((!this.open_now && !o.getOpenNow()) || (this.open_now && o.getOpenNow())) {
 
-                if (this.rating > o.getRating()) {
-                    return -1;
-                } else if (this.rating < o.getRating()) {
-                    return 1;
-                } else {
-                    return 0;
+                if (!searchSetting) { // Order by Rating
+
+                    if (this.rating > o.getRating()) {
+                        return -1;
+                    } else if (this.rating < o.getRating()) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
                 }
-            } else if (!this.open_now) {
+
+                else { // Order by the distance of the restaurant from the user's current location
+                    if (this.distanceBetween < o.getDistanceBetween()) {
+                        return -1;
+                    } else if (this.rating > o.getRating()) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
+            else if (!this.open_now) {
                 return 1;
             } else {
                 return -1;
             }
-        }
-        else { // Sort by Distance (the restaurant within lesser distance first)
-            if ((!this.open_now && !o.getOpenNow()) || (this.open_now && o.getOpenNow())) {
-
-                if (this.distanceBetween < o.getDistanceBetween()) {
-                    return -1;
-                } else if (this.rating > o.getRating()) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            } else if (!this.open_now) {
-                return 1;
-            } else {
-                return -1;
-            }
-        }
     }
     @Override
     public String toString() {

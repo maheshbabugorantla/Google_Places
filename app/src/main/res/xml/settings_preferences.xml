@@ -46,6 +46,7 @@
             android:defaultValue="@string/pref_height_default_value"
             android:inputType="numberDecimal"
             android:maxLength="4"
+            android:summary="In Foot and Inches"
             android:hint="@string/pref_height_default_units"
             android:dialogLayout="@layout/custom_edittext_preference" />
 
@@ -66,7 +67,7 @@
             android:defaultValue="@string/pref_age_default_value"
             android:hint="@string/pref_age_default_units"
             android:inputType="number"
-            android:maxLength="3"
+            android:maxLength="2"
             android:dialogLayout="@layout/custom_edittext_preference" />
 
     </android.support.v7.preference.PreferenceCategory>

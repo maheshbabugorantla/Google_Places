@@ -14,6 +14,7 @@ import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
+import android.widget.TextView;
 
 import com.example.maheshbabugorantla.google_places.CustomPreferences.NumberPickerPreference;
 import com.example.maheshbabugorantla.google_places.R;
