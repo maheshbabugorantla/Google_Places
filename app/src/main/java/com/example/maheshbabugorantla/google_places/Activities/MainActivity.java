@@ -1,72 +1,22 @@
 package com.example.maheshbabugorantla.google_places.Activities;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.example.maheshbabugorantla.google_places.Fragments.CameraScreen;
+
 import com.example.maheshbabugorantla.google_places.Fragments.FitnessRecord;
+import com.example.maheshbabugorantla.google_places.Fragments.RecipeActivity;
 import com.example.maheshbabugorantla.google_places.Fragments.RestaurantsScreen;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 
-import com.example.maheshbabugorantla.google_places.Adapters.RestaurantAdapter;
-import com.example.maheshbabugorantla.google_places.CustomViews.RestaurantItem;
 import com.example.maheshbabugorantla.google_places.R;
-import com.example.maheshbabugorantla.google_places.RunTimePermissions;
-import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.concurrent.ExecutionException;
 
 /**
  * DESCRIPTION: MainActivity class
@@ -145,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     return new FitnessRecord();
 
                 case 2:
-                    return new CameraScreen();
+                    return new RecipeActivity();
 
                 default:
                     return null;

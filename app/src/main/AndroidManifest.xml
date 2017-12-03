@@ -9,6 +9,11 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.flash"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <user-permission android:name="android.permission.FLASHLIGHT"/>
 
     <application
         android:allowBackup="true"
@@ -64,7 +69,24 @@
 
         <activity
             android:name=".Activities.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps"/>
+
+        <activity android:name=".Activities.IngredientSearch"/>
+        <activity android:name=".Activities.FoodSearch"/>
+        <activity android:name=".Activities.MethodSearch"/>
+        <activity android:name=".Activities.SavedRecipes"/>
+        <activity android:name=".groceries.GrocerySearch"/>
+        <activity android:name=".groceries.GroceryActivity"/>
+        <activity android:name=".groceries.GroceriesSelect"/>
+        <activity android:name=".groceries.CameraBarcode"/>
+        <activity android:name=".Activities.HeartRateMonitor"/>
+        <provider android:authorities="com.example.maheshbabugorantla.google_places.data.RecipeProvider"
+                  android:name=".data.RecipeProvider"
+                  android:exported="false"/>
+        <provider android:authorities="com.example.maheshbabugorantla.google_places.data.GroceryProvider"
+                  android:name=".data.GroceryProvider" android:exported="false"
+                  />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             android:name=".data.GroceryProvider" android:exported="false"/>
     </application>
 
 </manifest>

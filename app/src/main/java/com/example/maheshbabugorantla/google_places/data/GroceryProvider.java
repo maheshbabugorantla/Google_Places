@@ -1,4 +1,4 @@
-package com.example.android.data;
+package com.example.maheshbabugorantla.google_places.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.android.data.GroceryContract.GroceryEntry;
+import com.example.maheshbabugorantla.google_places.data.GroceryContract.GroceryEntry;
 
 /**
  * Created by user on 22-Oct-17.
@@ -33,18 +33,18 @@ public class GroceryProvider extends ContentProvider {
         // should recognize. All paths added to the UriMatcher have a corresponding code to return
         // when a match is found.
 
-        // The content URI of the form "content://com.example.android/recipes" will map to the
+        // The content URI of the form "content://com.example.maheshbabugorantla.google_places/recipes" will map to the
         // integer code {@link #RECIPES}. This URI is used to provide access to MULTIPLE rows
         // of the recipes table.
         mUriMatcher.addURI(GroceryContract.CONTENT_GROCERY_AUTHORITY, GroceryContract.PATH_GROCERY, GROCERIES);
         //mUriMatcher.addURI(RecipeContract.CONTENT_AUTHORITY,RecipeContract.PATH_RECIPE,100);
-        // The content URI of the form "content://com.example.android/recipes/#" will map to the
+        // The content URI of the form "content://com.example.maheshbabugorantla.google_places/recipes/#" will map to the
         // integer code {@link #RECIPE_ID}. This URI is used to provide access to ONE single row
         // of the recipes table.
         //
         // In this case, the "#" wildcard is used where "#" can be substituted for an integer.
-        // For example, "content://com.example.android/recipes/3" matches, but
-        // "content://com.example.android/recipes" (without a number at the end) doesn't match.
+        // For example, "content://com.example.maheshbabugorantla.google_places/recipes/3" matches, but
+        // "content://com.example.maheshbabugorantla.google_places/recipes" (without a number at the end) doesn't match.
         mUriMatcher.addURI(GroceryContract.CONTENT_GROCERY_AUTHORITY, GroceryContract.PATH_GROCERY + "/#", GROCERIES_ID);
         //mUriMatcher.addURI(RecipeContract.CONTENT_AUTHORITY,RecipeContract.PATH_RECIPE+"/#",101);
     }
@@ -75,7 +75,7 @@ public class GroceryProvider extends ContentProvider {
                 break;
             case GROCERIES_ID:
                 // For the RECIPE_ID code, extract out the ID from the URI.
-                // For an example URI such as "content://com.example.android/recipes/3",
+                // For an example URI such as "content://com.example.maheshbabugorantla.google_places/recipes/3",
                 // the selection will be "_id=?" and the selection argument will be a
                 // String array containing the actual ID of 3 in this case.
                 //

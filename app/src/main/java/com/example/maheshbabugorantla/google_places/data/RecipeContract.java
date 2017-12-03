@@ -12,7 +12,7 @@ public final class RecipeContract {
 
     private RecipeContract(){}
 
-    public static final String CONTENT_AUTHORITY = "com.example.android.data.RecipeProvider";
+    public static final String CONTENT_AUTHORITY = "com.example.maheshbabugorantla.google_places.data.RecipeProvider";
 
     public  static final Uri BASE_CONTENT_URI = Uri.parse("content://"+ CONTENT_AUTHORITY);
 

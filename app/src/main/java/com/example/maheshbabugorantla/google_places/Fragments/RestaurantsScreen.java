@@ -169,10 +169,13 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
 
         String[] placeIDs;
 
+        boolean userSortChoice = false;
+
         try {
             if (mCurrentLocation != null) {
                 String searchRadius = utility.getSearchRadius(getContext()); // In Meters
-                String[] restaurants = retrieveJSONData.execute(searchRadius, Double.toString(mCurrentLocation.getLatitude()), Double.toString(mCurrentLocation.getLongitude())).get();
+                Log.e(LOG_TAG, "Search Radius: " + searchRadius);
+                String[] restaurants = retrieveJSONData.execute("3000", Double.toString(mCurrentLocation.getLatitude()), Double.toString(mCurrentLocation.getLongitude())).get();
 
                 restaurantItems = new RestaurantItem[restaurants.length];
                 placeIDs = new String[restaurants.length];
@@ -185,7 +188,8 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
                     //                    openNow = "OPEN";
                     //                }
                     //restaurantItems.add(new RestaurantItem(Double.parseDouble(restaurant[5]), restaurant[1], Boolean.parseBoolean(openNow)));
-                    boolean userSortChoice = utility.getSortChoice(getContext());
+                    userSortChoice = utility.getSortChoice(getContext());
+                    Log.e(LOG_TAG, "userSortChoice: " + userSortChoice);
                     restaurantItems[index] = new RestaurantItem(Double.parseDouble(restaurant[5]), restaurant[1], Boolean.parseBoolean(restaurant[2]), restaurant[3], Float.parseFloat(restaurant[6]), userSortChoice);
                     placeIDs[index] = restaurant[3];
                 }
@@ -199,13 +203,15 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
             e.printStackTrace();
         }
 
-        if (restaurantItems != null) {
-            Arrays.sort(restaurantItems, new Comparator<RestaurantItem>() {
-                @Override
-                public int compare(RestaurantItem o1, RestaurantItem o2) {
-                    return o1.compareTo(o2);
-                }
-            });
+        try {
+            if (restaurantItems != null) {
+                Arrays.sort(restaurantItems, new Comparator<RestaurantItem>() {
+                    @Override
+                    public int compare(RestaurantItem o1, RestaurantItem o2) {
+                        return o1.compareTo(o2);
+                    }
+                });
+            }
 
             final ArrayList<RestaurantItem> Restaurants = new ArrayList<>(Arrays.asList(restaurantItems));
 
@@ -226,6 +232,10 @@ public class RestaurantsScreen extends Fragment implements GoogleApiClient.Conne
                     startActivity(ToRestaurantDetails);
                 }
             });
+        }
+        catch (Exception e) {
+            Log.e(LOG_TAG, "userSortChoice: " + userSortChoice);
+            e.printStackTrace();
         }
     }
 

@@ -1,10 +1,10 @@
-package com.example.android.data;
+package com.example.maheshbabugorantla.google_places.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.data.RecipeContract.RecipeEntry;
+import com.example.maheshbabugorantla.google_places.data.RecipeContract.RecipeEntry;
 
 /**
  * Created by user on 10-Oct-17.

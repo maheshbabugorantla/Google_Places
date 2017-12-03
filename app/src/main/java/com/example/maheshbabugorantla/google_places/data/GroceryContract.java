@@ -12,7 +12,7 @@ public final class GroceryContract {
 
     private GroceryContract(){}
 
-    public static final String CONTENT_GROCERY_AUTHORITY = "com.example.android.data.GroceryProvider";
+    public static final String CONTENT_GROCERY_AUTHORITY = "com.example.maheshbabugorantla.google_places.data.GroceryProvider";
 
     public  static final Uri BASE_CONTENT_GROCERY_URI = Uri.parse("content://"+ CONTENT_GROCERY_AUTHORITY);
 

@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#EF5350</color>
 
+    <drawable name="blue_color">#CFD8DC</drawable>
+
     <!-- These colors are for Toggle Switch in Settings menu-->
     <color name="indigo">#9E9E9E</color>
     <color name="pink">#EF5350</color>

@@ -84,7 +84,8 @@ public class FitnessRecord extends Fragment implements OnDataPointListener,
         utility = new Utility();
 
         circularProgressBar = (CircularProgressBar) rootView.findViewById(R.id.progressBar);
-        circularProgressBar.setMax(utility.getMaxStepsCount(getContext())); // Set the Max Foot Step Count from the Settings
+//        circularProgressBar.setMax(utility.getMaxStepsCount(getContext())); // Set the Max Foot Step Count from the Settings
+        circularProgressBar.setMax(10000);
         circularProgressBar.setColor(237, 168, 14); // Setting the Color to RGB(250, 180, 10)
 
         buildFitnessClient();
